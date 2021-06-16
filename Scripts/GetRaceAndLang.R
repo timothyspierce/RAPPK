@@ -153,3 +153,58 @@ rapptract <- get_acs(geography = "tract", state = 51,
                      geometry = TRUE,
                      keep_geo_vars = TRUE)
 
+
+########################################################################################
+#I had the ACS codes for these from another R file so I did this for fun.
+
+
+homevaluesvector = c(home_values_10kless = "B25075_002",
+home_values_10_14k = "B25075_003",
+home_values_15_19k = "B25075_004",
+home_values_20_24k = "B25075_005",
+home_values_25_29k = "B25075_006",
+home_values_30_34k = "B25075_007",
+home_values_35_39k = "B25075_008",
+home_values_40_49k = "B25075_009",
+home_values_50_59k = "B25075_010",
+home_values_60_69k = "B25075_011",
+home_values_70_79k = "B25075_012",
+home_values_80_89k = "B25075_013",
+home_values_90_99k = "B25075_014",
+home_values_100_124k = "B25075_015",
+home_values_125_149k = "B25075_016",
+home_values_150_174k = "B25075_017",
+home_values_175_199k = "B25075_018",
+home_values_200_249k = "B25075_019",
+home_values_250_299k = "B25075_020",
+home_values_300_399k = "B25075_021",
+home_values_400_499k = "B25075_022",
+home_values_500_749k = "B25075_023",
+home_values_750_999k = "B25075_024",
+home_values_1_1.4m = "B25075_025",
+home_values_1.5_1.9m = "B25075_026",
+home_values_2mmore = "B25075_027")
+
+housing <- get_acs(geography = "county subdivision",
+        state = 51,
+        county = 157,
+        variables = homevaluesvector,
+        summary_var = "B25075_001",
+        year = 2019,
+        geometry = TRUE,
+        keep_geo_vars = TRUE) %>%
+          rename(DISTRICT = NAME.y) 
+
+
+#So I did this by percentage of houses in that subcounty at certain values.
+#I removed any variables that resulted in 0%
+
+housing <- mutate(housing, DISTRICT = str_replace_all(housing$DISTRICT, ", Rappahannock County, Virginia", ""))
+housingpercentage <- housing %>% mutate(pct_estimate = (estimate/summary_est)*100)
+housingspecific <- housingpercentage %>% filter(pct_estimate != 0)
+
+
+#So removing all those 0s gives us a very interesting picture so we get to see where homes of certain values exclusively exist.
+
+ggplot(housingpercentage) + geom_sf(aes(fill = pct_estimate)) + coord_sf(datum = NA) + facet_wrap(~variable)
+ggplot(housingspecific) + geom_sf(aes(fill = pct_estimate)) + coord_sf(datum = NA) + facet_wrap(~variable)
