@@ -132,6 +132,7 @@ rapp_var(c("B15003_001", "B15003_025"), 2015),
 rapp_var(c("B15003_001", "B15003_025"), 2014),
 rapp_var(c("B15003_001", "B15003_025"), 2013),
 rapp_var(c("B15003_001", "B15003_025"), 2012))
+#Add year, percent, and edu classification
 phds <- cbind(year, phds)
 phds <- mutate(phds, pct = B15003_025E/B15003_001E)
 phds <- mutate(phds, edu =rep(c("phd"),40))
@@ -147,6 +148,7 @@ masters <- rbind(
   rapp_var(c("B15003_001", "B15003_023"), 2014),
   rapp_var(c("B15003_001", "B15003_023"), 2013),
   rapp_var(c("B15003_001", "B15003_023"), 2012))
+#Add year, percent, and edu classification
 masters <- cbind(year, masters)
 masters <- mutate(masters, pct = B15003_023E/B15003_001E)
 masters <- mutate(masters, edu =rep(c("masters"),40))
@@ -162,6 +164,7 @@ bachelors <- rbind(
   rapp_var(c("B15003_001", "B15003_022"), 2014),
   rapp_var(c("B15003_001", "B15003_022"), 2013),
   rapp_var(c("B15003_001", "B15003_022"), 2012))
+#Add year, percent, and edu classification
 bachelors <- cbind(year, bachelors)
 bachelors <- mutate(bachelors, pct = B15003_022E/B15003_001E)
 bachelors <- mutate(bachelors, edu =rep(c("bachelors"),40))
@@ -177,12 +180,13 @@ associates <- rbind(
   rapp_var(c("B15003_001", "B15003_021"), 2014),
   rapp_var(c("B15003_001", "B15003_021"), 2013),
   rapp_var(c("B15003_001", "B15003_021"), 2012))
+#Add year, percent, and edu classification
 associates <- cbind(year, associates)
 associates <- mutate(associates, pct = B15003_021E/B15003_001E)
 associates <- mutate(associates, edu =rep(c("associates"),40))
 
 
-#Some college but less than one year
+#Some college but less than one year table 
 somecollege <- rbind(
   rapp_var(c("B15003_001", "B15003_019"), 2019),
   rapp_var(c("B15003_001", "B15003_019"), 2018),
@@ -192,11 +196,12 @@ somecollege <- rbind(
   rapp_var(c("B15003_001", "B15003_019"), 2014),
   rapp_var(c("B15003_001", "B15003_019"), 2013),
   rapp_var(c("B15003_001", "B15003_019"), 2012))
+#Add year, percent, and edu classification
 somecollege <- cbind(year, somecollege)
 somecollege <- mutate(somecollege, pct = B15003_019E/B15003_001E) 
 somecollege <- mutate(somecollege, edu =rep(c("somecollege"),40))
 
-#high school diploma
+#high school diploma table
 highschool <- rbind(
   rapp_var(c("B15003_001", "B15003_017"), 2019),
   rapp_var(c("B15003_001", "B15003_017"), 2018),
@@ -206,6 +211,7 @@ highschool <- rbind(
   rapp_var(c("B15003_001", "B15003_017"), 2014),
   rapp_var(c("B15003_001", "B15003_017"), 2013),
   rapp_var(c("B15003_001", "B15003_017"), 2012))
+#Add year, percent, and edu classification
 highschool <- cbind(year, highschool)
 highschool <- mutate(highschool, pct = B15003_017E/B15003_001E)
 highschool <- mutate(highschool, edu =rep(c("highschool"),40))
@@ -220,39 +226,45 @@ edutable <- rbind(phds[,c(1:3,8:9)],
                   highschool[,c(1:3,8:9)])
 
 #Line Graphs by Education Type 
-highschool %>% 
+edutable %>% 
+  filter(edu == "highschool") %>% 
   ggplot(aes(x = year, y = pct, group = NAME, color = NAME)) + 
   geom_line(position = "identity", show.legend = TRUE) +
   labs(title = "High School Education")
 
-somecollege %>%
+edutable %>% 
+ filter(edu == "somecollege") %>% 
   ggplot(aes(x = year, y = pct, group = NAME, color = NAME)) + 
   geom_line(position = "identity", show.legend = TRUE) +
   labs(title= "Some College")
 
-associates %>% 
+edutable %>% 
+  filter(edu == "associates") %>% 
   ggplot(aes(x = year, y = pct, group = NAME, color = NAME)) + 
   geom_line(position = "identity", show.legend = TRUE) +
   labs(title = "Associates Degree")
 
-bachelors %>% 
+edutable %>% 
+  filter(edu == "bachelors") %>% 
   ggplot(aes(x = year, y = pct, group = NAME, color = NAME)) + 
   geom_line(position = "identity", show.legend = TRUE) +
   labs(title = "Bachelors Degree")
 
-masters %>% 
+edutable %>% 
+  filter(edu == "masters") %>% 
   ggplot(aes(x = year, y = pct, group = NAME, color = NAME)) + 
   geom_line(position = "identity", show.legend = TRUE) +
   labs(title = "Masters Degree")
 
-phds %>% 
+edutable %>% 
+  filter(edu == "phd") %>% 
   ggplot(aes(x = year, y = pct, group = NAME, color = NAME)) + 
   geom_line(position = "identity", show.legend = TRUE) +
   labs(title = "Doctoral Degree")
 
 #Line Graphs for Education in Piedmont 
   edutable %>% 
-  subset(GEOID == 5115795063) %>% 
+  filter(GEOID == 5115795063) %>% 
   ggplot() +
   geom_line(aes(x = year, y = pct, group = edu, color = edu))+
   labs(title = "Education Attainment in Piedmont District",
@@ -262,7 +274,7 @@ phds %>%
 
 #Wakefield 
   edutable %>% 
-  subset(GEOID == 5115796199) %>% 
+  filter(GEOID == 5115796199) %>% 
   ggplot() +
   geom_line(aes(x = year, y = pct, group = edu, color = edu))+
   labs(title = "Education Attainment in Wakefield District",
@@ -272,7 +284,7 @@ phds %>%
 
 #try this in Jackson
 edutable %>% 
-  subset(GEOID == 5115794007) %>% 
+  filter(GEOID == 5115794007) %>% 
   ggplot() +
   geom_line(aes(x = year, y = pct, group = edu, color = edu))+
   labs(title = "Education Attainment in Jackson District",
@@ -282,7 +294,7 @@ edutable %>%
 
 #Stonewall-Hawthorne
 edutable %>% 
-  subset(GEOID == 5115795967) %>% 
+  filter(GEOID == 5115795967) %>% 
   ggplot() +
   geom_line(aes(x = year, y = pct, group = edu, color = edu))+
   labs(title = "Education Attainment in Stonewall-Hawthorne District",
@@ -292,7 +304,7 @@ edutable %>%
 
 #Hampton
 edutable %>% 
-  subset(GEOID == 5115793823) %>% 
+  filter(GEOID == 5115793823) %>% 
   ggplot() +
   geom_line(aes(x = year, y = pct, group = edu, color = edu))+
   labs(title = "Education Attainment in Hampton District",
