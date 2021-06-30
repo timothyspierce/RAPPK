@@ -4,7 +4,9 @@ library(dplyr)
 library(ggplot2)
 library(tidycensus)
 library(fpp2)
-
+library(ggmap)
+library(maps)
+library(mapdata)
 
 #Introduce 5Function
 rapp_map <- function(varcode){
@@ -375,7 +377,7 @@ edubydistrict <- grid.arrange(piemontedu, wakefieldedu, jacksonedu, stonewallhaw
 edubyedu <- grid.arrange(phdedu, msedu, bsedu, asedu, scedu, hsedu, ncol = 2)
 
 
-
+#Poverty by Poverty Level
 
 pov <- get_acs(geography = "county subdivision", 
                  county = 157,
@@ -392,6 +394,8 @@ transient_pov <- pov %>% filter(variable == "Transient") %>% ggplot() + geom_sf(
 above_pov <- pov %>% filter(variable == "Above") %>% ggplot() + geom_sf(aes(fill = estimate, color = estimate)) + labs(title = "Above 150%")+coord_sf(datum=NA)  
 pov_maps <- grid.arrange(chronic_pov, transient_pov, above_pov)
 
+
+#Income by Nativity to Rappahannock, Virginia, and the US
 
 income_1yragomove <- get_acs(geography = "county", 
                county = 157,
@@ -427,29 +431,7 @@ income <- get_acs(geography = "county subdivision",
 ggplot()+ geom_bar(aes(y = estimate, group = NAME, fill = variable))
 
 
-rapp_table("C24050", 2019) %>% 
-  
-  
-  
-  
-  
-  
-  
-  
-  age_groups <- rbind(
-    rapp_table("S0101_C01",2019),
-    rapp_table("S0101_C01", 2018),
-    rapp_table("S0101_C01", 2017),
-    rapp_table("S0101_C01", 2016))
-    rapp_table("S0101_C01", 2015),
-    rapp_table("S0101_C01", 2014),
-    rapp_table("S0101_C01", 2013),
-    rapp_table("S0101_C01", 2012))
-
-View(age_groups)
-
-View(rapp_table("S0101_C01", 2019))
-
+#Job industry breakdowns by pay, employment, and number of establishments
 
 jobs <- get_acs(geography = "county",
                 county = 51157,
@@ -457,27 +439,41 @@ jobs <- get_acs(geography = "county",
                 table = "S0101_C01")
 CB1900CBP_2019_2digit <- read_csv("Data/CB1900CBP_2019_2digit/CBP2019.CB1900CBP_data_with_overlays_2021-06-24T221057.csv")
 
-CB1900CBP_2019_2digit %>% 
+pct_estab <- CB1900CBP_2019_2digit %>% 
   filter(EMPSZES_LABEL=="All establishments") %>%
   filter(as.numeric(ESTAB) <= 200) %>% 
   mutate(pct = (as.numeric(ESTAB)/202)*100) %>% 
   ggplot() +
   geom_col(aes(x = NAICS2017_LABEL, y = pct, fill = NAICS2017_LABEL)) + 
-  theme(axis.text.x=element_blank())
+  theme(axis.text.x=element_blank()) +
+  labs(title = "Percent of Establishments",
+       x = "Industry",
+       y = "Percent")
 
-CB1900CBP_2019_2digit %>% 
+pct_emp <- CB1900CBP_2019_2digit %>% 
   filter(EMPSZES_LABEL=="All establishments") %>%
   filter(as.numeric(EMP) <= 1000) %>% 
   mutate(pctemp = (as.numeric(EMP)/1098)*100) %>% 
   ggplot() +
   geom_col(aes(x = NAICS2017_LABEL, y = pctemp, fill = NAICS2017_LABEL)) + 
-  theme(axis.text.x=element_blank())
+  theme(axis.text.x=element_blank()) +
+  labs(title = "Percent of Employment",
+       x = "Industry",
+       y = "Percent")
 
-CB1900CBP_2019_2digit %>% 
+pct_pay <- CB1900CBP_2019_2digit %>% 
   filter(EMPSZES_LABEL=="All establishments") %>%
   filter(as.numeric(PAYANN) <= 41000) %>% 
   mutate(pctpay = (as.numeric(PAYANN)/41851)*100) %>% 
   ggplot() +
   geom_col(aes(x = NAICS2017_LABEL, y = pctpay, fill = NAICS2017_LABEL)) + 
-  theme(axis.text.x=element_blank())
+  theme(axis.text.x=element_blank()) + 
+  labs(title = "Percent of Pay",
+       x = "Industry",
+       y = "Percent")
+
+View(rapp_table("S2801_C01", 2019))
+
+
+
 
