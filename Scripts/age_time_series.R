@@ -12,6 +12,7 @@ rapp_table <- function(varcode, year){
           county = 157,
           table = varcode,
           year = year,
+          cache = TRUE,
           geometry = TRUE, output = "wide")
        
   }
@@ -23,6 +24,7 @@ rapp_var <- function(varcode, year){
           variables = varcode,
           year = year,
           survey = "acs5",
+          cache = TRUE,
           output = "wide")}
 
 #####################################################################Percentages

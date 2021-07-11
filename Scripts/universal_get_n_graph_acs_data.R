@@ -31,6 +31,8 @@ options(tigris_class="sf")
 
 #####################################################################
 
+#Rappk Coordinates, Latitude = 38.6762° Longitude = -78.1564
+
 #Generalized vector to get the total population for any function
 pop_total <- c(poptotal = "B02001_001")
 
@@ -106,6 +108,8 @@ bar_graph_and_meanline <- function(dataset){
 #time_shift_bar_graph <- ggarrange
 
 
+
+get_map(location = c(lon = -78.1564, lat = 38.6762), maptype = c("hybrid"))
 
 ###############################################################
 ################### For Means of travel #########################
