@@ -1,4 +1,16 @@
 ##### Necessary Libraries ######
+
+
+
+#Decennial is a dead end, this is here for posterity
+
+
+
+##########################################
+
+
+
+
 library(tidyverse)
 library(tidycensus)
 library(ggplot2)
@@ -211,12 +223,12 @@ ggplot(rapp_pop_time, aes(x = year, y = value, color = NAME)) +
 
 
 rapp_pop_2019_wide <- rapp_pop_2019_wide %>% 
-  add_column(percent = NA) %>%
+  add_column(percent = 100) %>%
   subset(select = c(GEOID, NAME, variable, value, summary_value...poptotal, percent, geometry))
 rapp_pop_2019_wide$NAME <- str_replace(rapp_pop_2019_wide$NAME, ", Virginia", "")
 
 rapp_pop_2010_wide <- rapp_pop_2010_wide %>% 
-  add_column(percent = NA)%>%
+  add_column(percent = 100)%>%
   subset(select = c(GEOID, NAME, variable, value, summary_value...poptotal, percent, geometry))
 rapp_pop_2010_wide$NAME <- str_replace(rapp_pop_2010_wide$NAME, ", Virginia", "")
 
@@ -227,5 +239,26 @@ time_and_baseline <- rbind(rapp_pop_2019_wide, rapp_pop_2019, rapp_pop_2010_wide
 ggplot(time_and_baseline, aes(x = year, y = value, fill = NAME)) +
   geom_col(position = "dodge")
 
+ggplot(time_and_baseline, aes(x = year, y = percent, fill = NAME)) +
+  geom_col(position = "dodge")
+
 ggplot(time_and_baseline, aes(x = year, y = value, color = NAME)) +
   geom_line()
+
+
+################################################### 
+
+
+
+age_vars <- c("DP1_C43", "DP1_C44")
+
+get_rapp_all(age_vars, "DP1_C43")
+
+age_vars <- c("65_74_total" = "DP1_C26", "65_74_percent" =	"DP1_C27", "75_84_total" =	"DP1_C28", "75_84_percent" = "DP1_C29")
+
+age_vars <- c("65_and_older_total" = "SF1DP1049", "65_and_older_percent" = "SF1DP1050")
+
+
+over65 <- get_rapp_all_wide(age_vars, "SF1DP1001")
+
+
