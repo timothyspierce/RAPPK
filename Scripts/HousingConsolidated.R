@@ -104,21 +104,21 @@ rapp_wide <- function(varcode, summary_var, year = 2019){
           output = "wide") %>%
     st_transform(crs = "WGS84") #Converts the dataframe into a coord system most commonly used
 }
-
-bar_graph_and_medianline <- function(dataset){
-  ggplot(dataset, aes(x = NAME, y = estimate, fill = NAME)) +
-    geom_col(position = "dodge") + 
-    ggtitle("Median Household income") +
-    geom_hline(aes(yintercept = median(estimate)), color = "black", size = 1.5, alpha = 0.25) +
-    labs(yintercept = "Median") +
-    facet_wrap(~variable)} 
+# 
+# bar_graph_and_medianline <- function(dataset){
+#   ggplot(dataset, aes(x = NAME, y = estimate, fill = NAME)) +
+#     geom_col(position = "dodge") + 
+#     ggtitle("Median Household income") +
+#     geom_hline(aes(yintercept = median(estimate)), color = "black", size = 1.5, alpha = 0.25) +
+#     labs(yintercept = "Median") +
+#     facet_wrap(~variable)} 
 
 #########################################################################
 
 housingwide <- get_acs(geography = "county subdivision",
                        state = 51,
                        county = 157,
-                       variables = homevaluesvector,
+                       variables = homevalue_var,
                        summary_var = "B25075_001",
                        year = 2019,
                        output = "wide",
@@ -232,125 +232,3 @@ housingplots <- ggarrange(plot1, plot2, plot3, plot4, plot5,
 
 
 ########################################################################
-#########################################################################
-
-medianincome_var <- c(
-  med_hh_income_less10k = "B19001_002",
-  med_hh_income_10_14k = "B19001_003",
-  med_hh_income_15_19k = "B19001_004",
-  med_hh_income_20_24k = "B19001_005",
-  med_hh_income_25_29k = "B19001_006",
-  med_hh_income_30_34k = "B19001_007",
-  med_hh_income_35_39k = "B19001_008",
-  med_hh_income_40_44k = "B19001_009",
-  med_hh_income_45_49k = "B19001_010",
-  med_hh_income_50_59k = "B19001_011",
-  med_hh_income_60_74k = "B19001_012",
-  med_hh_income_75_99k = "B19001_013",
-  med_hh_income_100_124k = "B19001_014",
-  med_hh_income_125_149k = "B19001_015",
-  med_hh_income_150_199k = "B19001_016",
-  med_hh_income_200kmore = "B19001_017")
-median_income_all = "B19001_001"
-
-medianincomevector <- c(
-  "med_hh_income_less10k",
-  "med_hh_income_10_14k",
-  "med_hh_income_15_19k",
-  "med_hh_income_20_24k",
-  "med_hh_income_25_29k",
-  "med_hh_income_30_34k",
-  "med_hh_income_35_39k",
-  "med_hh_income_40_44k",
-  "med_hh_income_45_49k",
-  "med_hh_income_50_59k",
-  "med_hh_income_60_74k",
-  "med_hh_income_75_99k",
-  "med_hh_income_100_124k",
-  "med_hh_income_125_149k",
-  "med_hh_income_150_199k",
-  "med_hh_income_200kmore")
-
-
-
-
-#ACS call for median income
-median_income <- get_rapp(medianincome_var, median_income_all)
-
-
-#Give each zipcode a name
-median_income$NAME <- str_replace_all(median_income$NAME, "ZCTA5 23112|ZCTA5 23113|ZCTA5 23114", "Midlothan")
-median_income$NAME <- str_replace_all(median_income$NAME, "ZCTA5 23120", "Mosely")
-median_income$NAME <- str_replace_all(median_income$NAME, "ZCTA5 23831|ZCTA5 23836", "Chester")
-median_income$NAME <- str_replace_all(median_income$NAME, "ZCTA5 23224|ZCTA5 23225|ZCTA5 23234|ZCTA5 23235|ZCTA5 23236|ZCTA5 23237", "N. Chesterfield")
-median_income$NAME <- str_replace_all(median_income$NAME, "ZCTA5 23832|ZCTA5 23838", "Chesterfield")
-median_income$NAME <- str_replace_all(median_income$NAME, "ZCTA5 23834", "S. Chesterfield")
-median_income$NAME <- str_replace_all(median_income$NAME, "ZCTA5 23805|ZCTA5 23804|ZCTA5 23803", "Petersburg")
-median_income$NAME <- str_replace_all(median_income$NAME, "ZCTA5 23806", "VSU Campus")
-
-#Factoring these values for useage!
-median_income$variable <- factor(medianincomevector, order = TRUE, levels = c(medianincomevector))
-
-grouped_median_income <- median_income %>% group_by(variable)
-
-
-
-
-
-
-
-
-summary_est
-
-#ACS call for median income wide so that the housing income levels are separate. This is so they can be grouped separately
-median_income <- rapp_wide(medianincome_var, median_income_all)
-
-#Grouping income income levels
-income_grouped <- median_income %>% 
-  mutate(medianunder10k = median_income$med_hh_income_less10kE) %>%
-  mutate(median10to24k = median_income$med_hh_income_10_14kE + median_income$med_hh_income_15_19kE + median_income$med_hh_income_20_24kE) %>%
-  mutate(median25to49k = median_income$med_hh_income_25_29kE + median_income$med_hh_income_30_34kE + median_income$med_hh_income_35_39kE + median_income$med_hh_income_40_44kE + median_income$med_hh_income_45_49kE) %>%
-  mutate(median50to74k = median_income$med_hh_income_50_59kE + median_income$med_hh_income_60_74kE) %>%
-  mutate(median75to99k = median_income$med_hh_income_75_99kE) %>%
-  mutate(median100to150k = median_income$med_hh_income_100_124kE + median_income$med_hh_income_125_149kE) %>%
-  mutate(median150to200k = median_income$med_hh_income_150_199kE) %>%
-  mutate(medianover200k = med_hh_income_200kmoreE)
-
-
-#grouping income levels but giving them a percentage when I'm done
-income_grouped_pct <- median_income %>%
-  mutate(medianunder10k = ((median_income$med_hh_income_less10kE)/ summary_est * 100)) %>%
-  mutate(median10to24k = ((median_income$med_hh_income_10_14kE + median_income$med_hh_income_15_19kE + median_income$med_hh_income_20_24kE)/summary_est * 100)) %>%
-  mutate(median25to49k = ((median_income$med_hh_income_25_29kE + median_income$med_hh_income_30_34kE + median_income$med_hh_income_35_39kE + median_income$med_hh_income_40_44kE + median_income$med_hh_income_45_49kE)/ summary_est * 100)) %>%
-  mutate(median50to74k = ((median_income$med_hh_income_50_59kE + median_income$med_hh_income_60_74kE)/ summary_est * 100)) %>%
-  mutate(median75to99k = ((median_income$med_hh_income_75_99kE)/ summary_est * 100)) %>%
-  mutate(median100to150k = ((median_income$med_hh_income_100_124kE + median_income$med_hh_income_125_149kE)/ summary_est * 100)) %>%
-  mutate(median150to200k = ((median_income$med_hh_income_150_199kE)/ summary_est * 100)) %>%
-  mutate(medianover200k = ((med_hh_income_200kmoreE)/ summary_est * 100))
-   
-
-householdincome <- c(income_grouped_pct$medianunder10k, income_grouped_pct$median10to24k, income_grouped_pct$median25to49k, income_grouped_pct$median50to74k, income_grouped_pct$median75to99k, income_grouped_pct$median100to150k, income_grouped_pct$median150to200k, income_grouped_pct$medianover200k)
-
-incomebrackets <- factor(c("medianunder10k", "median10to24k", "median25to49k", "median50to74k", "median75to99k", "median100to150k", "median150to200k", "medianover200k"), ordered = TRUE, levels = c("medianunder10k", "median10to24k", "median25to49k", "median50to74k", "median75to99k", "median100to150k", "median150to200k", "medianover200k"))
-
-
-
-incomedf <- data.frame(incomebrackets, householdincome)
-
-bar_graph <- ggplot(incomedf, aes(x = incomebrackets, y = householdincome)) +
-    geom_col(position = "dodge") +
-  ggtitle("Median Income of the Population by Income Bracket") +
-    ylab("Percentage of Population") +
-    xlab("Income Bracket")
-
-
-
-bar_graph_and_medianline(incomedf)
-                
-median_income_dollars = c("Median Household Income" = "B19013_001")                                               
-
-incometotal <- rapp_var(median_income_dollars, median_income_dollars) %>%
-  subset(select = -c(NAME.y)) %>%
-  rename(NAME = NAME.x)
-
-bar_graph_and_medianline(incometotal)
