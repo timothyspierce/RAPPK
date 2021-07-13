@@ -48,7 +48,6 @@ plot_theme <- theme(plot.title = element_text(hjust = 0.5),
 ########## Necessary functions for working all variables ############
 
 
-
 #Gets the states for Rappahannock as a whole county rather than subcounty
 rapp_all <- function(varcode, summary_var, year = 2019){
   get_acs(geography = "county",
@@ -132,7 +131,7 @@ bar_graph_and_medianline <- function(dataset){
 
 
 #The neat thing about these functions, with the much appreciated help from Christina Prisbe
-#Is the horizontial line thing! Now my primary issue is what to do about scaling.
+#Is the horizontal line thing! Now my primary issue is what to do about scaling.
 #Nevermind the scaling problem, I fixed it. Sort of.
 bar_graph_and_meanline <- function(dataset){
   ggplot(dataset, aes(x = NAME.x, y = estimate, fill = NAME.x)) +
@@ -184,8 +183,8 @@ medianincomevector <- c(
 
 
 
-#ACS call for median income
-median_income <- get_rapp(medianincome_var, median_income_all)
+# #ACS call for median income
+# median_income <- get_rapp(medianincome_var, median_income_all)
 
 
 #Factoring these values for useage!
@@ -231,13 +230,17 @@ incomebrackets <- factor(c("medianunder10k", "median10to24k", "median25to49k", "
 
 incomedf <- data.frame(incomebrackets, householdincome)
 
-bar_graph <- ggplot(incomedf, aes(x = incomebrackets, y = householdincome)) +
+ ggplot(incomedf, aes(x = incomebrackets, y = householdincome, fill = incomebrackets)) +
   geom_col(position = "dodge") +
-  ggtitle("Median Income of the Population by Income Bracket") +
+  ggtitle("Median Income of the Population by Income Bracket", subtitle = "2015-2019 5-year American Community Survey") +
   ylab("Percentage of Population") +
   xlab("Income Bracket") +
-  coord_flip()
-
+  coord_flip() +
+  plot_theme
+ 
+ 
+ 
+#################################################################
 
 
 bar_graph_and_medianline(incomedf)
@@ -275,23 +278,30 @@ bar_graph <- ggplot(incomebydistrict_grouped, aes(x = variable, y = percent, fil
 
 
 
-
-
 ####################################################33
 
-
-
-medianincome_wide <- get_acs(geography = "county subdivision",
+  get_district_acs_wide <- function(varcode, summary_var, year = 2019){
+    get_acs(geography = "county subdivision",
           state = 51,
           county = 157,
-          variables = medianincome_var,
-          summary_var = median_income_all,
+          variables = varcode,
+          summary_var = summary_var,
           geometry = TRUE,
           keep_geo_vars = TRUE,
-          year = 2010,
+          year = year,
           cache = TRUE,
           output = "wide") %>%
-    st_transform(crs = "WGS84") 
+    st_transform(crs = "WGS84") %>%
+  subset(select = -c(NAME.y))}
+
+
+
+
+
+
+
+
+
 
 medianincome_grouped <-  medianincome_wide %>%
   mutate(medianunder10k = ((medianincome_wide$med_hh_income_less10kE/ medianincome_wide$summary_est) * 100)) %>%
