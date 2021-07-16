@@ -1,4 +1,4 @@
-setwd("C:/Users/Leo Allen/Desktop/WytheFinalDash/isochrones") #set the working directory
+setwd("C:/Users/Leo Allen/Desktop/WytheFinalDash/isochrones")  #set the working directory
 library(RColorBrewer)
 #library(traveltime)
 library(tidyverse)
@@ -197,6 +197,14 @@ RPK_area_outline<-get_acs(geography = "county",
                           keep_geo_vars = T)%>%
   select(COUNTYFP,geometry)
 
+#Center of the County
+CenterPop_county <- read.csv("C:/Users/Leo Allen/Desktop/Isochrones/CenPop2010_Mean_CO51.txt", header =T)
+
+centerPop_RPK <- CenterPop_county %>% filter(COUNAME %in% c("Rappahannock")
+) #%>% filter(COUNTYFP != 620)
+
+
+
 
 
 # Read in all files file
@@ -264,12 +272,12 @@ map_with_all_point <- leaflet() %>%
   addPolylines(data = RPK_outline, color = "red", opacity = 2, weight = 1 ) %>%
   #addPolygons(data = pop_centroid_wythe_iso_60 , color = "white",
   #            opacity = 1, weight = 1, fillColor = "white",fillOpacity = .6)%>%
-  #addCircleMarkers(centerPop_wythe,lat = centerPop_wythe$LATITUDE, lng= centerPop_wythe$LONGITUDE,
-  #                 radius =  4,
-  #                 color = "red",
-  #                 stroke = FALSE, fillOpacity = 1
-  #) %>%
-  #addLegend(colors = "red", labels = "Wythe Population Centroid") %>%
+  addCircleMarkers(centerPop_RPK,lat = centerPop_RPK$LATITUDE, lng= centerPop_RPK$LONGITUDE,
+                   radius =  4,
+                   color = "red",
+                   stroke = TRUE, fillOpacity = 1
+  ) %>%
+  addLegend(colors = "red", labels = "Rappahannock Population Centroid") %>%
   addCircleMarkers(Assistedlvg,lat = Assistedlvg$Latitude, lng= Assistedlvg$Longitude,
                    radius =  4,
                    color = "#55DDE0",
@@ -308,10 +316,10 @@ map_with_all_point <- leaflet() %>%
   addCircleMarkers(Hospital,lat = Hospital$Latitude ,
                    lng = Hospital$Longitude,
                    radius =  3,
-                   color = "red",
+                   color = "orange",
                    stroke = FALSE, fillOpacity = 1
   ) %>%
-  addLegend(colors = "red", labels = "Hospital")%>%
+  addLegend(colors = "orange", labels = "Hospital")%>%
   addCircleMarkers(Free_clinic,lat = Free_clinic$Latitude ,
                    lng = Free_clinic$Longitude,
                    radius =  3,
@@ -327,10 +335,7 @@ map_with_all_point <- leaflet() %>%
   )%>%
   addLegend(colors = "purple", labels = "Independent Living Facilities")
 
-
-
-
-
+#Show the map
 map_with_all_point
 
 
