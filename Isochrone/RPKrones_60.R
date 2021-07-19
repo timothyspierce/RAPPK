@@ -18,6 +18,14 @@ library(nycflights13)
 library(readxl)
 #webshot::install_phantomjs()
 
+
+#TRAVELTIME; install this in R console (NOT R STUDIO)!!!
+#Install the latest version of this package by entering the following in R:
+#  install.packages("remotes")
+#remotes::install_github("tlorusso/traveltimeR")
+
+
+
 #getting population and maps of surrounding of page from acs
 
 
@@ -205,6 +213,9 @@ centerPop_RPK <- CenterPop_county %>% filter(COUNAME %in% c("Rappahannock")
 
 
 #travel time, I did this once to generate center RDS file
+#to get the api and the id I visited the website and signed up:
+#https://traveltime.com/docs/api/overview/getting-keys
+
 #traveltime_api <- "7bbbad489d637c38b2bea80e1e413721"
 #traveltime_id <- "c1fae682"
 
