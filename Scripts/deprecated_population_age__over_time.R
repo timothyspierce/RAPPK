@@ -195,7 +195,7 @@ age <- age %>% rbind(youngadult) %>% rbind(adult)
 
 age$variable <- factor(age_vector, order = TRUE, levels = c(age_vector))
 
-age <- mutate(age, percent = (estimate/summary_est) * 100)
+age <- mutate(age, percentage = (estimate/summary_est) * 100)
 
 age2016 <- cbind(age, year = "2016")
 
@@ -361,7 +361,7 @@ ggplot(age2019) +
 
 
 ggplot(age2017_2019, aes(x = year, y = percent, group = variable, color = variable)) +
-                            geom_line()+
+                            geom_line(aes(size = "estimate")) +
   ylim(0,100)
 
 
@@ -370,3 +370,15 @@ ggplot(age2016_2013, aes(x = year, y = estimate, group = variable, color = varia
   geom_line() +
   plot_theme +
   ylim(0,100)
+
+
+
+
+
+
+
+
+
+
+
+

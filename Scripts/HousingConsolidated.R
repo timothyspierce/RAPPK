@@ -550,7 +550,7 @@ housingmaps2017 <- ggarrange(map1, map2, map3, map4, map5,
 
 
 
-######################### 2017 ##########################
+######################### 2016 ##########################
 
 
 housingwide <- get_rappkdistrict(homevalue_var, homes_all, 2016)
@@ -621,7 +621,7 @@ plot5 <- ggplot(housinggrouped, aes(x = NAME, y = price1milorGreater, fill = NAM
 
 housinggraphs2016 <- ggarrange(plot1, plot2, plot3, plot4, plot5,
                                ncol = 3, nrow = 2, common.legend = TRUE) %>%
-  annotate_figure(top = "Number of houses by district in 2017")
+  annotate_figure(top = "Number of houses by district in 2016")
 
 
 
@@ -944,7 +944,7 @@ plot5 <- ggplot(housinggrouped, aes(x = NAME, y = price1milorGreater, fill = NAM
 
 housinggraphs2013 <- ggarrange(plot1, plot2, plot3, plot4, plot5,
                                ncol = 3, nrow = 2, common.legend = TRUE) %>%
-  annotate_figure(top = "Number of houses by district in 2015")
+  annotate_figure(top = "Number of houses by district in 2013")
 
 
 

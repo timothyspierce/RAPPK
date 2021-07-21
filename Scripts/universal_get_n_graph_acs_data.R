@@ -25,6 +25,8 @@ library(ggpubr)
 library(ggmap)
 library(gridExtra)
 library(xlsx)
+library(scales)
+library(fpp2)
 devtools::install_github("rCarto/osrm")
 options(tigris_use_cache = TRUE)
 options(tigris_class="sf")
@@ -51,7 +53,7 @@ rapp_all <- function(varcode, summary_var, year = 2019){
           geometry = TRUE,
           keep_geo_vars = TRUE,
           cache = TRUE) %>%
-    mutate(percent = (estimate/summary_est)*100) %>%
+    mutate(percent = (estimate/sum(summary_est))*100) %>%
     subset(select = -c(COUNTYNS))}
 
 #Function for getting variables and makes a pct column
@@ -65,7 +67,8 @@ rapp_var <- function(varcode, summary_var, year = 2019){
           geometry = TRUE,
           keep_geo_vars = TRUE,
           cache = TRUE) %>%
-    mutate(percent = (estimate/summary_est)*100)}
+    mutate(percent = (estimate/sum(summary_est))*100) %>%
+    subset(select = -c(COUSUBFP, COUSUBNS))}
 
 
 #Function for making a standard bar graph
@@ -365,15 +368,35 @@ population <- rapp_all(pop_total, pop_total) %>%
   add_row(rapp_var(pop_total, pop_total, year = 2016)) %>%
   add_row(rapp_all(pop_total, pop_total, year = 2015)) %>%
   add_row(rapp_var(pop_total, pop_total, year = 2015)) %>%
-  add_row(rapp_all(pop_total, pop_total, year = 2014)) %>%
-  add_row(rapp_var(pop_total, pop_total, year = 2014)) %>%
-  add_row(rapp_all(pop_total, pop_total, year = 2013)) %>%
-  add_row(rapp_var(pop_total, pop_total, year = 2013)) %>%
+  #There's some compatibility issues with the geometry that makes combining geography pre-2014 a headache
+  # add_row(rapp_all(pop_total, pop_total, year = 2014)) %>%
+  # add_row(rapp_var(pop_total, pop_total, year = 2014)) %>%
+  #add_row(rapp_all(pop_total, pop_total, year = 2013)) %>%
+  #add_row(rapp_var(pop_total, pop_total, year = 2013)) %>%
   #So it looks like there are 9 more columns in the dataframe pre 2013
   #So this little experiment only goes so far
   #add_row(rapp_var(pop_total, pop_total, year = 2012)) %>%
-  subset(select = -c(NAME.y))
+  subset(select = -c(NAME.y)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = c("2019", "2019", "2019", "2019", "2019", "2019",
+                      "2018", "2018", "2018", "2018", "2018", "2018",
+                      "2017", "2017", "2017", "2017", "2017", "2017",
+                      "2016", "2016", "2016", "2016", "2016", "2016",
+                      "2015", "2015", "2015", "2015", "2015", "2015"))
 
+ggplot(population, aes(x = year, y = estimate, group = NAME, color = NAME)) +
+  geom_line()
+
+
+
+population_districts <- population %>% filter(NAME != "Rappahannock")
+tm_shape(population_districts) +
+  tm_borders() +
+  tm_fill("percent") +
+  tm_facets(by = "year") +
+  tm_text("NAME")
+
+  
 
 
 #####################################################################
@@ -425,27 +448,3 @@ ggplot(travel_means, aes(x = variable, y = estimate, fill = variable)) +
   geom_hline(aes(yintercept= 50.1, linetype = "Median"), color= "black", size = 1.5, alpha = 0.25) +
   facet_wrap(~NAME)
 
-
-
-###################### I tried, I can't make it work but dangit I tried. I'll find another way
-rapp_time_shift <- function(varcode, summary_var, year = 2019){
-  rapp_var(varcode, summary_var, year = 2019)  %>%
-    add_column(year = year) %>% 
-    add_row(rapp_all(varcode, summary_var)) %>%
-    add_row(rapp_all(varcode, summary_var, year = 2018)) %>%
-    if(is.na(year)) {year = year} %>%
-    add_row(rapp_var(varcode, summary_var, year = 2018)) %>%
-    add_row(rapp_all(varcode, summary_var, year = 2017)) %>%
-    add_row(rapp_var(varcode, summary_var, year = 2017)) %>%
-    add_row(rapp_all(varcode, summary_var, year = 2016)) %>%
-    add_row(rapp_var(varcode, summary_var, year = 2016)) %>%
-    add_row(rapp_all(varcode, summary_var, year = 2015)) %>%
-    add_row(rapp_var(varcode, summary_var, year = 2015)) %>%
-    add_row(rapp_all(varcode, summary_var, year = 2014)) %>%
-    add_row(rapp_var(varcode, summary_var, year = 2014)) %>%
-    add_row(rapp_all(varcode, summary_var, year = 2013)) %>%
-    add_row(rapp_var(varcode, summary_var, year = 2013))
-  #So it looks like there are 9 more columns in the dataframe pre 2013
-  #So this little experiment only goes so far
-  #add_row(rapp_var(pop_total, pop_total, year = 2012)) %>%
-}

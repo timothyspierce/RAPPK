@@ -100,21 +100,65 @@ population2015_2019 <- rapp_all(pop_total, pop_total) %>%
                       "2017", "2017", "2017", "2017", "2017", "2017",
                       "2016", "2016", "2016", "2016", "2016", "2016",
                       "2015", "2015", "2015", "2015", "2015", "2015"))
+
+ population2013_2014 <- rapp_all(pop_total, pop_total, year = 2014) %>%
+   add_row(rapp_var(pop_total, pop_total, year = 2014)) %>%
+   st_zm(drop = TRUE, what = "ZM") %>%
+   add_row(rapp_all(pop_total, pop_total, year = 2013)) %>%
+   add_row(rapp_var(pop_total, pop_total, year = 2013)) %>%
+ subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+   rename(NAME = NAME.x) %>%
+   add_column(year = c("2014", "2014", "2014", "2014", "2014", "2014",
+                       "2013", "2013", "2013", "2013", "2013", "2013"))
+ 
+ 
+   population2011_2012 <- rapp_all(pop_total, pop_total, year = 2012) %>%
+   add_row(rapp_var(pop_total, pop_total, year = 2012) %>% subset(select = -c(CNECTAFP, NECTAFP, NCTADVFP))) %>%
+   add_row(rapp_all(pop_total, pop_total, year = 2011)) %>%
+   add_row(rapp_var(pop_total, pop_total, year = 2011) %>% subset(select = -c(CNECTAFP, NECTAFP, NCTADVFP))) %>%
+   subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+     rename(NAME = NAME.x) %>%
+     add_column(year = c("2012", "2012", "2012", "2012", "2012", "2012",
+                         "2011", "2011", "2011", "2011", "2011", "2011"))
+   
+   
+population2010 <-   get_acs(geography = "county",
+                            state = 51,
+                            county = 157,
+                            variables = pop_total,
+                            summary_var = pop_total,
+                            year = 2010,
+                            geometry = TRUE,
+                            keep_geo_vars = TRUE,
+                            cache = TRUE) %>%
+  mutate(percent = (estimate/sum(summary_est))*100) %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+   add_row( get_acs(geography = "county subdivision",
+                    state = 51,
+                    county = 157,
+                    variables = pop_total,
+                    summary_var = pop_total,
+                    year = 2010,
+                    geometry = TRUE,
+                    keep_geo_vars = TRUE,
+                    cache = TRUE) %>%
+              mutate(percent = (estimate/sum(summary_est))*100) %>%
+              subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry))) %>%
+   
+   rename(NAME = NAME.x) %>%
+   add_column(year = c(
+                       "2010", "2010", "2010", "2010", "2010", "2010"))
  
 
-  # population <- rapp_all(pop_total, pop_total, year = 2014) %>%
-  # add_row(rapp_var(pop_total, pop_total, year = 2014)) %>%
-  # add_row(rapp_all(pop_total, pop_total, year = 2013)) %>%
-  # add_row(rapp_var(pop_total, pop_total, year = 2013)) %>%
-  # So it looks like there are 9 more columns in the dataframe pre 2013
-  # So this little experiment only goes so far
-  # add_row(rapp_var(pop_total, pop_total, year = 2012)) %>%
-  subset(select = c(GEOID, NAME.x, NAME.y, variable, estimate, moe, summary_est, percent, geometry)) %>%
-  subset(select = -c(NAME.y)) %>%
-  rename(NAME = NAME.x) %>%
+population2010_2019 <- population2015_2019 %>%
+  rbind(population2013_2014) %>%
+  rbind(population2011_2012) %>%
+  rbind(population2010)
+  
+population2010_2019 <- filter(population2010_2019, NAME != "Rappahannock") 
+ 
 
-
-ggplot(population2015_2019, aes(x = year, y = percent, group = NAME, color = NAME)) +
+ggplot(population2010_2019, aes(x = year, y = percent, group = NAME, color = NAME)) +
   geom_line()
   
   
@@ -122,13 +166,13 @@ ggplot(population2015_2019, aes(x = year, y = estimate, group = NAME, color = NA
   geom_line(aes(size = "Percent of Population" <- percent)) +
   ggtitle(label = "Estimated Total Population 2015-2019")
 
-population_districts <- population2015_2019 %>% filter(NAME != "Rappahannock")
+population_districts <- population2010_2019 %>% filter(NAME != "Rappahannock")
 tm_shape(population_districts) +
   tm_borders() +
   tm_fill("percent") +
   tm_facets(by = "year") +
   tm_text("NAME") +
-  tm_layout(title = "Estimated perdentage of Population 2015-2019")
+  tm_layout(title = "Estimated percentage of Population 2015-2019")
 
 ggplot(population2015_2019 %>% filter(NAME != "Rappahannock")) +
   geom_sf(aes(fill = percent)) +
@@ -214,7 +258,7 @@ piedrace <- filter(minority, NAME == "Piedmont") %>% filter(year == "2019")
 swrace <-  filter(minority, NAME == "Stonewall-Hawthorne") %>% filter(year == "2019")
 jackrace <- filter(minority, NAME == "Jackson") %>% filter(year == "2019")
 hamrace <- filter(minority, NAME == "Hampton") %>% filter(year == "2019")
-sum(hamrace$)
+
 #Just going to combine all the non-white people into "Minority" for simplicity's sake. Surely someone will find it useful
 
 
@@ -266,5 +310,82 @@ somecollege <-rapp_map("B15003_019") + labs(title = "Some College")
 diploma <- rapp_map("B15003_017") + labs(title = "HS Diploma")
 
 
+#####################################################################
 
 
+median_income_dollars <- c(median_income_dollars = "S1901_C01_012")
+mean_income_dollars <- c(mean_income_dollars = "S1901_C01_013")
+
+
+
+mediandollars2019 <- rapp_var(median_income_dollars, median_income_dollars) %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2019")
+mediandollars2018 <- rapp_var(median_income_dollars, median_income_dollars, 2018)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2018")
+mediandollars2017 <- rapp_var(median_income_dollars, median_income_dollars, 2017)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2017")
+mediandollars2016 <- rapp_var(median_income_dollars, median_income_dollars, 2016)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2016")
+mediandollars2015 <- rapp_var(median_income_dollars, median_income_dollars, 2015)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2015")
+mediandollars2014 <- rapp_var(median_income_dollars, median_income_dollars, 2014)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2014") %>%
+  st_zm(drop = TRUE, what = "ZM")
+mediandollars2013 <- rapp_var(median_income_dollars, median_income_dollars, 2013)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2013")
+mediandollars2012 <- rapp_var(median_income_dollars, median_income_dollars, 2012)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2012")
+mediandollars2011 <- rapp_var(median_income_dollars, median_income_dollars, 2011)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2011")
+mediandollars2010 <-  get_acs(geography = "county subdivision",
+                              state = 51,
+                              county = 157,
+                              variables = median_income_dollars,
+                              summary_var = median_income_dollars,
+                              year = 2010,
+                              geometry = TRUE,
+                              keep_geo_vars = TRUE,
+                              cache = TRUE) %>%
+  mutate(percent = (estimate/sum(summary_est))*100)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2010")
+
+
+
+mediandollars2010_2019 <- mediandollars2019 %>% 
+  rbind(mediandollars2018) %>% 
+  rbind(mediandollars2017) %>% 
+  rbind(mediandollars2016) %>% 
+  rbind(mediandollars2015) %>% 
+  rbind(mediandollars2014) %>% 
+  rbind(mediandollars2013) %>% 
+  rbind(mediandollars2012) %>% 
+  rbind(mediandollars2011) %>% 
+  rbind(mediandollars2010) 
+
+ggplot(mediandollars2010_2019, aes(x = year, y = estimate, color = NAME, group = NAME)) +
+         geom_line()
+
+ggplot(mediandollars2010_2019) +
+  geom_sf(aes(fill = estimate)) +
+coord_sf(datum = NA) +
+  facet_wrap(~year)
