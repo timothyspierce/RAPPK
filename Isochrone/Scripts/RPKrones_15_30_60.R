@@ -508,7 +508,8 @@ map_with_all_point <- leaflet() %>%
                    color = "deeppink",
                    stroke = TRUE, fillOpacity = 1
   )%>%
-  addLegend(colors = "deeppink", labels = "Banks")
+  addLegend(colors = "deeppink", labels = "Banks")%>% 
+  setView(lat = centerPop_RPK$LATITUDE, lng= centerPop_RPK$LONGITUDE, zoom =10)
 
 
 #Show the map
