@@ -108,40 +108,6 @@ rapp_var <- function(varcode, summary_var, year = 2019){
     subset(select = -c(NAME.y))}
 
 
-#Function for making a standard bar graph
-bar_graph <- function(dataset){
-  ggplot(dataset, aes(x = variable, y = estimate, fill = NAME.x)) +
-    geom_col(position = "dodge") +
-    facet_wrap(~variable)}
-
-#Function for making a standard line graph
-#Okay It's not that standard, I'm working on it
-#line_graph <- function(dataset){
-# ggplot(dataset, aes(x = NAME, y = estimate, color = NAME)) +
-#  geom_point() +
-# facet_wrap(~variable)}
-
-
-## Experimental function that should be able to take whatever variable list you get from the above functions
-#And turn them into bar graphs, provided you fo everything else on the page
-bar_graph_and_medianline <- function(dataset){
-  ggplot(dataset, aes(x = NAME.x, y = estimate, fill = NAME)) +
-    geom_col(position = "dodge") + 
-    geom_hline(aes(yintercept = median(estimate)), color = "black", size = 1.5, alpha = 0.25) +
-    labs(yintercept = "Median") +
-    facet_wrap(~variable)}
-
-
-#The neat thing about these functions, with the much appreciated help from Christina Prisbe
-#Is the horizontal line thing! Now my primary issue is what to do about scaling.
-#Nevermind the scaling problem, I fixed it. Sort of.
-bar_graph_and_meanline <- function(dataset){
-  ggplot(dataset, aes(x = NAME.x, y = estimate, fill = NAME.x)) +
-    geom_col(position = "dodge") + 
-    geom_hline(aes(yintercept = mean(estimate)), color = "black", size = 1.5, alpha = 0.25) +
-    labs(yintercept = "Mean") +
-    facet_wrap(~variable)}
-
 
 
 #########################################################################
@@ -303,52 +269,6 @@ bar_graph <- ggplot(incomebydistrict, aes(x = variable, y = percent, fill = vari
 
 medianincome_wide <- get_district_acs_wide(medianincome_var, median_income_all)
 
-
-medianincome_grouped <-  medianincome_wide %>%
-  mutate(medianunder10k = ((medianincome_wide$med_hh_income_less10kE/ sum(medianincome_wide$summary_est)) * 100)) %>%
-  mutate(median10to24k = (((medianincome_wide$med_hh_income_10_14kE + medianincome_wide$med_hh_income_15_19kE + medianincome_wide$med_hh_income_20_24kE)/sum(medianincome_wide$summary_est)) * 100)) %>%
-  mutate(median25to49k = (((medianincome_wide$med_hh_income_25_29kE + medianincome_wide$med_hh_income_30_34kE + medianincome_wide$med_hh_income_35_39kE + medianincome_wide$med_hh_income_40_44kE + medianincome_wide$med_hh_income_45_49kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
-  mutate(median50to74k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
-  mutate(median75to99k = (((medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
-  mutate(median100to150k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
-  mutate(median150to200k = ((medianincome_wide$med_hh_income_150_199kE/ sum(medianincome_wide$summary_est)) * 100)) %>%
-  mutate(medianover200k = ((med_hh_income_200kmoreE/ sum(medianincome_wide$summary_est)) * 100)) 
-
-
-incomepercent <- c(medianincome_grouped$medianunder10k, medianincome_grouped$median10to24k, medianincome_grouped$median25to49k, medianincome_grouped$median50to74k, medianincome_grouped$median75to99k, medianincome_grouped$median100to150k, medianincome_grouped$median150to200k, medianincome_grouped$medianover200k)
-districts <- c("Wakefield", "Piedmont", "Hampton", "Jackson", "Stonewall-Hawthorne",
-               "Wakefield", "Piedmont", "Hampton", "Jackson", "Stonewall-Hawthorne",
-               "Wakefield", "Piedmont", "Hampton", "Jackson", "Stonewall-Hawthorne",
-               "Wakefield", "Piedmont", "Hampton", "Jackson", "Stonewall-Hawthorne",
-               "Wakefield", "Piedmont", "Hampton", "Jackson", "Stonewall-Hawthorne",
-               "Wakefield", "Piedmont", "Hampton", "Jackson", "Stonewall-Hawthorne",
-               "Wakefield", "Piedmont", "Hampton", "Jackson", "Stonewall-Hawthorne",
-               "Wakefield", "Piedmont", "Hampton", "Jackson", "Stonewall-Hawthorne")
-
-
-
-incomebrackets <- factor(c("medianunder10k", "medianunder10k", "medianunder10k", "medianunder10k", "medianunder10k", 
-                           "median10to24k", "median10to24k", "median10to24k", "median10to24k", "median10to24k",
-                            "median25to49k", "median25to49k", "median25to49k", "median25to49k", "median25to49k", 
-                           "median50to74k", "median50to74k", "median50to74k", "median50to74k", "median50to74k",
-                           "median75to99k", "median75to99k", "median75to99k", "median75to99k", "median75to99k", 
-                           "median100to150k", "median100to150k", "median100to150k", "median100to150k", "median100to150k",
-                           "median150to200k", "median150to200k", "median150to200k", "median150to200k", "median150to200k",
-                           "medianover200k", "medianover200k", "medianover200k", "medianover200k", "medianover200k"
-                           ), ordered = TRUE, levels = c("medianunder10k", "median10to24k", "median25to49k", "median50to74k", "median75to99k", "median100to150k", "median150to200k", "medianover200k"))
-
-
-districtincomedf <- data.frame(districts, incomebrackets, incomepercent)
-
-ggplot(districtincomedf, aes(x = incomebrackets, y = incomepercent, fill = incomebrackets)) + 
-  geom_col() +
-  ggtitle("Median Income of the Population by Income Bracket", subtitle = "2006-2010 5-year American Community Survey") +
-  ylab("Percentage of Population") +
-  xlab("Income Bracket") +
-  coord_flip() +
-  facet_grid(~districts) +
-  scale_color_manual(values=c("#56B4E9","#0072B2")) +
-  plot_theme
  
 ################################################# Same as above but better
 
@@ -527,23 +447,96 @@ ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group
   
 
 
-tm_shape(medianincome2015_2019) +
-tm_borders() +
-tm_fill("medianunder10k") +
-tm_text("NAME.x") +
-tm_facets(by = "year")
 
-tm_shape(medianincome2012_2014) +
+
+
+
+
+
+####################### Median Income in Dollars #######################
+
+
+median_income_dollars <- c(median_income_dollars = "S1901_C01_012")
+mean_income_dollars <- c(mean_income_dollars = "S1901_C01_013")
+
+
+
+mediandollars2019 <- rapp_var(median_income_dollars, median_income_dollars) %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2019")
+mediandollars2018 <- rapp_var(median_income_dollars, median_income_dollars, 2018)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2018")
+mediandollars2017 <- rapp_var(median_income_dollars, median_income_dollars, 2017)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2017")
+mediandollars2016 <- rapp_var(median_income_dollars, median_income_dollars, 2016)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2016")
+mediandollars2015 <- rapp_var(median_income_dollars, median_income_dollars, 2015)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2015")
+mediandollars2014 <- rapp_var(median_income_dollars, median_income_dollars, 2014)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2014") %>%
+  st_zm(drop = TRUE, what = "ZM")
+mediandollars2013 <- rapp_var(median_income_dollars, median_income_dollars, 2013)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2013")
+mediandollars2012 <- rapp_var(median_income_dollars, median_income_dollars, 2012)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2012")
+mediandollars2011 <- rapp_var(median_income_dollars, median_income_dollars, 2011)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2011")
+mediandollars2010 <-  get_acs(geography = "county subdivision",
+                              state = 51,
+                              county = 157,
+                              variables = median_income_dollars,
+                              summary_var = median_income_dollars,
+                              year = 2010,
+                              geometry = TRUE,
+                              keep_geo_vars = TRUE,
+                              cache = TRUE) %>%
+  mutate(percent = (estimate/sum(summary_est))*100)  %>%
+  subset(select = c(GEOID, NAME.x, variable, estimate, moe, summary_est, summary_moe, percent, geometry)) %>%
+  rename(NAME = NAME.x) %>%
+  add_column(year = "2010")
+
+
+
+mediandollars2010_2019 <- mediandollars2019 %>% 
+  rbind(mediandollars2018) %>% 
+  rbind(mediandollars2017) %>% 
+  rbind(mediandollars2016) %>% 
+  rbind(mediandollars2015) %>% 
+  rbind(mediandollars2014) %>% 
+  rbind(mediandollars2013) %>% 
+  rbind(mediandollars2012) %>% 
+  rbind(mediandollars2011) %>% 
+  rbind(mediandollars2010) 
+
+ggplot(mediandollars2010_2019, aes(x = year, y = estimate, color = NAME, group = NAME)) +
+  geom_line()
+
+tm_shape(mediandollars2010_2019) +
   tm_borders() +
-  tm_fill("medianunder10k") +
-  tm_text("NAME.x") +
-  tm_facets(by = "year")
+  tm_fill("estimate") +
+  tm_text("NAME") +
+  tm_facets("year")
 
-tm_shape(medianincome2010_2011) +
-  tm_borders() +
-  tm_fill("medianunder10k") +
-  tm_text("NAME.x") +
-  tm_facets(by = "year")
-
+ggplot(mediandollars2010_2019) +
+  geom_sf(aes(fill = estimate)) +
+  coord_sf(datum = NA) +
+  facet_wrap(~year)
 
 

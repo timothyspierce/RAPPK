@@ -27,6 +27,11 @@ library(gridExtra)
 library(xlsx)
 library(scales)
 library(fpp2)
+
+library(ggtext)
+library(ggpubr)
+library(cowplot)
+library(ggthemes)
 devtools::install_github("rCarto/osrm")
 options(tigris_use_cache = TRUE)
 options(tigris_class="sf")
@@ -183,7 +188,14 @@ rappage_timeseries$ages <- factor(rappage_timeseries$ages, levels = age_vector)
 
 ggplot(rappage_timeseries, aes(x = year, y = percent, group = ages, color = ages)) +
   geom_line(aes(size = estimate)) +
-
+  labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
+  xlab("Years") +
+  ylab("Percent of the population") +
+  scale_color_discrete(
+    labels = c("under18" = "Under 18", 
+               "age18_29" = "18 to 29", 
+               "age30_64" = "30 to 64", 
+               "age65_older" = "65 and Older")) 
   
   
   
@@ -284,6 +296,17 @@ agetimeseries <- age2017_2019 %>% rbind(age2010_2016) %>% st_as_sf()
 
 ggplot(agetimeseries, aes(x = year, y = percent, color = ages, group = ages)) +
   geom_line(aes(size = estimate)) +
+  labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
+  xlab("Years") +
+  ylab("Percent of the population") +
+  scale_color_discrete(
+    labels = c("under18" = "Under 18", 
+               "age18_29" = "18 to 29", 
+               "age30_64" = "30 to 64", 
+               "age65_older" = "65 and Older")) +
   facet_wrap(~NAME)
 
-
+# 
+# tm_shape(agetimeseries) +
+#   tm_border() +
+#   tm_fill("percent") 

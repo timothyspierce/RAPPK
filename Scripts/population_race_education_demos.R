@@ -155,16 +155,30 @@ population2010_2019 <- population2015_2019 %>%
   rbind(population2011_2012) %>%
   rbind(population2010)
   
-population2010_2019 <- filter(population2010_2019, NAME != "Rappahannock") 
+population2010_2019 #<- filter(population2010_2019, NAME != "Rappahannock") 
  
 
 ggplot(population2010_2019, aes(x = year, y = percent, group = NAME, color = NAME)) +
   geom_line()
   
   
-ggplot(population2015_2019, aes(x = year, y = estimate, group = NAME, color = NAME)) +
+ggplot(population2010_2019, aes(x = year, y = estimate, group = NAME, color = NAME)) +
   geom_line(aes(size = "Percent of Population" <- percent)) +
-  ggtitle(label = "Estimated Total Population 2015-2019")
+  ggtitle(label = "Estimated Total Population 2010-2019")
+
+ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
+  geom_line(aes(size = "Percent of Population" <- percent)) +
+  ggtitle(label = "Estimated Total Population 2010-2019")
+
+
+
+ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
+  geom_line(aes(size = "Percent of Population" <- percent)) +
+  ggtitle(label = "Estimated Total Population 2010-2019")
+
+  ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = percent, group = NAME, color = NAME)) +
+           geom_line(aes(size = "Percent of Population" <- estimate)) +
+           ggtitle(label = "Estimated Total Population 2010-2019")
 
 population_districts <- population2010_2019 %>% filter(NAME != "Rappahannock")
 tm_shape(population_districts) +
@@ -172,113 +186,113 @@ tm_shape(population_districts) +
   tm_fill("percent") +
   tm_facets(by = "year") +
   tm_text("NAME") +
-  tm_layout(title = "Estimated percentage of Population 2015-2019")
+  tm_layout(title = "Estimated percentage of Population 2010-2019")
 
-ggplot(population2015_2019 %>% filter(NAME != "Rappahannock")) +
+ggplot(population2010_2019 %>% filter(NAME != "Rappahannock")) +
   geom_sf(aes(fill = percent)) +
   coord_sf(datum = NA) +
   facet_wrap(~year) +
   plot_theme +
-  ggtitle(label = "Estimated Percentage of Population by district 2015-2019")
+  ggtitle(label = "Estimated Percentage of Population by district 2010-2019")
 
-
-##############################################################################
-race_vars <- c(white = "B02001_002",
-               black = "B02001_003",
-               first_nations = "B02001_004",
-               asian = "B02001_005",
-               oceania = "B02001_006",
-               other = "B02001_007",
-               mixed_total = "B02001_008")
-
-
-race_demo <- rapp_all(race_vars, pop_total) %>%
-  add_row(rapp_var(race_vars, pop_total)) %>%
-  add_row(rapp_all(race_vars, pop_total, year = 2018)) %>%
-  add_row(rapp_var(race_vars, pop_total, year = 2018)) %>%
-  add_row(rapp_all(race_vars, pop_total, year = 2017)) %>%
-  add_row(rapp_var(race_vars, pop_total, year = 2017)) %>%
-  add_row(rapp_all(race_vars, pop_total, year = 2016)) %>%
-  add_row(rapp_var(race_vars, pop_total, year = 2016)) %>%
-  add_row(rapp_all(race_vars, pop_total, year = 2015)) %>%
-  add_row(rapp_var(race_vars, pop_total, year = 2015)) %>%
-  subset(select = -c(STATEFP, COUNTYFP, AFFGEOID, LSAD, NAME.y, ALAND, AWATER, percent)) %>%
-  rename(NAME = NAME.x) %>%
-  mutate(percent = (estimate/summary_est)*100) %>%
-  add_column(year = c("2019", "2019", "2019", "2019", "2019", "2019", "2019",
-                      "2019", "2019", "2019", "2019", "2019", "2019", "2019",
-                      "2019", "2019", "2019", "2019", "2019", "2019", "2019",
-                      "2019", "2019", "2019", "2019", "2019", "2019", "2019",
-                      "2019", "2019", "2019", "2019", "2019", "2019", "2019",
-                      "2019", "2019", "2019", "2019", "2019", "2019", "2019",
-                      "2018", "2018", "2018", "2018", "2018", "2018", "2018",
-                      "2018", "2018", "2018", "2018", "2018", "2018", "2018",
-                      "2018", "2018", "2018", "2018", "2018", "2018", "2018",
-                      "2018", "2018", "2018", "2018", "2018", "2018", "2018",
-                      "2018", "2018", "2018", "2018", "2018", "2018", "2018",
-                      "2018", "2018", "2018", "2018", "2018", "2018", "2018",
-                      "2017", "2017", "2017", "2017", "2017", "2017", "2017",
-                      "2017", "2017", "2017", "2017", "2017", "2017", "2017",
-                      "2017", "2017", "2017", "2017", "2017", "2017", "2017",
-                      "2017", "2017", "2017", "2017", "2017", "2017", "2017",
-                      "2017", "2017", "2017", "2017", "2017", "2017", "2017",
-                      "2017", "2017", "2017", "2017", "2017", "2017", "2017",
-                      "2016", "2016", "2016", "2016", "2016", "2016", "2016",
-                      "2016", "2016", "2016", "2016", "2016", "2016", "2016",
-                      "2016", "2016", "2016", "2016", "2016", "2016", "2016",
-                      "2016", "2016", "2016", "2016", "2016", "2016", "2016",
-                      "2016", "2016", "2016", "2016", "2016", "2016", "2016",
-                      "2016", "2016", "2016", "2016", "2016", "2016", "2016",
-                      "2015", "2015", "2015", "2015", "2015", "2015", "2015",
-                      "2015", "2015", "2015", "2015", "2015", "2015", "2015",
-                      "2015", "2015", "2015", "2015", "2015", "2015", "2015",
-                      "2015", "2015", "2015", "2015", "2015", "2015", "2015",
-                      "2015", "2015", "2015", "2015", "2015", "2015", "2015",
-                      "2015", "2015", "2015", "2015", "2015", "2015", "2015"))
-
-
-#Well, it shows that the majority of Rappahannock is white.
-#So white that it'd be more statistically significant to put everyone else in "other"
-#And that's just sorta insulting
-ggplot(race_demo, aes(x = NAME, y = percent, fill = variable)) +
-  geom_col() +
-  coord_flip() +
-  facet_wrap(~year) +
-  plot_theme
-
-ggplot(race_demo, aes(x = year, y = percent, color = variable, group = variable)) +
-  geom_line(aes(size=estimate)) +
-  facet_wrap(~NAME)  +
-  plot_theme
-
-minority <- filter(race_demo, variable != "white") 
-rapprace <- filter(minority, NAME == "Rappahannock") %>% filter(year == "2019") 
-wakerace <- filter(minority, NAME == "Wakefield")  %>% filter(year == "2019")
-piedrace <- filter(minority, NAME == "Piedmont") %>% filter(year == "2019")
-swrace <-  filter(minority, NAME == "Stonewall-Hawthorne") %>% filter(year == "2019")
-jackrace <- filter(minority, NAME == "Jackson") %>% filter(year == "2019")
-hamrace <- filter(minority, NAME == "Hampton") %>% filter(year == "2019")
-
-#Just going to combine all the non-white people into "Minority" for simplicity's sake. Surely someone will find it useful
-
-
-
-
-
-
-
-
-
-#Time to break it up by year
-race_demo2019 <- race_demo %>% filter(year == "2019")
-race_demo2018 <- race_demo %>% filter(year == "2018")
-race_demo2017 <- race_demo %>% filter(year == "2017")
-race_demo2016 <- race_demo %>% filter(year == "2016")
-race_demo2015 <- race_demo %>% filter(year == "2015")
-
-ggplot(race_demo, aes(x = NAME, y))
-
-
+# 
+# ##############################################################################
+# race_vars <- c(white = "B02001_002",
+#                black = "B02001_003",
+#                first_nations = "B02001_004",
+#                asian = "B02001_005",
+#                oceania = "B02001_006",
+#                other = "B02001_007",
+#                mixed_total = "B02001_008")
+# 
+# 
+# race_demo <- rapp_all(race_vars, pop_total) %>%
+#   add_row(rapp_var(race_vars, pop_total)) %>%
+#   add_row(rapp_all(race_vars, pop_total, year = 2018)) %>%
+#   add_row(rapp_var(race_vars, pop_total, year = 2018)) %>%
+#   add_row(rapp_all(race_vars, pop_total, year = 2017)) %>%
+#   add_row(rapp_var(race_vars, pop_total, year = 2017)) %>%
+#   add_row(rapp_all(race_vars, pop_total, year = 2016)) %>%
+#   add_row(rapp_var(race_vars, pop_total, year = 2016)) %>%
+#   add_row(rapp_all(race_vars, pop_total, year = 2015)) %>%
+#   add_row(rapp_var(race_vars, pop_total, year = 2015)) %>%
+#   subset(select = -c(STATEFP, COUNTYFP, AFFGEOID, LSAD, NAME.y, ALAND, AWATER, percent)) %>%
+#   rename(NAME = NAME.x) %>%
+#   mutate(percent = (estimate/summary_est)*100) %>%
+#   add_column(year = c("2019", "2019", "2019", "2019", "2019", "2019", "2019",
+#                       "2019", "2019", "2019", "2019", "2019", "2019", "2019",
+#                       "2019", "2019", "2019", "2019", "2019", "2019", "2019",
+#                       "2019", "2019", "2019", "2019", "2019", "2019", "2019",
+#                       "2019", "2019", "2019", "2019", "2019", "2019", "2019",
+#                       "2019", "2019", "2019", "2019", "2019", "2019", "2019",
+#                       "2018", "2018", "2018", "2018", "2018", "2018", "2018",
+#                       "2018", "2018", "2018", "2018", "2018", "2018", "2018",
+#                       "2018", "2018", "2018", "2018", "2018", "2018", "2018",
+#                       "2018", "2018", "2018", "2018", "2018", "2018", "2018",
+#                       "2018", "2018", "2018", "2018", "2018", "2018", "2018",
+#                       "2018", "2018", "2018", "2018", "2018", "2018", "2018",
+#                       "2017", "2017", "2017", "2017", "2017", "2017", "2017",
+#                       "2017", "2017", "2017", "2017", "2017", "2017", "2017",
+#                       "2017", "2017", "2017", "2017", "2017", "2017", "2017",
+#                       "2017", "2017", "2017", "2017", "2017", "2017", "2017",
+#                       "2017", "2017", "2017", "2017", "2017", "2017", "2017",
+#                       "2017", "2017", "2017", "2017", "2017", "2017", "2017",
+#                       "2016", "2016", "2016", "2016", "2016", "2016", "2016",
+#                       "2016", "2016", "2016", "2016", "2016", "2016", "2016",
+#                       "2016", "2016", "2016", "2016", "2016", "2016", "2016",
+#                       "2016", "2016", "2016", "2016", "2016", "2016", "2016",
+#                       "2016", "2016", "2016", "2016", "2016", "2016", "2016",
+#                       "2016", "2016", "2016", "2016", "2016", "2016", "2016",
+#                       "2015", "2015", "2015", "2015", "2015", "2015", "2015",
+#                       "2015", "2015", "2015", "2015", "2015", "2015", "2015",
+#                       "2015", "2015", "2015", "2015", "2015", "2015", "2015",
+#                       "2015", "2015", "2015", "2015", "2015", "2015", "2015",
+#                       "2015", "2015", "2015", "2015", "2015", "2015", "2015",
+#                       "2015", "2015", "2015", "2015", "2015", "2015", "2015"))
+# 
+# 
+# #Well, it shows that the majority of Rappahannock is white.
+# #So white that it'd be more statistically significant to put everyone else in "other"
+# #And that's just sorta insulting
+# ggplot(race_demo, aes(x = NAME, y = percent, fill = variable)) +
+#   geom_col() +
+#   coord_flip() +
+#   facet_wrap(~year) +
+#   plot_theme
+# 
+# ggplot(race_demo, aes(x = year, y = percent, color = variable, group = variable)) +
+#   geom_line(aes(size=estimate)) +
+#   facet_wrap(~NAME)  +
+#   plot_theme
+# 
+# minority <- filter(race_demo, variable != "white") 
+# rapprace <- filter(minority, NAME == "Rappahannock") %>% filter(year == "2019") 
+# wakerace <- filter(minority, NAME == "Wakefield")  %>% filter(year == "2019")
+# piedrace <- filter(minority, NAME == "Piedmont") %>% filter(year == "2019")
+# swrace <-  filter(minority, NAME == "Stonewall-Hawthorne") %>% filter(year == "2019")
+# jackrace <- filter(minority, NAME == "Jackson") %>% filter(year == "2019")
+# hamrace <- filter(minority, NAME == "Hampton") %>% filter(year == "2019")
+# 
+# #Just going to combine all the non-white people into "Minority" for simplicity's sake. Surely someone will find it useful
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# #Time to break it up by year
+# race_demo2019 <- race_demo %>% filter(year == "2019")
+# race_demo2018 <- race_demo %>% filter(year == "2018")
+# race_demo2017 <- race_demo %>% filter(year == "2017")
+# race_demo2016 <- race_demo %>% filter(year == "2016")
+# race_demo2015 <- race_demo %>% filter(year == "2015")
+# 
+# ggplot(race_demo, aes(x = NAME, y))
+# 
+# 
 
 ########################################################################
 #Population over 25 or older with these educational credentials
@@ -384,6 +398,12 @@ mediandollars2010_2019 <- mediandollars2019 %>%
 
 ggplot(mediandollars2010_2019, aes(x = year, y = estimate, color = NAME, group = NAME)) +
          geom_line()
+
+tm_shape(mediandollars2010_2019) +
+  tm_borders() +
+  tm_fill("estimate") +
+  tm_text("NAME") +
+  tm_facets("year")
 
 ggplot(mediandollars2010_2019) +
   geom_sf(aes(fill = estimate)) +

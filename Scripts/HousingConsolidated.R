@@ -164,8 +164,30 @@ homevalue_var = c(home_values_10kless = "B25075_002",
 homes_all = "B25075_001"
 
 
-
-
+homevalue2010_2014_var = c(home_values_10kless = "B25075_002",
+                  home_values_10_14k = "B25075_003",
+                  home_values_15_19k = "B25075_004",
+                  home_values_20_24k = "B25075_005",
+                  home_values_25_29k = "B25075_006",
+                  home_values_30_34k = "B25075_007",
+                  home_values_35_39k = "B25075_008",
+                  home_values_40_49k = "B25075_009",
+                  home_values_50_59k = "B25075_010",
+                  home_values_60_69k = "B25075_011",
+                  home_values_70_79k = "B25075_012",
+                  home_values_80_89k = "B25075_013",
+                  home_values_90_99k = "B25075_014",
+                  home_values_100_124k = "B25075_015",
+                  home_values_125_149k = "B25075_016",
+                  home_values_150_174k = "B25075_017",
+                  home_values_175_199k = "B25075_018",
+                  home_values_200_249k = "B25075_019",
+                  home_values_250_299k = "B25075_020",
+                  home_values_300_399k = "B25075_021",
+                  home_values_400_499k = "B25075_022",
+                  home_values_500_749k = "B25075_023",
+                  home_values_750_999k = "B25075_024",
+                  home_values_1_1.4m = "B25075_025")
 
 ######################################################################
 
@@ -769,8 +791,8 @@ housingmaps2015 <- ggarrange(map1, map2, map3, map4, map5,
 ######################### 2014 ##########################
 
 
-housingwide <- get_rappkdistrict(homevalue_var, homes_all, 2014)
-rappahannockhousing <- get_rappk(homevalue_var, homes_all, 2014)
+housingwide <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2014)
+rappahannockhousing <- get_rappk(homevalue2010_2014_var, homes_all, 2014)
 
 
 housingprices <- rappahannockhousing %>% rbind(housingwide)
@@ -806,9 +828,7 @@ housing2014 <- housinggrouped <- housingprices %>%
   mutate(price500kto1mil = (housingprices$home_values_500_749kE +
                               housingprices$home_values_750_999kE)) %>%
   
-  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE +
-                                 housingprices$home_values_1.5_1.9mE +
-                                 housingprices$home_values_2mmoreE)) %>%
+  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE )) %>%
   
   subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater))
 
@@ -876,8 +896,8 @@ housingmaps2014 <- ggarrange(map1, map2, map3, map4, map5,
 ######################### 2013 ##########################
 
 
-housingwide <- get_rappkdistrict(homevalue_var, homes_all, 2013)
-rappahannockhousing <- get_rappk(homevalue_var, homes_all, 2013)
+housingwide <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2013)
+rappahannockhousing <- get_rappk(homevalue2010_2014_var, homes_all, 2013)
 
 
 housingprices <- rappahannockhousing %>% rbind(housingwide)
@@ -913,9 +933,7 @@ housing2013 <- housinggrouped <- housingprices %>%
   mutate(price500kto1mil = (housingprices$home_values_500_749kE +
                               housingprices$home_values_750_999kE)) %>%
   
-  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE +
-                                 housingprices$home_values_1.5_1.9mE +
-                                 housingprices$home_values_2mmoreE)) %>%
+  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE )) %>%
   
   subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater))
 
@@ -985,8 +1003,8 @@ housingmaps2013 <- ggarrange(map1, map2, map3, map4, map5,
 ######################### 2012 ##########################
 
 
-housingwide <- get_rappkdistrict(homevalue_var, homes_all, 2012)
-rappahannockhousing <- get_rappk(homevalue_var, homes_all, 2012)
+housingwide <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2012)
+rappahannockhousing <- get_rappk(homevalue2010_2014_var, homes_all, 2012)
 
 
 housingprices <- rappahannockhousing %>% rbind(housingwide)
@@ -1022,9 +1040,7 @@ housing2012 <- housinggrouped <- housingprices %>%
   mutate(price500kto1mil = (housingprices$home_values_500_749kE +
                               housingprices$home_values_750_999kE)) %>%
   
-  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE +
-                                 housingprices$home_values_1.5_1.9mE +
-                                 housingprices$home_values_2mmoreE)) %>%
+  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE )) %>%
   
   subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater))
 
@@ -1094,8 +1110,8 @@ housingmaps2012 <- ggarrange(map1, map2, map3, map4, map5,
 ######################### 2011 ##########################
 
 
-housingwide <- get_rappkdistrict(homevalue_var, homes_all, 2011)
-rappahannockhousing <- get_rappk(homevalue_var, homes_all, 2011)
+housingwide <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2011)
+rappahannockhousing <- get_rappk(homevalue2010_2014_var, homes_all, 2011)
 
 
 housingprices <- rappahannockhousing %>% rbind(housingwide)
@@ -1131,9 +1147,7 @@ housing2011 <- housinggrouped <- housingprices %>%
   mutate(price500kto1mil = (housingprices$home_values_500_749kE +
                               housingprices$home_values_750_999kE)) %>%
   
-  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE +
-                                 housingprices$home_values_1.5_1.9mE +
-                                 housingprices$home_values_2mmoreE)) %>%
+  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE )) %>%
   
   subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater))
 
@@ -1203,8 +1217,8 @@ housingmaps2011 <- ggarrange(map1, map2, map3, map4, map5,
 ######################### 2010 ##########################
 
 
-housingwide <- get_rappkdistrict(homevalue_var, homes_all, 2010)
-rappahannockhousing <- get_rappk(homevalue_var, homes_all, 2010)
+housingwide <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2010)
+rappahannockhousing <- get_rappk(homevalue2010_2014_var, homes_all, 2010)
 
 
 housingprices <- rappahannockhousing %>% rbind(housingwide)
@@ -1240,9 +1254,7 @@ housing2010 <- housinggrouped <- housingprices %>%
   mutate(price500kto1mil = (housingprices$home_values_500_749kE +
                               housingprices$home_values_750_999kE)) %>%
   
-  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE +
-                                 housingprices$home_values_1.5_1.9mE +
-                                 housingprices$home_values_2mmoreE)) %>%
+  mutate(price1milorGreater = (housingprices$home_values_1_1.4mE )) %>%
   
   subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater))
 
