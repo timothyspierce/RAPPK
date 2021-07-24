@@ -358,9 +358,6 @@ st_crs(pop_centroid_RPK_dist_iso_15) = 4326
 
 
 
-
-
-
 # Read in all files file
 mapVA  <- st_read("C:/Users/Leo Allen/Downloads/tl_2019_51_tract/tl_2019_51_tract.shp",
                   stringsAsFactors = FALSE)
@@ -407,16 +404,8 @@ colnames(transit)[8] <- "Latitude"
 
 
 
-highest<-centerPop_RPK_dist%>%mutate(popup_info=paste(addPolygons(map, data = pop_centroid_RPK_dist_iso_15,
-                                                                  lat = centerPop_RPK_dist$LATITUDE, lng= centerPop_RPK_dist$LONGITUDE, color = "blue",
-                                                                  opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1), "<br/>",
-                                                      addPolygons(map,data = pop_centroid_RPK_dist_iso_30 ,lat = centerPop_RPK_dist$LATITUDE, 
-                                                                  lng= centerPop_RPK_dist$LONGITUDE,
-                                                                  color = "green",opacity = 1, weight = 1, 
-                                                                  fillColor = "white",fillOpacity = .1)))
-
-
-
+#I am reordering the districts to correct them in the map
+acs_RPK_dist <- read.csv("C:/Users/Leo Allen/Desktop/Distrpk.csv", header =T)
 
 #making the map
 mypalette <- colorNumeric(palette="viridis", acs_RPK_dist$Total_Population)
@@ -424,18 +413,30 @@ mypalette <- colorNumeric(palette="viridis", acs_RPK_dist$Total_Population)
 map_with_all_point <- leaflet() %>%
   addTiles() %>%
   addProviderTiles("Esri") %>%
-  
+
   addPolygons(data=RPK_dist_outline,color = mypalette(acs_RPK_dist$Total_Population),
-              smoothFactor = 0.2, fillOpacity=.5, weight = 1,stroke = F, 
-              label=paste(" county name: ", acs_RPK_dist$Census_tract ,", Value: ",acs_RPK_dist$Total_Population))%>%
+              smoothFactor = 0.2, fillOpacity=.6, weight = 1,stroke = F, 
+              label=paste(" ", acs_RPK_dist$Census_tract,", Population: ",acs_RPK_dist$Total_Population), 
+              )%>%
   addLegend(pal = mypalette,position = "topleft",values = acs_RPK_dist$Total_Population,
-            
-            opacity = .6,title= paste("Total Population")) %>%
+              opacity = .6,title= paste("Total Population")) %>%
+  
   addPolylines(data = RPK_dist_outline, color = "black", opacity = 2, weight = 2,)       %>%
   addPolylines(data = RPK_area_outline, color = "black", opacity = 1, weight = 1)       %>%
   addPolylines(data = RPK_outline, color = "black", opacity = 2, weight = 2 ) %>%
 
- # addPolygons(data = pop_centroid_RPK_iso_60 , color = "slategray",
+ 
+  addCircles(lng = centerPop_RPK_dist$LONGITUDE, lat = centerPop_RPK_dist$LATITUDE, weight = .1,
+             radius = 3000, group = "15-Driving"
+              )%>%
+  addCircles(lng = centerPop_RPK_dist$LONGITUDE, lat = centerPop_RPK_dist$LATITUDE, weight = .1,
+             radius = 6000, group = "30-Driving"
+  )%>%
+  addLayersControl(overlayGroups = c("15-Driving", "30-Driving"), options = layersControlOptions(collapsed = FALSE)) %>%
+  hideGroup("15-Driving")%>% 
+  hideGroup("30-Driving")%>% 
+  
+# addPolygons(data = pop_centroid_RPK_iso_60 , color = "slategray",
  #             opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1)%>%
  # addLegend(colors = "slategray", labels = "60 Minute Drive Boundary") %>%
  # addPolygons(data = pop_centroid_RPK_iso_30 , color = "blue",
