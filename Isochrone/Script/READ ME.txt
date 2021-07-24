@@ -1,1 +1,3 @@
 Open the html file via the Github desktop app to explore the interactive map
+
+Working to obtain a suitable method to display the travel times
