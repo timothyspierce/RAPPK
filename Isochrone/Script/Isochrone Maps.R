@@ -547,68 +547,58 @@ map_with_all_point <- leaflet() %>%
   addPolylines(data = RPK_area_outline, color = "black", opacity = 1, weight = 1)       %>%
   addPolylines(data = RPK_outline, color = "black", opacity = 2, weight = 2 ) %>%
   
-  
-#  addCircles(lng = centerPop_RPK_dist$LONGITUDE, lat = centerPop_RPK_dist$LATITUDE, weight = .1,
-#             radius = 3000, group = "15-Driving"
-#  )%>%
-#  addCircles(lng = centerPop_RPK_dist$LONGITUDE, lat = centerPop_RPK_dist$LATITUDE, weight = .1,
- #            radius = 6000, group = "30-Driving"
-  #)%>%
-  #addLayersControl(overlayGroups = c("15-Driving", "30-Driving"), options = layersControlOptions(collapsed = FALSE)) %>%
- # hideGroup("15-Driving")%>% 
-  #hideGroup("30-Driving")%>% 
-  
+###Adding the travel time bounds
    addPolygons(data = pop_centroid_RPK_dist_1_iso_15 , color = "green",
-               opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Wakefield Driving")%>%
+               opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Wakefield Driving")%>%
    #addLegend(colors = "slategray", labels = "60 Minute Drive Boundary") %>%
    addPolygons(data = pop_centroid_RPK_dist_1_iso_30, color = "red",
-               opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Wakefield Driving")%>%
+               opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Wakefield Driving")%>%
    #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
    
   
   addPolygons(data = pop_centroid_RPK_dist_2_iso_15 , color = "green",
-              opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
   #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
   addPolygons(data = pop_centroid_RPK_dist_2_iso_30 , color = "red",
-              opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
   # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
   
   
    addPolygons(data = pop_centroid_RPK_dist_3_iso_15 , color = "green",
-               opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Jackson Driving")%>%
+               opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Jackson Driving")%>%
    #addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
   addPolygons(data = pop_centroid_RPK_dist_3_iso_30 , color = "red",
-            opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Jackson Driving")%>%
+            opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Jackson Driving")%>%
  #addLegend(colors = "slategray", labels = "60 Minute Drive Boundary") %>%
 
   
   addPolygons(data = pop_centroid_RPK_dist_4_iso_15 , color = "green",
-              opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
   #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
   addPolygons(data = pop_centroid_RPK_dist_4_iso_30 , color = "red",
-              opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
   # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
   
   addPolygons(data = pop_centroid_RPK_dist_5_iso_15 , color = "green",
-              opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Stonewall-Hawthorne Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Stonewall-Hawthorne Driving")%>%
   #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
   addPolygons(data = pop_centroid_RPK_dist_5_iso_30 , color = "red",
-              opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Stonewall-Hawthorne Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Stonewall-Hawthorne Driving")%>%
   # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
   
    addPolygons(data = pop_centroid_RPK_iso_30 , color = "red",
-               opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Rappahannock Driving")%>%
+               opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Rappahannock Driving")%>%
   # addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
    addPolygons(data = pop_centroid_RPK_iso_15 , color = "green",
-               opacity = 1, weight = 1, fillColor = "white",fillOpacity = .1, group = "Rappahannock Driving")%>%
+               opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Rappahannock Driving")%>%
   # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
   
   
   addLayersControl(overlayGroups = c("Rappahannock Driving", "Wakefield Driving", 
                                      "Piedmont Driving", "Hampton Driving", "Jackson Driving", "Stonewall-Hawthorne Driving"), 
-                   options = layersControlOptions(collapsed = FALSE)) %>%
+                   options = layersControlOptions(collapsed = FALSE), position = "topright") %>%
   hideGroup("Rappahannock Driving")%>% 
-    hideGroup("Wakefield Driving")%>% 
+  hideGroup("Wakefield Driving")%>% 
   hideGroup("Piedmont Driving")%>%
   hideGroup("Hampton Driving")%>%
   hideGroup("Jackson Driving")%>%
@@ -628,6 +618,9 @@ addCircleMarkers(centerPop_RPK_dist,lat = centerPop_RPK_dist$LATITUDE, lng= cent
                    stroke = TRUE, fillOpacity = 1
   ) %>%
   addLegend(colors = "white", labels = " Rappahannock Population Centroid") %>%
+  
+
+###SERVICES
   addCircleMarkers(entertain,lat = entertain$Latitude, lng= entertain$Longitude,
                    radius =  4,
                    color = "#55DDE0",
