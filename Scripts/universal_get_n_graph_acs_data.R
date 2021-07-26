@@ -31,6 +31,8 @@ options(tigris_class="sf")
 
 #####################################################################
 
+#Rappk Coordinates, Latitude = 38.6762° Longitude = -78.1564
+
 #Generalized vector to get the total population for any function
 pop_total <- c(poptotal = "B02001_001")
 
@@ -47,10 +49,10 @@ rapp_all <- function(varcode, summary_var, year = 2019){
           summary_var = summary_var,
           year = year,
           geometry = TRUE,
-          keep_geo_vars = TRUE) %>%
+          keep_geo_vars = TRUE,
+          cache = TRUE) %>%
     mutate(percent = (estimate/summary_est)*100) %>%
-    subset(select = -c(COUNTYNS)) %>%
-    add_column(year = year)}
+    subset(select = -c(COUNTYNS))}
 
 #Function for getting variables and makes a pct column
 rapp_var <- function(varcode, summary_var, year = 2019){
@@ -61,14 +63,14 @@ rapp_var <- function(varcode, summary_var, year = 2019){
           summary_var = summary_var,
           year = year,
           geometry = TRUE,
-          keep_geo_vars = TRUE) %>%
-    mutate(percent = (estimate/summary_est)*100) %>%
-    add_column(year = year)}
+          keep_geo_vars = TRUE,
+          cache = TRUE) %>%
+    mutate(percent = (estimate/summary_est)*100)}
 
 
 #Function for making a standard bar graph
 bar_graph <- function(dataset){
-  ggplot(dataset, aes(x = variable, y = estimate, fill = NAME)) +
+  ggplot(dataset, aes(x = variable, y = estimate, fill = NAME.x)) +
     geom_col(position = "dodge") +
     facet_wrap(~variable)}
 
@@ -83,7 +85,7 @@ bar_graph <- function(dataset){
 ## Experimental function that should be able to take whatever variable list you get from the above functions
 #And turn them into bar graphs, provided you fo everything else on the page
 bar_graph_and_medianline <- function(dataset){
-  ggplot(dataset, aes(x = variable, y = estimate, fill = NAME)) +
+  ggplot(dataset, aes(x = NAME.x, y = estimate, fill = NAME)) +
     geom_col(position = "dodge") + 
     geom_hline(aes(yintercept = median(estimate)), color = "black", size = 1.5, alpha = 0.25) +
     labs(yintercept = "Median") +
@@ -94,7 +96,7 @@ bar_graph_and_medianline <- function(dataset){
 #Is the horizontial line thing! Now my primary issue is what to do about scaling.
 #Nevermind the scaling problem, I fixed it. Sort of.
 bar_graph_and_meanline <- function(dataset){
-  ggplot(dataset, aes(x = NAME, y = estimate, fill = NAME)) +
+  ggplot(dataset, aes(x = NAME.x, y = estimate, fill = NAME.x)) +
     geom_col(position = "dodge") + 
     geom_hline(aes(yintercept = mean(estimate)), color = "black", size = 1.5, alpha = 0.25) +
     labs(yintercept = "Mean") +
@@ -105,6 +107,10 @@ bar_graph_and_meanline <- function(dataset){
 #I'm working on it
 #time_shift_bar_graph <- ggarrange
 
+
+
+get_map(location = c(lon = -78.1564, lat = 38.6762), maptype = c("hybrid"))
+
 ###############################################################
 ################### For Means of travel #########################
 
@@ -113,7 +119,7 @@ bar_graph_and_meanline <- function(dataset){
 means_vars <- c( travelmeans_all = "B08101_001",
                  travelmeans_alone = "B08101_009",
                  travelmeans_carpool = "B08101_017",
-                 travelmeans_publicnotaxi = "B08101_025",
+                 travelmeans_publicnotaxi= "B08101_025",
                  travelmeans_walked = "B08101_033",
                  travelmeans_other = "B08101_041",
                  travelmeans_athome = "B08101_049")
@@ -123,8 +129,7 @@ travelmeans_all = "B08101_001"
 #Doing some housecleaning with some columns
 travel_means <- rapp_var(means_vars, travelmeans_all) %>%
   add_row(rapp_all(means_vars, travelmeans_all)) %>%
-  subset(select = -c(NAME.y)) %>%
-  rename(NAME = NAME.x)
+  subset(select = -c(NAME.y))
 
 #Here's your variable. Plug it into one of the graphing functions and see what happens
 travel_means
@@ -167,12 +172,11 @@ commutevector <- c("travel_less_5",
 factor(commutevector, order = TRUE, levels = c(commutevector))
 
 
-#Doing the ACS call, adding a row for the total
+#Doing the ACS call, adding a row for all of Rappahannock
 #Doing some housecleaning with some columns
 commute_time <- rapp_var(commute_vars, travel_all) %>% 
   add_row(rapp_all(commute_vars, travel_all)) %>%
-  subset(select = -c(NAME.y)) %>%
-  rename(NAME = NAME.x) 
+  subset(select = -c(NAME.y))
 
 
 commute_time$variable <- factor(as.factor(commute_time$variable), levels = commutevector)
@@ -194,13 +198,12 @@ race_vars <- c(white = "B02001_002",
                other = "B02001_007",
                mixed_total = "B02001_008")
 
-#Doing the ACS call, adding a row for the total
+#Doing the ACS call, adding a row for all of Rappahannock
 #Doing some housecleaning with some columns
 #Getting rid of some non-entity values
 race_demo <- rapp_var(race_vars, pop_total) %>% 
   add_row(rapp_all(race_vars, pop_total)) %>%
   subset(select = -c(NAME.y)) %>%
-  rename(NAME = NAME.x) %>% 
   filter(percent != 0)
 
 #Here's your variable. Plug it into one of the graphing functions and see what happens
@@ -271,13 +274,12 @@ housingvector = c("home_values_10kless",
 factor(housingvector, order = TRUE, levels = c(housingvector))
 
 
-#Doing the ACS call, adding a row for the total
+#Doing the ACS call, adding a row for all of Rappahannock
 #Doing some housecleaning with some columns
 #Getting rid of some non-entity values
 housing_values <- rapp_var(homevalue_var, homes_all) %>% 
   add_row(rapp_all(homevalue_var, homes_all)) %>%
   subset(select = -c(NAME.y)) %>%
-  rename(NAME = NAME.x)%>% 
   filter(percent != 0)
 
 #This is the part where I factor them for time hierarchy
@@ -335,13 +337,12 @@ medianincomevector <- c(
 factor(medianincomevector, order = TRUE, levels = c(medianincomevector))
 
 
-#Doing the ACS call, adding a row for the total
+#Doing the ACS call, adding a row for all of Rappahannock
 #Doing some housecleaning with some columns
 #Getting rid of some non-entity values
 median_income <- rapp_var(medianincome_var, median_income_all) %>% 
   add_row(rapp_all(medianincome_var, median_income_all)) %>%
   subset(select = -c(NAME.y)) %>%
-  rename(NAME = NAME.x) %>% 
   filter(percent != 0)
 
 
@@ -354,17 +355,24 @@ median_income
 
 #########################################################################
 
-population <- rapp_var(pop_total, pop_total) %>%
+population <- rapp_all(pop_total, pop_total) %>%
+  add_row(rapp_var(pop_total, pop_total)) %>%
+  add_row(rapp_all(pop_total, pop_total, year = 2018)) %>%
   add_row(rapp_var(pop_total, pop_total, year = 2018)) %>%
+  add_row(rapp_all(pop_total, pop_total, year = 2017)) %>%
   add_row(rapp_var(pop_total, pop_total, year = 2017)) %>%
+  add_row(rapp_all(pop_total, pop_total, year = 2016)) %>%
   add_row(rapp_var(pop_total, pop_total, year = 2016)) %>%
+  add_row(rapp_all(pop_total, pop_total, year = 2015)) %>%
   add_row(rapp_var(pop_total, pop_total, year = 2015)) %>%
+  add_row(rapp_all(pop_total, pop_total, year = 2014)) %>%
   add_row(rapp_var(pop_total, pop_total, year = 2014)) %>%
+  add_row(rapp_all(pop_total, pop_total, year = 2013)) %>%
   add_row(rapp_var(pop_total, pop_total, year = 2013)) %>%
-  add_row(rapp_var(pop_total, pop_total, year = 2012)) %>%
-  add_row(rapp_all(pop_total, pop_total)) %>%
-  subset(select = -c(NAME.y)) %>%
-  rename(NAME = NAME.x)
+  #So it looks like there are 9 more columns in the dataframe pre 2013
+  #So this little experiment only goes so far
+  #add_row(rapp_var(pop_total, pop_total, year = 2012)) %>%
+  subset(select = -c(NAME.y))
 
 
 
@@ -417,3 +425,27 @@ ggplot(travel_means, aes(x = variable, y = estimate, fill = variable)) +
   geom_hline(aes(yintercept= 50.1, linetype = "Median"), color= "black", size = 1.5, alpha = 0.25) +
   facet_wrap(~NAME)
 
+
+
+###################### I tried, I can't make it work but dangit I tried. I'll find another way
+rapp_time_shift <- function(varcode, summary_var, year = 2019){
+  rapp_var(varcode, summary_var, year = 2019)  %>%
+    add_column(year = year) %>% 
+    add_row(rapp_all(varcode, summary_var)) %>%
+    add_row(rapp_all(varcode, summary_var, year = 2018)) %>%
+    if(is.na(year)) {year = year} %>%
+    add_row(rapp_var(varcode, summary_var, year = 2018)) %>%
+    add_row(rapp_all(varcode, summary_var, year = 2017)) %>%
+    add_row(rapp_var(varcode, summary_var, year = 2017)) %>%
+    add_row(rapp_all(varcode, summary_var, year = 2016)) %>%
+    add_row(rapp_var(varcode, summary_var, year = 2016)) %>%
+    add_row(rapp_all(varcode, summary_var, year = 2015)) %>%
+    add_row(rapp_var(varcode, summary_var, year = 2015)) %>%
+    add_row(rapp_all(varcode, summary_var, year = 2014)) %>%
+    add_row(rapp_var(varcode, summary_var, year = 2014)) %>%
+    add_row(rapp_all(varcode, summary_var, year = 2013)) %>%
+    add_row(rapp_var(varcode, summary_var, year = 2013))
+  #So it looks like there are 9 more columns in the dataframe pre 2013
+  #So this little experiment only goes so far
+  #add_row(rapp_var(pop_total, pop_total, year = 2012)) %>%
+}
