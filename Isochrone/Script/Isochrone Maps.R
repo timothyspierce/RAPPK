@@ -723,9 +723,11 @@ map_with_all_point
 
 
 #Source Services
+#Check these and get a standardized reference
+
 #https://www.rappahannock.com/business-directory
-
-
+#resource_guide pdf
+#rappk_news_guidepdf
 
 
 
