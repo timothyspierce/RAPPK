@@ -43,101 +43,6 @@ groceries <- subset(groceries, type == "farmers market" | type == "supermarket")
 groceries_latlong <- readRDS("data/groceries.Rds")
 groceries_latlong <- subset(groceries_latlong, type == "farmers market" | type == "supermarket")
 
-otherfood <- readRDS("data/otherfood.Rds")
-otherfood <- st_as_sf(otherfood, coords = c("longitude", "latitude"))
-st_crs(otherfood) <- "+proj=longlat +datum=WGS84"
-otherfood <- st_transform(otherfood, "+proj=longlat +datum=WGS84")
-
-usda <- readRDS("data/usda.Rds")
-usda <- st_transform(usda, '+proj=longlat +datum=WGS84')
-
-wifi <- readRDS("data/wifi.Rds")
-wifi <- st_as_sf(wifi, coords = c("longitude", "latitude"))
-st_crs(wifi) <- "+proj=longlat +datum=WGS84"
-wifi <- st_transform(wifi, '+proj=longlat +datum=WGS84')
-wifi_latlong <- readRDS("data/wifi.Rds")
-
-olderadults <- readRDS("data/olderadults.Rds")
-olderadults <- st_transform(olderadults, '+proj=longlat +datum=WGS84')
-
-residential <- readRDS("data/residential.Rds")
-residential <- st_as_sf(residential, coords = c("longitude", "latitude"))
-st_crs(residential) <- "+proj=longlat +datum=WGS84"
-residential <- st_transform(residential, '+proj=longlat +datum=WGS84')
-
-measures_table <- read_excel("data/Measures.xlsx")
-
-patrickborder <- readRDS("data/patrickborder.Rds")
-patrickborder <- st_transform(patrickborder, '+proj=longlat +datum=WGS84')
-
-grc_iso_10_1 <- readRDS("data/isochrones/grocery/grc_iso_10_1.RDS")
-grc_iso_10_2 <- readRDS("data/isochrones/grocery/grc_iso_10_2.RDS")
-grc_iso_10_3 <- readRDS("data/isochrones/grocery/grc_iso_10_3.RDS")
-grc_iso_10_4 <- readRDS("data/isochrones/grocery/grc_iso_10_4.RDS")
-grc_iso_10_5 <- readRDS("data/isochrones/grocery/grc_iso_10_5.RDS")
-grc_iso_10_6 <- readRDS("data/isochrones/grocery/grc_iso_10_6.RDS")
-grc_iso_10_7 <- readRDS("data/isochrones/grocery/grc_iso_10_7.RDS")
-
-grc_iso_15_1 <- readRDS("data/isochrones/grocery/grc_iso_15_1.RDS")
-grc_iso_15_2 <- readRDS("data/isochrones/grocery/grc_iso_15_2.RDS")
-grc_iso_15_3 <- readRDS("data/isochrones/grocery/grc_iso_15_3.RDS")
-grc_iso_15_4 <- readRDS("data/isochrones/grocery/grc_iso_15_4.RDS")
-grc_iso_15_5 <- readRDS("data/isochrones/grocery/grc_iso_15_5.RDS")
-grc_iso_15_6 <- readRDS("data/isochrones/grocery/grc_iso_15_6.RDS")
-grc_iso_15_7 <- readRDS("data/isochrones/grocery/grc_iso_15_7.RDS")
-
-wifi_iso_10_1 <- readRDS("data/isochrones/wifi/wifi_iso_10_1.RDS")
-wifi_iso_10_2 <- readRDS("data/isochrones/wifi/wifi_iso_10_2.RDS")
-wifi_iso_10_3 <- readRDS("data/isochrones/wifi/wifi_iso_10_3.RDS")
-wifi_iso_10_4 <- readRDS("data/isochrones/wifi/wifi_iso_10_4.RDS")
-wifi_iso_10_5 <- readRDS("data/isochrones/wifi/wifi_iso_10_5.RDS")
-wifi_iso_10_6 <- readRDS("data/isochrones/wifi/wifi_iso_10_6.RDS")
-wifi_iso_10_7 <- readRDS("data/isochrones/wifi/wifi_iso_10_7.RDS")
-wifi_iso_10_8 <- readRDS("data/isochrones/wifi/wifi_iso_10_8.RDS")
-wifi_iso_10_9 <- readRDS("data/isochrones/wifi/wifi_iso_10_9.RDS")
-wifi_iso_10_10 <- readRDS("data/isochrones/wifi/wifi_iso_10_10.RDS")
-
-wifi_iso_15_1 <- readRDS("data/isochrones/wifi/wifi_iso_15_1.RDS")
-wifi_iso_15_2 <- readRDS("data/isochrones/wifi/wifi_iso_15_2.RDS")
-wifi_iso_15_3 <- readRDS("data/isochrones/wifi/wifi_iso_15_3.RDS")
-wifi_iso_15_4 <- readRDS("data/isochrones/wifi/wifi_iso_15_4.RDS")
-wifi_iso_15_5 <- readRDS("data/isochrones/wifi/wifi_iso_15_5.RDS")
-wifi_iso_15_6 <- readRDS("data/isochrones/wifi/wifi_iso_15_6.RDS")
-wifi_iso_15_7 <- readRDS("data/isochrones/wifi/wifi_iso_15_7.RDS")
-wifi_iso_15_8 <- readRDS("data/isochrones/wifi/wifi_iso_15_8.RDS")
-wifi_iso_15_9 <- readRDS("data/isochrones/wifi/wifi_iso_15_9.RDS")
-wifi_iso_15_10 <- readRDS("data/isochrones/wifi/wifi_iso_15_10.RDS")
-
-ems_iso_8_1 <- readRDS("data/isochrones/ems/ems_iso_8_1.RDS")
-ems_iso_8_2 <- readRDS("data/isochrones/ems/ems_iso_8_2.RDS")
-ems_iso_8_3 <- readRDS("data/isochrones/ems/ems_iso_8_3.RDS")
-ems_iso_8_4 <- readRDS("data/isochrones/ems/ems_iso_8_4.RDS")
-ems_iso_8_5 <- readRDS("data/isochrones/ems/ems_iso_8_5.RDS")
-ems_iso_8_6 <- readRDS("data/isochrones/ems/ems_iso_8_6.RDS")
-ems_iso_8_7 <- readRDS("data/isochrones/ems/ems_iso_8_7.RDS")
-ems_iso_8_8 <- readRDS("data/isochrones/ems/ems_iso_8_8.RDS")
-ems_iso_8_9 <- readRDS("data/isochrones/ems/ems_iso_8_9.RDS")
-
-ems_iso_10_1 <- readRDS("data/isochrones/ems/ems_iso_10_1.RDS")
-ems_iso_10_2 <- readRDS("data/isochrones/ems/ems_iso_10_2.RDS")
-ems_iso_10_3 <- readRDS("data/isochrones/ems/ems_iso_10_3.RDS")
-ems_iso_10_4 <- readRDS("data/isochrones/ems/ems_iso_10_4.RDS")
-ems_iso_10_5 <- readRDS("data/isochrones/ems/ems_iso_10_5.RDS")
-ems_iso_10_6 <- readRDS("data/isochrones/ems/ems_iso_10_6.RDS")
-ems_iso_10_7 <- readRDS("data/isochrones/ems/ems_iso_10_7.RDS")
-ems_iso_10_8 <- readRDS("data/isochrones/ems/ems_iso_10_8.RDS")
-ems_iso_10_9 <- readRDS("data/isochrones/ems/ems_iso_10_9.RDS")
-
-ems_iso_12_1 <- readRDS("data/isochrones/ems/ems_iso_12_1.RDS")
-ems_iso_12_2 <- readRDS("data/isochrones/ems/ems_iso_12_2.RDS")
-ems_iso_12_3 <- readRDS("data/isochrones/ems/ems_iso_12_3.RDS")
-ems_iso_12_4 <- readRDS("data/isochrones/ems/ems_iso_12_4.RDS")
-ems_iso_12_5 <- readRDS("data/isochrones/ems/ems_iso_12_5.RDS")
-ems_iso_12_6 <- readRDS("data/isochrones/ems/ems_iso_12_6.RDS")
-ems_iso_12_7 <- readRDS("data/isochrones/ems/ems_iso_12_7.RDS")
-ems_iso_12_8 <- readRDS("data/isochrones/ems/ems_iso_12_8.RDS")
-ems_iso_12_9 <- readRDS("data/isochrones/ems/ems_iso_12_9.RDS")
-
 # CODE TO DETECT ORIGIN OF LINK AND CHANGE LOGO ACCORDINGLY
 jscode <- "function getUrlVars() {
                 var vars = {};
@@ -190,27 +95,6 @@ ui <- navbarPage(title = "I'm a title!",
                  theme = shinytheme("lumen"),
                  tags$head(tags$style('.selectize-dropdown {z-index: 10000}')),
                  useShinyjs(),
-                 # main -----------------------------------------------------------
-                 # tabPanel("Home", value = "home",
-                 #          fluidRow(style = "margin: 6px;",
-                 #                   align = "center",
-                 #                   br("", style = "padding-top:10px;"),
-                 #                   img(src = "uva-dspg-logo.jpg", class = "topimage", width = "20%", style = "display: block; margin-left: auto; margin-right: auto;"),
-                 #                   br(""),
-                 #                   h2(strong("Addressing Barriers to Health in Patrick County, Virginia"),
-                 #                   br(""),
-                 #                   h4("Data Science for the Public Good Program"),
-                 #                   h4("University of Virginia"),
-                 #                   h4("Biocomplexity Insititute"),
-                 #                   br(),
-                 #                   br(),
-                 #                   br(),
-                 #                   br(),
-                 #                   br(),
-                 #                   p(tags$small(em('Last updated: August 2020')))
-                 #                   )
-                 #          )
-                 # ),
 
                  # main tab -----------------------------------------------------------
                  tabPanel("Overview", value = "overview",
@@ -219,11 +103,12 @@ ui <- navbarPage(title = "I'm a title!",
                                    # br("", style = "padding-top:2px;"),
                                    # img(src = "uva-dspg-logo.jpg", class = "topimage", width = "20%", style = "display: block; margin-left: auto; margin-right: auto;"),
                                    br(""),
-                                   h1(strong("Addressing Barriers to Health in Patrick County, Virginia"),
+                                   h1(strong("Availability of Services"),
+                                      h2(strong("Evolving Demographics, Housing, and Traffic in Rappahannock")),
                                       br(""),
                                       h4("Data Science for the Public Good Program"),
-                                      h4("University of Virginia"),
-                                      h4("Biocomplexity Insititute"),
+                                      h4("Virginia Polytechnic Institute and State University"),
+                                      h4("[updat this]"),
                                       br()
                                    )
                           ),
@@ -290,7 +175,7 @@ ui <- navbarPage(title = "I'm a title!",
                  ),
 
                  # socio tab -----------------------------------------------------------
-                 tabPanel("Sociodemographics", value = "socio",
+                 tabPanel("County Profile", value = "socio",
                           fluidRow(style = "margin: 6px;",
                                    h1(strong("Patrick County Residents' Sociodemographic Characteristics"), align = "center"),
                                    p("", style = "padding-top:10px;"),
