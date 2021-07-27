@@ -247,6 +247,9 @@ pop_centroid_RPK_iso_30 <- readRDS("C:/Users/Leo Allen/Desktop/Isochrones/pop_ce
 
 
 #Centroid of the Districts
+#Obtained from:
+#https://www.census.gov/geographies/reference-files/time-series/geo/centers-population.html
+
 CenterPop_dist <- read.csv("C:/Users/Leo Allen/Desktop/Isochrones/CenPop2010_Mean_CO51_157.txt", header =T)
 
 centerPop_RPK_dist <- CenterPop_dist %>%  filter(COUNTYFP == 157)
