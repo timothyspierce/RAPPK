@@ -107,6 +107,16 @@ homevalue2010_2014_var = c(home_values_10kless = "B25075_002",
 
 homevalue_vector <- c("LessThan100k", "price100kto300k", "price300kto500k", "price500kto1mil", "price1milorGreater")
 
+get_rappkdistrict  <- function(varcode, summary, year = 2019){get_acs(geography = "county subdivision",
+                                                                      state = 51,
+                                                                      county = 157,
+                                                                      variables = varcode,
+                                                                      summary_var = summary,
+                                                                      year = year,
+                                                                      output = "wide",
+                                                                      geometry = TRUE,
+                                                                      keep_geo_vars = TRUE) %>%
+    rename(NAME = NAME.x)}
 
 get_rappk <- function(varcode, summary, year = 2019){get_acs(geography = "county",
                                                              state = 51,
@@ -119,24 +129,24 @@ get_rappk <- function(varcode, summary, year = 2019){get_acs(geography = "county
                                                              keep_geo_vars = TRUE) %>%
     rename(NAME = NAME.x)}
 
-
+housingwide <- get_rappkdistrict(homevalue_var, homes_all)
 rappahannockhousing <- get_rappk(homevalue_var, homes_all)
 
 
 
-housingwide2019 <- get_rappk(homevalue_var, homes_all)
-housingwide2019 <- housingwide2019 %>%  mutate(LessThan100k = (housingwide2019$home_values_10klessE + 
-                                                                 housingwide2019$home_values_10_14kE +
-                                                                 housingwide2019$home_values_15_19kE +
-                                                                 housingwide2019$home_values_20_24kE +
-                                                                 housingwide2019$home_values_25_29kE +
-                                                                 housingwide2019$home_values_30_34kE +
-                                                                 housingwide2019$home_values_40_49kE + 
-                                                                 housingwide2019$home_values_50_59kE +
-                                                                 housingwide2019$home_values_60_69kE +
-                                                                 housingwide2019$home_values_70_79kE +
-                                                                 housingwide2019$home_values_80_89kE +
-                                                                 housingwide2019$home_values_90_99kE)) %>%
+housingwide2019 <- get_rappkdistrict(homevalue_var, homes_all)
+ housingwide2019 <- housingwide2019 %>%  mutate(LessThan100k = (housingwide2019$home_values_10klessE + 
+                           housingwide2019$home_values_10_14kE +
+                           housingwide2019$home_values_15_19kE +
+                           housingwide2019$home_values_20_24kE +
+                           housingwide2019$home_values_25_29kE +
+                           housingwide2019$home_values_30_34kE +
+                           housingwide2019$home_values_40_49kE + 
+                           housingwide2019$home_values_50_59kE +
+                           housingwide2019$home_values_60_69kE +
+                           housingwide2019$home_values_70_79kE +
+                           housingwide2019$home_values_80_89kE +
+                           housingwide2019$home_values_90_99kE)) %>%
   
   mutate(price100kto300k = (housingwide2019$home_values_100_124kE +
                               housingwide2019$home_values_125_149kE +
@@ -154,15 +164,15 @@ housingwide2019 <- housingwide2019 %>%  mutate(LessThan100k = (housingwide2019$h
   mutate(price1milorGreater = (housingwide2019$home_values_1_1.4mE +
                                  housingwide2019$home_values_1.5_1.9mE +
                                  housingwide2019$home_values_2mmoreE))
-
-housingwide2019 <-  housingwide2019 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))%>% 
-  add_column(year = "2019")
-
-
+  
+ housingwide2019 <-  housingwide2019 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))%>% 
+   add_column(year = "2019")
 
 
 
-housingwide2018 <- get_rappk(homevalue_var, homes_all, 2018)
+
+
+housingwide2018 <- get_rappkdistrict(homevalue_var, homes_all, 2018)
 housingwide2018 <- housingwide2018 %>%  mutate(LessThan100k = (housingwide2018$home_values_10klessE + 
                                                                  housingwide2018$home_values_10_14kE +
                                                                  housingwide2018$home_values_15_19kE +
@@ -201,7 +211,7 @@ housingwide2018 <-  housingwide2018 %>% subset(select = c(GEOID, NAME, LessThan1
 
 
 
-housingwide2017 <- get_rappk(homevalue_var, homes_all, 2017)
+housingwide2017 <- get_rappkdistrict(homevalue_var, homes_all, 2017)
 housingwide2017 <- housingwide2017 %>%  mutate(LessThan100k = (housingwide2017$home_values_10klessE + 
                                                                  housingwide2017$home_values_10_14kE +
                                                                  housingwide2017$home_values_15_19kE +
@@ -237,7 +247,7 @@ housingwide2017 <-  housingwide2017 %>% subset(select = c(GEOID, NAME, LessThan1
 
 
 
-housingwide2016 <- get_rappk(homevalue_var, homes_all, 2016)
+housingwide2016 <- get_rappkdistrict(homevalue_var, homes_all, 2016)
 housingwide2016 <- housingwide2016 %>%  mutate(LessThan100k = (housingwide2016$home_values_10klessE + 
                                                                  housingwide2016$home_values_10_14kE +
                                                                  housingwide2016$home_values_15_19kE +
@@ -272,7 +282,7 @@ housingwide2016 <-  housingwide2016 %>% subset(select = c(GEOID, NAME, LessThan1
   add_column(year = "2016")
 
 
-housingwide2015 <- get_rappk(homevalue_var, homes_all, 2015)
+housingwide2015 <- get_rappkdistrict(homevalue_var, homes_all, 2015)
 housingwide2015 <- housingwide2015 %>%  mutate(LessThan100k = (housingwide2015$home_values_10klessE + 
                                                                  housingwide2015$home_values_10_14kE +
                                                                  housingwide2015$home_values_15_19kE +
@@ -307,7 +317,7 @@ housingwide2015 <-  housingwide2015 %>% subset(select = c(GEOID, NAME, LessThan1
   add_column(year = "2015")
 
 
-housingwide2014 <- get_rappk(homevalue2010_2014_var, homes_all, 2014)
+housingwide2014 <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2014)
 housingwide2014 <- housingwide2014 %>%
   mutate(LessThan100k = (housingwide2014$home_values_10klessE + 
                            housingwide2014$home_values_10_14kE +
@@ -336,13 +346,13 @@ housingwide2014 <- housingwide2014 %>%
                               housingwide2014$home_values_750_999kE)) %>%
   
   mutate(price1milorGreater = (housingwide2014$home_values_1_1.4mE ))
-housingwide2014 <-  housingwide2014 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
+  housingwide2014 <-  housingwide2014 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
   add_column(year = "2014") %>% 
   st_zm(drop = TRUE, what = "ZM")
 
 
 
-housingwide2013 <- get_rappk(homevalue2010_2014_var, homes_all, 2013)
+housingwide2013 <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2013)
 housingwide2013 <- housingwide2013 %>%
   mutate(LessThan100k = (housingwide2013$home_values_10klessE + 
                            housingwide2013$home_values_10_14kE +
@@ -371,11 +381,11 @@ housingwide2013 <- housingwide2013 %>%
                               housingwide2013$home_values_750_999kE)) %>%
   
   mutate(price1milorGreater = (housingwide2013$home_values_1_1.4mE ))
-housingwide2013 <-  housingwide2013 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
+  housingwide2013 <-  housingwide2013 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
   add_column(year = "2013")
 
 
-housingwide2012 <- get_rappk(homevalue2010_2014_var, homes_all, 2012)
+housingwide2012 <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2012)
 housingwide2012 <- housingwide2012 %>%
   mutate(LessThan100k = (housingwide2012$home_values_10klessE + 
                            housingwide2012$home_values_10_14kE +
@@ -404,11 +414,11 @@ housingwide2012 <- housingwide2012 %>%
                               housingwide2012$home_values_750_999kE)) %>%
   
   mutate(price1milorGreater = (housingwide2012$home_values_1_1.4mE ))
-housingwide2012 <-  housingwide2012 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
+  housingwide2012 <-  housingwide2012 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
   add_column(year = "2012")
 
 
-housingwide2011 <- get_rappk(homevalue2010_2014_var, homes_all, 2011)
+housingwide2011 <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2011)
 housingwide2011 <- housingwide2011 %>%
   mutate(LessThan100k = (housingwide2011$home_values_10klessE + 
                            housingwide2011$home_values_10_14kE +
@@ -437,11 +447,11 @@ housingwide2011 <- housingwide2011 %>%
                               housingwide2011$home_values_750_999kE)) %>%
   
   mutate(price1milorGreater = (housingwide2011$home_values_1_1.4mE ))
-housingwide2011 <-  housingwide2011 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
+  housingwide2011 <-  housingwide2011 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
   add_column(year = "2011")
 
 
-housingwide2010 <- get_rappk(homevalue2010_2014_var, homes_all, 2010)
+housingwide2010 <- get_rappkdistrict(homevalue2010_2014_var, homes_all, 2010)
 housingwide2010 <- housingwide2010 %>%
   mutate(LessThan100k = (housingwide2010$home_values_10klessE + 
                            housingwide2010$home_values_10_14kE +
@@ -470,7 +480,7 @@ housingwide2010 <- housingwide2010 %>%
                               housingwide2010$home_values_750_999kE)) %>%
   
   mutate(price1milorGreater = (housingwide2010$home_values_1_1.4mE ))
-housingwide2010 <-  housingwide2010 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
+  housingwide2010 <-  housingwide2010 %>% subset(select = c(GEOID, NAME, LessThan100k, price100kto300k, price300kto500k, price500kto1mil, price1milorGreater, summary_est, populationE, geometry))  %>% 
   add_column(year = "2010")
 
 
@@ -490,12 +500,14 @@ housing2010_2019 <-  housingwide2019 %>%
   st_as_sf()
 
 housing2010_2019$homevalues <- factor(housing2010_2019$homevalues, levels = homevalue_vector) 
-housing2010_2019 <- housing2010_2019 %>%  mutate(percent_of_houses = (housing2010_2019$estimated_total/housing2010_2019$summary_est * 100))
+housing2010_2019 %>%  mutate(percent_of_houses = (housing2010_2019$estimated_total/housing2010_2019$summary_est * 100))
+
 
 
 housing2010_2019 <- housing2010_2019 %>% mutate(pop_per_home = estimated_total/population)
 
 ggplot(housing2010_2019, aes(x = year, y = pop_per_home, group = homevalues, color = homevalues)) +
-  geom_line(aes(size = estimated_total))
+  geom_line(aes(size = estimated_total)) +
+  facet_wrap(~NAME)
 
 
