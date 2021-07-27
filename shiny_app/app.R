@@ -23,25 +23,35 @@ options(spinner.color = prettyblue, spinner.color.background = '#ffffff', spinne
 colors <- c("#232d4b","#2c4f6b","#0e879c","#60999a","#d1e0bf","#d9e12b","#e6ce3a","#e6a01d","#e57200","#fdfdfd")
 
 # data -----------------------------------------------------------
-socdem_block <- readRDS("data/socdem_block.Rds")
-socdem_block <- st_transform(socdem_block, '+proj=longlat +datum=WGS84')
+# Read in Demographic Data ----------------------------------------------------------
 
-socdem_tract <- readRDS("data/socdem_tract.Rds")
-socdem_tract <- st_transform(socdem_tract, '+proj=longlat +datum=WGS84')
+# Read in Housing Data ----------------------------------------------------------
+          
+# Read in Traffic Data ----------------------------------------------------------
+          
+# Read in Service Data ----------------------------------------------------------
 
-connectivity <- readRDS("data/connectivity.Rds")
-connectivity <- st_transform(connectivity, '+proj=longlat +datum=WGS84')
+# Examples of previous data being read in  ----------------------------------------------------------
 
-ems <- readRDS("data/ems.Rds")
-ems <- st_transform(ems, '+proj=longlat +datum=WGS84')
-
-groceries <- readRDS("data/groceries.Rds")
-groceries <- st_as_sf(groceries, coords = c("longitude", "latitude"))
-st_crs(groceries) <- "+proj=longlat +datum=WGS84"
-groceries <- st_transform(groceries, '+proj=longlat +datum=WGS84')
-groceries <- subset(groceries, type == "farmers market" | type == "supermarket")
-groceries_latlong <- readRDS("data/groceries.Rds")
-groceries_latlong <- subset(groceries_latlong, type == "farmers market" | type == "supermarket")
+# socdem_block <- readRDS("data/socdem_block.Rds")
+# socdem_block <- st_transform(socdem_block, '+proj=longlat +datum=WGS84')
+# 
+# socdem_tract <- readRDS("data/socdem_tract.Rds")
+# socdem_tract <- st_transform(socdem_tract, '+proj=longlat +datum=WGS84')
+# 
+# connectivity <- readRDS("data/connectivity.Rds")
+# connectivity <- st_transform(connectivity, '+proj=longlat +datum=WGS84')
+# 
+# ems <- readRDS("data/ems.Rds")
+# ems <- st_transform(ems, '+proj=longlat +datum=WGS84')
+# 
+# groceries <- readRDS("data/groceries.Rds")
+# groceries <- st_as_sf(groceries, coords = c("longitude", "latitude"))
+# st_crs(groceries) <- "+proj=longlat +datum=WGS84"
+# groceries <- st_transform(groceries, '+proj=longlat +datum=WGS84')
+# groceries <- subset(groceries, type == "farmers market" | type == "supermarket")
+# groceries_latlong <- readRDS("data/groceries.Rds")
+# groceries_latlong <- subset(groceries_latlong, type == "farmers market" | type == "supermarket")
 
 # CODE TO DETECT ORIGIN OF LINK AND CHANGE LOGO ACCORDINGLY
 jscode <- "function getUrlVars() {
@@ -97,7 +107,7 @@ ui <- navbarPage(title = "I'm a title!",
                  useShinyjs(),
 
                  # main tab -----------------------------------------------------------
-                 tabPanel("Overview", value = "overview",
+                 tabPanel("Project Overview", value = "overview",
                           fluidRow(style = "margin: 2px;",
                                    align = "center",
                                    # br("", style = "padding-top:2px;"),
@@ -114,23 +124,12 @@ ui <- navbarPage(title = "I'm a title!",
                           ),
                           fluidRow(style = "margin: 6px;",
                                    column(4,
-                                          h2(strong("Project Background")),
-                                          p(strong("The problem."), "Rural counties often face challenges in providing health care access to their residents given limited", a(href = "https://www.ruralhealthinfo.org/topics/hospitals", "health facilities", target = "_blank"),
-                                            "available, lack of broadband infrastructure that makes it difficult to provide", a(href = "https://www.ruralhealthinfo.org/topics/telehealth", "telemedicine access", target = "_blank"), "or communicate health information, and individual-level",
-                                            a(href = "https://www.ruralhealthinfo.org/topics/social-determinants-of-health", "inequalities", target = "_blank"), "that pose barriers to health care use and health
-                                            behaviors. Identifying areas of high need or potential solutions may also be difficult for rural areas without adequate resources to acquire, analyze, and interpret
-                                            relevant data."),
+                                          h2(strong("Project Introduction")),
+                                          p(strong("Intro Word."), "Introduction to the project"),
                                           p(),
-                                          p(strong("The setting."), a(href = "https://www.co.patrick.va.us/", "Patrick County", target = "_blank"), "is a rural area in Virginia’s Central Piedmont, bordering North Carolina,
-                                            with a declining population of approximately 17,600 people. Like many other rural areas in the United States, Patrick County is having difficulty meeting its residents’ health and quality of life needs.
-                                            The county’s", a(href = "https://www.countyhealthrankings.org/app/virginia/2019/rankings/patrick/county/outcomes/overall/snapshot", "doctor to patient ratios", target = "_blank"),
-                                            "of 3,530 to 1 for primary care providers, 8,840 to 1 for dentists, and 2,520 to 1 for mental health providers are 3-
-                                            to 8-times higher than statewide, and the county’s only hospital closed in 2017. At the same time, the median income for Patrick County residents is $42,900,
-                                            46% of children living in the county are eligible for free or reduced-price school lunch, and 12% of residents are food insecure."),
+                                          p(strong("Another Word."), "lots more description of project"),
                                           p(),
-                                          p(strong("The project."), "This University of Virginia", a(href = "https://biocomplexity.virginia.edu/social-decision-analytics", "Biocomplexity Institute", target = "_blank"),
-                                            "Data Science for Public Good (DSPG) project aimed to build local capacity, leverage social and data science to address current and future resident well-being, and enhance
-                                             data-driven decision making about rural health in Patrick County, Virginia.")
+                                          p(strong("final word."), "final project descriptions")
                                    ),
                                    column(4,
                                           h2(strong("Our Work")),
@@ -156,7 +155,7 @@ ui <- navbarPage(title = "I'm a title!",
                                           p("This dashboard compiles our findings and allows extension professionals, stakeholders, and other users to explore the information interactively.")
                                    ),
                                    column(4,
-                                          h2(strong("Dashboard Aims")),
+                                          h2(strong("Project Outcomes")),
                                           p("Our dashboard is aimed at:"),
                                           p(strong("Patrick County extension professionals and the communities they serve."), "Information available through the interface helps extension
                                             agents identify areas where residents may not have access to internet, or areas with a high smartphone ownership share, suggesting what channels agents may
@@ -174,20 +173,16 @@ ui <- navbarPage(title = "I'm a title!",
                                    p(tags$small(em('Last updated: August 2020'))))
                  ),
 
-                 # socio tab -----------------------------------------------------------
+                 # county profile tab -----------------------------------------------------------
                  tabPanel("County Profile", value = "socio",
                           fluidRow(style = "margin: 6px;",
-                                   h1(strong("Patrick County Residents' Sociodemographic Characteristics"), align = "center"),
+                                   h1(strong("Rappahannock County Sociodemographic Profile"), align = "center"),
                                    p("", style = "padding-top:10px;"),
                                    column(4,
-                                          h4(strong("Who does Patrick County Serve?")),
-                                          p("We examined Patrick County population sociodemographic and socioeconomic characteristics to better understand the
-                                            residents that the county serves."),
-                                          p("We retrieved American Community Survey (ACS) data to calculate this information at census block group and census
-                                            tract levels. ACS is an ongoing yearly survey conducted by the U.S Census Bureau that samples households to compile 1-year and 5-year datasets. We used
-                                            the most recently available 5-year estimates from 2014/18 to compute percent Patrick County residents in a given block group or tract by age, race, ethnicity,
-                                            employment, health insurance coverage, and other relevant characteristics."),
-                                          p("Our interactive plots visualize census block-group level sociodemographic characteristics of Patrick County residents.")),
+                                          h4(strong("Who lives in Rappahannock County?")),
+                                          p("Some words"),
+                                          p("More words"),
+                                          p("final words")),
                                    column(8,
                                           h4(strong("Map of Resident Socioeconomic Characteristics by Census Tract or Block Group")),
                                           selectInput("sociodrop", "Select Variable:", width = "100%", choices = c(
@@ -210,13 +205,13 @@ ui <- navbarPage(title = "I'm a title!",
                                    ))
                                           ),
 
-                 # older tab -----------------------------------------------------------
-                 tabPanel("Older Adults", value = "older",
+                 # housing market tab -----------------------------------------------------------
+                 tabPanel("Housing Market", value = "older",
                           fluidRow(style = "margin: 6px;",
-                                   h1(strong("Older Adults in Patrick County"), align = "center"),
+                                   h1(strong("Housing Data Rappahannock County"), align = "center"),
                                    p("", style = "padding-top:10px;"),
                                    column(4,
-                                          h4(strong("Who are the Patrick County Older Adults?")),
+                                          h4(strong("some descriptor")),
                                           p("The US population is aging, and in Patrick County, over 30% of residents are older adults aged 65 years and over. This represents more than 5,000
                                            individuals with varying health conditions that may benefit from locally accessible health care and social services resources. However, access to
                                            health care resources is limited in rural areas, particularly for older adults in need of assistance with activities of daily life."),
@@ -269,10 +264,10 @@ ui <- navbarPage(title = "I'm a title!",
                           )
                  ),
 
-                 # wifi tab-----------------------------------------------------------
-                 tabPanel("Connectivity", value = "connectivity",
+                 # traffic data tab-----------------------------------------------------------
+                 tabPanel("Traffic", value = "connectivity",
                           fluidRow(style = "margin: 6px;",
-                                   h1(strong("Digital Connectivity in Patrick County"), align = "center"),
+                                   h1(strong("Traffic in Rappahannock County"), align = "center"),
                                    p("", style = "padding-top:10px;"),
                                    column(6,
                                           h4(strong("Computing Device Ownership and Internet Access Type")),
@@ -344,7 +339,83 @@ ui <- navbarPage(title = "I'm a title!",
                                    )
                           )
                  ),
-
+                 
+                 # traffic data tab-----------------------------------------------------------
+                 tabPanel("Services", value = "connectivity",
+                          fluidRow(style = "margin: 6px;",
+                                   h1(strong("Services Available Rappahannock County"), align = "center"),
+                                   p("", style = "padding-top:10px;"),
+                                   column(6,
+                                          h4(strong("Computing Device Ownership and Internet Access Type")),
+                                          p("Internet connection and computing devices are key for access to health information and participation in online health-related services like
+                                             telemedicine. Rural areas frequently lack broadband access, experience low internet speeds, and have fewer internet providers available
+                                             than urban areas. It is crucial to consider digital connectivity in improving health care access. We examined digital connectivity in Patrick County in two ways to
+                                             provide the county with insights on where increasing connectivity would facilitate communicating health information and improve online health service access."),
+                                          p("We first examined access to computing devices and internet connection types in Patrick County. We used American Community Survey (ACS) data to
+                                            obtain this information at census block group level. ACS is an ongoing yearly survey conducted by the U.S Census Bureau that samples households
+                                            to compile 1-year and 5-year estimates of population sociodemographic and socioeconomic characteristics. We used the most
+                                            recently available 5-year data from 2014/18 to calculate the percentage of the Patrick County residents with access to devices
+                                            and internet by census block group."),
+                                          br(),
+                                          selectInput("devicedrop", "Select Variable:", width = "100%", choices = c(
+                                            "Percent Households with No Computer" = "nocomputer",
+                                            "Percent Households with Laptop" = "laptop",
+                                            "Percent Households with Smartphone" = "smartphone",
+                                            "Percent Households with Tablet" = "tablet",
+                                            "Percent Households without Internet" = "nointernet",
+                                            "Percent Households with Satellite Internet" = "satellite",
+                                            "Percent Households with Cellular Internet" = "cellular",
+                                            "Percent Households with Broadband Internet" = "broadband")
+                                          ),
+                                          p(strong("Map of Access by Census Block Group")),
+                                          withSpinner(leafletOutput("deviceplot")),
+                                          p(tags$small("Data Source: American Community Survey 2014/18 5-Year Estimates."))),
+                                   column(6,
+                                          h4(strong("Free WiFi Hotspot Access")),
+                                          p("To understand internet access at a more granular level, we examined access to free wi-fi hotspots in the county."),
+                                          p("We obtained wifi hotspot locations using the Virginia Tech and CommonwealthConnect hotspot map. CommonwealthConnect identifies where people can connect to
+                                            the internet for free, decreasing constraints placed on families that do not have internet access at home. We retrieved free internet locations in Patrick
+                                            County from the data. We extracted locations of Patrick County residential properties from 2019 CoreLogic, a proprietary dataset for US real estate that
+                                            includes information on building characteristics. Finally, we used the TravelTime Application Programming Interface (API) to calculate 10- and 15-minute
+                                            car travel time isochrones—areas of equal travel time given a departure time and mode of transportation—from wifi hotspots. TravelTime API aggregates data
+                                            from Open Street Maps, transport timetables and speed profiles to generate isochrones. Isochrones allowed us to identify wifi gaps, or clusters of
+                                            residential properties that cannot reach a free internet location within a selected travel time range."),
+                                          p("This information equips extension agents with knowledge on how best to reach their constituents, as well as identifies internet gaps that suggest where
+                                            new wi-fi hotspots could be optimally placed to provide internet access to more residents."),
+                                          br(),
+                                          tabsetPanel(
+                                            tabPanel("Explore Hotspot Coverage",
+                                                     p(""),
+                                                     selectInput("wifidrop", "Select Free Wifi Location:", width = "100%", choices = c(
+                                                       "Meadows of Dan Elementary School",
+                                                       "Woolwine Elementary School",
+                                                       "Patrick Springs Primary School",
+                                                       "Blue Ridge Elementary School",
+                                                       "Patrick County High School",
+                                                       "Stuart Elementary School",
+                                                       "Patrick County Branch Library",
+                                                       "Hardin Reynolds Memorial School",
+                                                       "Stuart Baptist Church",
+                                                       "Patrick Henry Community College Stuart Campus")),
+                                                     p(strong("Percent Residential Properties Covered")),
+                                                     withSpinner(tableOutput("wifitable")),
+                                                     p(strong("Map of Coverage")),
+                                                     withSpinner(leafletOutput("wifiplot")),
+                                                     p(tags$small("Data Sources: CommonwealthConnect, 2020; CoreLogic, 2019; TravelTime API."))
+                                            ),
+                                            tabPanel("Explore 'Deserts'",
+                                                     p(""),
+                                                     p(strong("Percent Residential Properties Covered")),
+                                                     withSpinner(tableOutput("allwifitable")),
+                                                     p(strong("Map of Free Wi-Fi Deserts")),
+                                                     withSpinner(leafletOutput("allwifi")),
+                                                     p(tags$small("Data Sources: CommonwealthConnect, 2020; CoreLogic, 2019; TravelTime API."))
+                                            )
+                                          )
+                                   )
+                          )
+                 ),
+                 
                  # data tab -----------------------------------------------------------
                  tabPanel("Data and Measures", value = "data",
                           fluidRow(style = "margin: 6px;",
