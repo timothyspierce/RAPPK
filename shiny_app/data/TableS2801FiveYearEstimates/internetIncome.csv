@@ -1,0 +1,7 @@
+"","Percentage","Income Range","Int"
+"1",65.8,"< $20,000","No Internet"
+"2",25.2,"$20,000-$74,999","No Internet"
+"3",8.4,"> $75,000","No Internet"
+"4",34.2,"< $20,000","Internet"
+"5",74.8,"$20,000-$74,999","Internet"
+"6",91.6,"> $75,000","Internet"
