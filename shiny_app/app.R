@@ -1,3 +1,4 @@
+# Load Packages ---------------------------------------------------------------
 library(shiny)
 library(leaflet)
 library(tidyverse)
@@ -211,7 +212,7 @@ ui <- navbarPage(title = "I'm a title!",
                  #          )
                  # ),
 
-                 # main -----------------------------------------------------------
+                 # main tab -----------------------------------------------------------
                  tabPanel("Overview", value = "overview",
                           fluidRow(style = "margin: 2px;",
                                    align = "center",
@@ -288,7 +289,7 @@ ui <- navbarPage(title = "I'm a title!",
                                    p(tags$small(em('Last updated: August 2020'))))
                  ),
 
-                 # socio -----------------------------------------------------------
+                 # socio tab -----------------------------------------------------------
                  tabPanel("Sociodemographics", value = "socio",
                           fluidRow(style = "margin: 6px;",
                                    h1(strong("Patrick County Residents' Sociodemographic Characteristics"), align = "center"),
@@ -324,7 +325,7 @@ ui <- navbarPage(title = "I'm a title!",
                                    ))
                                           ),
 
-                 # older -----------------------------------------------------------
+                 # older tab -----------------------------------------------------------
                  tabPanel("Older Adults", value = "older",
                           fluidRow(style = "margin: 6px;",
                                    h1(strong("Older Adults in Patrick County"), align = "center"),
@@ -383,7 +384,7 @@ ui <- navbarPage(title = "I'm a title!",
                           )
                  ),
 
-                 # wifi-----------------------------------------------------------
+                 # wifi tab-----------------------------------------------------------
                  tabPanel("Connectivity", value = "connectivity",
                           fluidRow(style = "margin: 6px;",
                                    h1(strong("Digital Connectivity in Patrick County"), align = "center"),
@@ -459,141 +460,7 @@ ui <- navbarPage(title = "I'm a title!",
                           )
                  ),
 
-                 # ems -----------------------------------------------------------
-                 tabPanel("Health Care Access", value = "ems",
-                          fluidRow(style = "margin: 6px;",
-                                   h1(strong("Health Care Access in Patrick County"), align = "center"),
-                                   p("", style = "padding-top:10px;"),
-                                   column(4,
-                                          h4(strong("Accessing Emergency Medical Service Stations")),
-                                          p("Access to health care services in rural areas is limited by a lack of transportation and a shortage of healthcare professionals. Compared to urban
-                                            counterparts, rural residents must travel farther to obtain both preventive and specialty care. Patrick County’s general practitioner, dentist, and mental health
-                                            provider-to-patient ratios fall below state averages, and the county recently experienced the closure of its only hospital. Its residents often rely on emergency
-                                            medical services (EMS) stations to obtain care and transportation to other health care facilities."),
-                                          p("To better understand health service access limitations in the county, we examined residents’ access to EMS stations. We obtained EMS locations using Homeland
-                                            Infrastructure Foundation-Level Data (HIFLD) collected by the Department of Homeland Security. HIFLD is a public source dataset with information on a range of
-                                            facilities; we used the data to retrieve EMS station latitude and longitude. We extracted locations of Patrick County residential
-                                            properties from 2019 CoreLogic, a proprietary dataset for US real estate that includes information on building characteristics. Finally, we used the TravelTime
-                                            Application Programming Interface (API) to calculate 8-, 10-, and 12- minute drive time isochrones—areas of equal travel time given a departure time and
-                                            mode of transportation—from EMS stations. TravelTime API aggregates data from Open Street Maps, transport timetables and speed profiles to generate isochrones.
-                                            Isochrones allowed us to identify EMS coverage gaps, or clusters of residential properties that cannot be reached from an EMS location within a selected travel
-                                            time range. We selected 8-, 10-, and 12-minute thresholds as EMS are expected to reach distressed individuals within 8 minutes. However, this threshold is
-                                            frequently exceeded by 20% to 40% in rural areas.")
-                                   ),
-                                   column(8,
-                                          tabsetPanel(
-                                            tabPanel("Explore Coverage",
-                                                     p(""),
-                                                     selectInput("emsdrop", "Select EMS Location:", width = "100%", choices = c(
-                                                       "Stuart Volunteer Fire Department" = "STUART VOLUNTEER FIRE DEPARTMENT",
-                                                       "Moorefield Store Volunteer Fire Department" = "MOOREFIELD STORE VOLUNTEER FIRE DEPARTMENT",
-                                                       "Blue Ridge Volunteer Rescue Squad" = "BLUE RIDGE VOLUNTEER RESCUE SQUAD",
-                                                       "Vesta Rescue Squad" = "VESTA RESCUE SQUAD",
-                                                       "Ararat Rescue Squad" = "ARARAT RESCUE SQUAD",
-                                                       "Five Forks Volunteer Fire and Rescue Station 1" = "COLLINSTOWN - CLAUDVILLE - DRYPOND - FIVE FORKS VOLUNTEER FIRE AND RESCUE DEPARTMENT STATION 1 - HEADQUARTERS",
-                                                       "Five Forks Volunteer Fire and Rescue Station 2"= "COLLINSTOWN - CLAUDVILLE - DRYPOND - FIVE FORKS VOLUNTEER FIRE AND RESCUE DEPARTMENT STATION 2",
-                                                       "Jeb Stuart Rescue Squad" = "JEB STUART RESCUE SQUAD",
-                                                       "Smith River Rescue Squad" = "SMITH RIVER RESCUE SQUAD"
-                                                     )),
-                                                     p(strong("Percent Residents Covered")),
-                                                     withSpinner(tableOutput("emstable")),
-                                                     p(strong("Map of Coverage")),
-                                                     withSpinner(leafletOutput("emsplot")),
-                                                     p(tags$small("Data Sources: Homeland Infrastructure Foundation-Level Data, 2010; CoreLogic, 2019; TravelTime API."))
-                                            ),
-                                            tabPanel("Explore 'Deserts'",
-                                                     p(""),
-                                                     p(strong("Percent Residents Covered")),
-                                                     withSpinner(tableOutput("allemstable")),
-                                                     p(strong("Map of Coverage Deserts")),
-                                                     withSpinner(leafletOutput("allems")),
-                                                     p(tags$small("Data Sources: Homeland Infrastructure Foundation-Level Data, 2010; CoreLogic, 2019; TravelTime API.")))
-                                          )
-                                   )
-                          )
-                 ),
-
-                 # food -----------------------------------------------------------
-                 tabPanel("Food Access", value =  "food",
-                          fluidRow(style = "margin: 6px;",
-                                   h1(strong("Food Access in Patrick County"), align = "center"),
-                                   p("", style = "padding-top:10px;"),
-                                   column(5,
-                                          h4(strong("Food Access in Rural Areas")),
-                                          p("Social determinants of health shape food access, a key factor in negative health outcomes. Rural area residents frequently face difficulties in accessing
-                                             healthy and nutritious food, and experience high rates of chronic illnesses like heart disease and diabetes, resulting in higher mortality rates and lower
-                                             life expectancy compared to urban areas. Facilitating  access to nutritious and high-quality foods can lead to decreases in chronic disease prevalence.
-                                             Many Patrick County residents suffer from conditions like diabetes and obesity, and providing healthy food may support disease prevention."),
-                                          p("We analyzed multiple data sources to give Patrick County actionable information on their residents’ food access that can inform county efforts ensuring equitable food access for all."),
-                                          p("First, we examined", strong("food access at multiple distance thresholds by age and socioeconomic status."), "We used the 2017 United States Department of
-                                             Agriculture (USDA) Food Access Research Atlas, a central database created by the Economic Research Service that provides access indicators for different social groups.
-                                             We created census tract-level maps that identify Patrick County areas where residents may have difficulty accessing nutritious foods, and highlight geographies
-                                             where this is the case for particularly vulnerable groups like low-income individuals and older adults."),
-                                          p("Second, to better understand how residents must travel to obtain food, we constructed isochrones—shapes covering places within reach in the
-                                             same time frame given a start location and a mode of transportation—from Patrick County", strong("residential properties to locations of grocery stores
-                                             and farmers’ markets."), "We used Google Maps to identify these locations' latitude and longitude. We extracted locations of
-                                             Patrick County residential properties from 2019 CoreLogic, a proprietary dataset for US real estate with information on building characteristics.
-                                             Finally, we used the TravelTime Application Programming Interface (API) to calculate 10- and 15-minute car travel times from grocery locations. TravelTime
-                                             API aggregates data from Open Street Maps, transport timetables and speed profiles to generate isochrones. This allowed us to identify food deserts, or clusters
-                                             of properties that cannot reach a location with healthy food within a selected travel time range. These areas in the county could benefit from programs
-                                             facilitating access to produce."),
-                                          p("Finally, Patrick County offers", strong("access to free food"), "at multiple locations. For community members that struggle with food security, these locations can
-                                             offer temporary assistance. We used GoogleMaps to locate food banks, food pantries, and community meal sites, geocoded their addresses, and mapped
-                                             these resources along with notes on their target audiences.")
-                                   ),
-                                   column(7,
-                                          tabsetPanel(
-                                            tabPanel("Food Access",
-                                                     p(""),
-                                                     selectInput("usdadrop", "Select Variable:", width = "100%", choices = c(
-                                                       "Percent Population with Low Food Access at 1 Mile" = "lapop1share",
-                                                       "Percent Population with Low Food Access at 10 Miles" = "lapop10share",
-                                                       "Percent Children with Low Food Access at 1 Mile" = "lakids1share",
-                                                       "Percent Children with Low Food Access at 10 Miles" = "lakids10share",
-                                                       "Percent Low Income Population with Low Food Access at 1 Mile" = "lalowi1share",
-                                                       "Percent Low Income Population with Low Food Access at 10 Miles" = "lalowi10share",
-                                                       "Percent Older Adults with Low Food Access at 1 Mile" = "laseniors1share",
-                                                       "Percent Older Adults with Low Food Access at 10 Miles" = "laseniors10share")
-                                                     ),
-                                                     p(strong("Map of Access at Census Tract Level")),
-                                                     withSpinner(leafletOutput("usdaplot")),
-                                                     p(tags$small("Data Source: USDA Food Access Research Atlas, 2017"))
-                                            ),
-                                            tabPanel("Grocery and Farmers' Market Coverage",
-                                                     p(""),
-                                                     selectInput("grocdrop", "Select Location:", width = "100%", choices = c(
-                                                       "Mountain Meadow Farm and Craft Market",
-                                                       "Lowes Foods of Stuart",
-                                                       "Patrick County Local Farmers Market",
-                                                       "Stuart Farmers Market",
-                                                       "W & W Produce",
-                                                       "Walmart Supercenter",
-                                                       "Poor Farmers Farm")),
-                                                     p(strong("Percent Households Covered")),
-                                                     withSpinner(tableOutput("groctable")),
-                                                     p(strong("Map of Coverage")),
-                                                     withSpinner(leafletOutput("grocplot")),
-                                                     p(tags$small("Data Source: Google Maps; TravelTime API; CoreLogic, 2019."))
-                                            ),
-                                            tabPanel("Food Deserts",
-                                                     p(""),
-                                                     p(strong("Percent Households Covered")),
-                                                     withSpinner(tableOutput("allgrctable")),
-                                                     p(strong("Map of Food Deserts")),
-                                                     withSpinner(leafletOutput("allgroc")),
-                                                     p(tags$small("Data Source: Google Maps; TravelTime API; CoreLogic, 2019."))
-                                            ),
-                                            tabPanel("Food Security Resources",
-                                                     p(""),
-                                                     p(strong("Map of Food Security Resources")),
-                                                     withSpinner(leafletOutput("othermap")),
-                                                     p(tags$small("Data Source: Google Maps."))
-                                            )
-                                          )
-                                   )
-                          )
-                 ),
-                 # data -----------------------------------------------------------
+                 # data tab -----------------------------------------------------------
                  tabPanel("Data and Measures", value = "data",
                           fluidRow(style = "margin: 6px;",
                                    h1(strong("Data and Measures"), align = "center"),
@@ -667,7 +534,7 @@ ui <- navbarPage(title = "I'm a title!",
                           )
                  ),
 
-                 # contact -----------------------------------------------------------
+                 # team tab -----------------------------------------------------------
                  tabPanel("Contact", value = "contact",
                           fluidRow(style = "margin-left: 300px; margin-right: 300px;",
                             h1(strong("Contact"), align = "center"),
