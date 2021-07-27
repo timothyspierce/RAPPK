@@ -15,6 +15,15 @@ library(readxl)
 library(readr)
 library(stringr)
 library(shinyjs)
+library(mapdata)
+library(htmlwidgets)
+library(leafpop)
+library(lattice)
+library(ggplot2)
+library(htmltools)
+library(tigris)
+library(leaflegend)
+library(dplyr)
 
 prettyblue <- "#232D4B"
 navBarBlue <- '#427EDC'
@@ -270,73 +279,18 @@ ui <- navbarPage(title = "I'm a title!",
                                    h1(strong("Traffic in Rappahannock County"), align = "center"),
                                    p("", style = "padding-top:10px;"),
                                    column(6,
-                                          h4(strong("Computing Device Ownership and Internet Access Type")),
-                                          p("Internet connection and computing devices are key for access to health information and participation in online health-related services like
-                                             telemedicine. Rural areas frequently lack broadband access, experience low internet speeds, and have fewer internet providers available
-                                             than urban areas. It is crucial to consider digital connectivity in improving health care access. We examined digital connectivity in Patrick County in two ways to
-                                             provide the county with insights on where increasing connectivity would facilitate communicating health information and improve online health service access."),
-                                          p("We first examined access to computing devices and internet connection types in Patrick County. We used American Community Survey (ACS) data to
-                                            obtain this information at census block group level. ACS is an ongoing yearly survey conducted by the U.S Census Bureau that samples households
-                                            to compile 1-year and 5-year estimates of population sociodemographic and socioeconomic characteristics. We used the most
-                                            recently available 5-year data from 2014/18 to calculate the percentage of the Patrick County residents with access to devices
-                                            and internet by census block group."),
-                                          br(),
-                                          selectInput("devicedrop", "Select Variable:", width = "100%", choices = c(
-                                            "Percent Households with No Computer" = "nocomputer",
-                                            "Percent Households with Laptop" = "laptop",
-                                            "Percent Households with Smartphone" = "smartphone",
-                                            "Percent Households with Tablet" = "tablet",
-                                            "Percent Households without Internet" = "nointernet",
-                                            "Percent Households with Satellite Internet" = "satellite",
-                                            "Percent Households with Cellular Internet" = "cellular",
-                                            "Percent Households with Broadband Internet" = "broadband")
+                                          h4("Annual Average Daily Traffic in Rappahannock County"),
+                                          p("leflet map description..."),
                                           ),
-                                          p(strong("Map of Access by Census Block Group")),
-                                          withSpinner(leafletOutput("deviceplot")),
-                                          p(tags$small("Data Source: American Community Survey 2014/18 5-Year Estimates."))),
                                    column(6,
-                                          h4(strong("Free WiFi Hotspot Access")),
-                                          p("To understand internet access at a more granular level, we examined access to free wi-fi hotspots in the county."),
-                                          p("We obtained wifi hotspot locations using the Virginia Tech and CommonwealthConnect hotspot map. CommonwealthConnect identifies where people can connect to
-                                            the internet for free, decreasing constraints placed on families that do not have internet access at home. We retrieved free internet locations in Patrick
-                                            County from the data. We extracted locations of Patrick County residential properties from 2019 CoreLogic, a proprietary dataset for US real estate that
-                                            includes information on building characteristics. Finally, we used the TravelTime Application Programming Interface (API) to calculate 10- and 15-minute
-                                            car travel time isochrones—areas of equal travel time given a departure time and mode of transportation—from wifi hotspots. TravelTime API aggregates data
-                                            from Open Street Maps, transport timetables and speed profiles to generate isochrones. Isochrones allowed us to identify wifi gaps, or clusters of
-                                            residential properties that cannot reach a free internet location within a selected travel time range."),
-                                          p("This information equips extension agents with knowledge on how best to reach their constituents, as well as identifies internet gaps that suggest where
-                                            new wi-fi hotspots could be optimally placed to provide internet access to more residents."),
-                                          br(),
-                                          tabsetPanel(
-                                            tabPanel("Explore Hotspot Coverage",
-                                                     p(""),
-                                                     selectInput("wifidrop", "Select Free Wifi Location:", width = "100%", choices = c(
-                                                       "Meadows of Dan Elementary School",
-                                                       "Woolwine Elementary School",
-                                                       "Patrick Springs Primary School",
-                                                       "Blue Ridge Elementary School",
-                                                       "Patrick County High School",
-                                                       "Stuart Elementary School",
-                                                       "Patrick County Branch Library",
-                                                       "Hardin Reynolds Memorial School",
-                                                       "Stuart Baptist Church",
-                                                       "Patrick Henry Community College Stuart Campus")),
-                                                     p(strong("Percent Residential Properties Covered")),
-                                                     withSpinner(tableOutput("wifitable")),
-                                                     p(strong("Map of Coverage")),
-                                                     withSpinner(leafletOutput("wifiplot")),
-                                                     p(tags$small("Data Sources: CommonwealthConnect, 2020; CoreLogic, 2019; TravelTime API."))
-                                            ),
-                                            tabPanel("Explore 'Deserts'",
-                                                     p(""),
-                                                     p(strong("Percent Residential Properties Covered")),
-                                                     withSpinner(tableOutput("allwifitable")),
-                                                     p(strong("Map of Free Wi-Fi Deserts")),
-                                                     withSpinner(leafletOutput("allwifi")),
-                                                     p(tags$small("Data Sources: CommonwealthConnect, 2020; CoreLogic, 2019; TravelTime API."))
-                                            )
-                                          )
+                                          h4("Route Segments")
+                                          ),
+                                   column(12,
+                                          withSpinner(leafletOutput("traffic_markers_map", height ="600px")),
+                                          p(tags$small("Data Source: Virginia Department of Transportation"))
                                    )
+                                
+                               
                           )
                  ),
                  
@@ -544,6 +498,217 @@ server <- function(input, output, session) {
   # Run JavaScript Code
   runjs(jscode)
 
+  
+#traffic  leaflet -------------------------------------------------------------
+  output$traffic_markers_map <- renderLeaflet({
+    traffic_2010 <- read_excel("data/traffic/traffic_data_2010.xls")
+    traffic_2011 <- read_excel("data/traffic/traffic_data_2011.xls")
+    traffic_2012 <- read_excel("data/traffic/traffic_data_2012.xls")
+    traffic_2013 <- read_excel("data/traffic/traffic_data_2013.xls")
+    traffic_2014 <- read_excel("data/traffic/traffic_data_2014.xls")
+    traffic_2015 <- read_excel("data/traffic/traffic_data_2015.xls")
+    traffic_2016 <- read_excel("data/traffic/traffic_data_2016.xls")
+    traffic_2017 <- read_excel("data/traffic/traffic_data_2017.xls")
+    traffic_2018 <- read_excel("data/traffic/traffic_data_2018.xls")
+    traffic_2019 <- read_excel("data/traffic/traffic_data_2019.xls")
+    traffic_2020 <- read_excel("data/traffic/traffic_data_2020.xlsx")
+    #raw counts 2010-2020
+    #changing 2010-2015 data to have only the same roads that 2016-2020 has (getting rid of one route from 2014,2015)
+    traff_2010 <- filter(traffic_2010, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
+    traff_2011 <- filter(traffic_2011, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
+    traff_2012 <- filter(traffic_2012, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
+    traff_2013 <- filter(traffic_2013, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
+    traff_2014 <- filter(traffic_2014, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
+    traff_2015 <- filter(traffic_2015, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
+    #combining them based on id (id name for id column in Virginia Department pf Transportation)
+    traffic1 <- cbind(traff_2010[6:267,c(1,14)],traff_2011[6:267,c(1,14)],traff_2012[6:267,c(1,14)],traff_2013[6:267,c(1,14)],traff_2014[6:267,c(1,14)],traff_2015[6:267,c(1,14)])
+    #traffic 2016-2019 has an extra header row than 2014-2015, so we are going to merge 2016-2019 first and then get rid of it(to merge w/ 2014-2015)
+    traffic2 <- cbind(traffic_2016[7:268,c(1,14)], traffic_2017[7:268,c(1,14)], traffic_2018[7:268,c(1,14)], traffic_2019[7:268,c(1,14)], traffic_2020[7:268,c(1,14)])
+    #combining all the years estimates
+    traffic_year <- cbind(traffic1[,c(2,4,6,8,10,12)], traffic2[,c(2,4,6,8,10)])
+    colnames(traffic_year) <- c("2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020")
+    #assigning the routes IDs
+    traffic_year <- mutate(traffic_year, ID =1:n())
+    #setting ID as the far left column
+    traffic_year <- traffic_year[,c(12,1:11)]
+    #getting route info (using 2020 to get the info but all the years should have the same info)
+    traffic_info <- traffic_2020[7:268,c(1:3,4:13)]
+    traffic_year2 <- cbind(traffic_info, traffic_year)
+    #2010-2020
+    traffic_data <- as.data.frame(sapply(traffic_year, as.numeric))
+    traffic_data <- mutate(traffic_data, pctchange = (traffic_data[,12]-traffic_data[,2])/traffic_data[,2] *100)
+    #getting the routes with the greatest pct change
+    #add a column with the absolute value of pct change column
+    traffic_data2 <- mutate(traffic_data, abs=abs(traffic_data[,13]))
+    #setting ID to character for graphing
+    traffic_data2$ID<- as.character(traffic_data2$ID)
+    #put in descending order then select top
+    traffic_data3 <- traffic_data2 %>%
+      arrange(desc(abs))
+    #get's rid of the lnf(the ones that start with 0 for the initial year)
+    traffic_data4 <- traffic_data3[7:262,] %>%
+      slice(1:20)
+    #traffic_data4 from above gives us the 20 roads with the highest pct change 
+    traffic_data5 <- mutate(traffic_data4, count = `2020`-`2010`)
+    traffic_data5 <- mutate(traffic_data5, count2 = abs(count))
+    #We are getting rid of the roads that have changed less than 30 counts
+    traffic_data6 <- traffic_data5 %>% filter(count2 >30)
+    #importing coordinate for the 18 roads in excel
+    coordinates <- read_excel("C:/Users/Christina Prisbe/Documents/R/Rappahannock/RAPPK/Data/traffic/traffic_coordinates.xlsx")
+    #merging the data with the coordinates(by ID)
+    rappk_data <- merge(coordinates, traffic_data6, by="ID")
+    #leaflet
+    #rearranging rappk_map data to be able to graph line plots for each marker
+    rappk_data2 <- reshape(rappk_data, direction = "long",
+                           varying = list(names(rappk_data)[7:17]),
+                           v.names ="estimate",
+                           idvar="ID",
+                           timevar= "Year",
+                           times = 2010:2020)
+    #makes year a chracters to fix future graph formatting issues
+    rappk_data2$Year <- as.character(rappk_data2$Year)
+    
+    #gets polygon data for the 5 subdivision in rappahannock county
+    subdivisions <- county_subdivisions(state= "VA", county =157, cb = TRUE)
+    
+    #adds a column labeleing whether that road has a negative or posive change(used for layering)
+    rappk_data2 <- mutate(rappk_data2, sign = if_else(sign(count)>0, "Positive", "Negative"))
+    
+    #making the size of the markers based on the percent change (absolute value) and the color based on count(absolute value)
+    numPal <- colorNumeric(palette = "viridis", domain = rappk_data2$count, reverse = TRUE)
+    #sizes <- sizeNumeric(rappk_data2$abs, baseSize = 20)
+    #positive data will be circles
+    pos_data <- rappk_data2 %>% filter(sign == "Positive")
+    
+    #negative data will be triangles
+    neg_data <- rappk_data2 %>% filter(sign== "Negative")
+    #positive data charts
+    pick_p <- function(id){
+      dataFiltered <- filter(pos_data, ID== id)
+      
+      p <- ggplot(dataFiltered, aes(x=Year, y=estimate)) + 
+        geom_line(position = "identity", aes(group=1)) +
+        theme_minimal()+
+        ggtitle("AADT from 2010 to 2020") +
+        theme(plot.title = element_text(hjust=0.5),
+              axis.title.x = element_blank()) +
+        labs(y ="Annual Average Daily Traffic") 
+      p
+      return(p)
+    }
+    #loops through all the data (18 routes)
+    q <- lapply(1:length(unique(pos_data$ID)), function(i) {
+      pick_p(pos_data$ID[i])
+    })
+    #negative data charts
+    pick_n <- function(id){
+      dataFiltered <- filter(neg_data, ID== id)
+      
+      p <- ggplot(dataFiltered, aes(x=Year, y=estimate)) + 
+        geom_line(position = "identity", aes(group=1)) +
+        theme_minimal()+
+        ggtitle("AADT from 2010 to 2020") +
+        theme(plot.title = element_text(hjust=0.5),
+              axis.title.x = element_blank()) +
+        labs(y ="Annual Average Daily Traffic") 
+      p
+      return(p)
+    }
+    #loops through all the data (18 routes)
+    r <- lapply(1:length(unique(neg_data$ID)), function(i) {
+      pick_n(neg_data$ID[i])
+    })
+    #marker pop up labels
+    label_p <- lapply(paste("ID: ", pos_data$ID, "<br />", "Count Change: ", pos_data$count,
+                            "<br />", "Percent Change: ", round(pos_data$pctchange, digits =2),"%"), HTML)
+    label_n <- lapply(paste("ID: ", neg_data$ID, "<br />", "Count Change: ", neg_data$count,
+                            "<br />", "Percent Change: ", round(neg_data$pctchange, digits =2),"%"), HTML)
+    #map
+    map <- leaflet() %>% 
+      addProviderTiles("Esri") %>%
+      fitBounds(lng1=-78.345941, lat1=38.875265,
+                lng2=-77.934027, lat2=38.518670) %>%
+      addPolygons(data=subdivisions, popup = subdivisions$NAME, color = "black",
+                  fillColor = "#ffffff00")
+    #map
+    traffic_markers_map <- map %>%
+      addCircleMarkers(data= pos_data,
+                       lng=~lng,
+                       lat=~lat,
+                       color = numPal(pos_data$count),
+                       opacity = 0.3,
+                       radius = sqrt(pos_data$abs),
+                       label =label_p,
+                       clusterId = pos_data$ID,
+                       group= "Positive",
+                       popup = popupGraph(q)) %>%
+      addCircleMarkers(data= neg_data,
+                       lng=~lng,
+                       lat=~lat,
+                       color=numPal(neg_data$count),
+                       opacity = 0.1,
+                       label =label_n,
+                       radius = sqrt(neg_data$abs),
+                       clusterId = neg_data$ID,
+                       group = "Negative",
+                       popup = popupGraph(r)) %>%
+      addLayersControl(overlayGroups = c("Positive", "Negative"), options = layersControlOptions(collapsed = FALSE)) %>%
+      addLegendSize(values =rappk_data2$abs, pal= numPal, opacity = 0.3, shape = "circle", title = "Percent Change from 2010 to 2020",
+                    position = "bottomright", strokeWidth = 10, breaks = 5) %>%
+      addLegendNumeric(pal = numPal,bins=12, title = "Count change from 2010 to 2020", values = rappk_data2$count, position= "bottomright",
+                       height = 200)
+    #plot
+    traffic_markers_map
+
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   # socio plots: done -----------------------------------------------------
 
   var <- reactive({
