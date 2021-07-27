@@ -340,8 +340,6 @@ st_crs(pop_centroid_RPK_dist_1_iso_15) = 4326
 pop_centroid_RPK_dist_2_iso_30 <- readRDS("C:/Users/Leo Allen/Desktop/Isochrones/pop_centroid_RPK_dist_2_iso_30.RDS")
 st_crs(pop_centroid_RPK_dist_2_iso_30) = 4326
 
-
-
 #For 15 mins
 #indices = c(2,4,9)
 #pop_centroid_RPK_dist_2_iso_15 <- traveltime_map(appId= traveltime_id,
@@ -349,7 +347,7 @@ st_crs(pop_centroid_RPK_dist_2_iso_30) = 4326
 #                                     location=c(CenterPop_dist2$LATITUDE[1],CenterPop_dist2$LONGITUDE[1]),
 #                                        traveltime=900,
 #                                        type="driving",
-                                        #                                        departure="2020-08-07T08:00:00+01:00")
+#                                        departure="2020-08-07T08:00:00+01:00")
 # we save each object as an RDS file because the api limits the amount of calls you can do in a given period of time and because we don't want to waste our time looping through this whenever we want to work.
 #saveRDS(pop_centroid_RPK_dist_2_iso_15, file = paste0('pop_centroid_RPK_dist_2_iso_15','.RDS'))
 #this particular isochrone is for a 10 minute travel window
@@ -431,8 +429,74 @@ st_crs(pop_centroid_RPK_dist_4_iso_30) = 4326
 #POP CENTROID
 pop_centroid_RPK_dist_4_iso_15 <- readRDS("C:/Users/Leo Allen/Desktop/Isochrones/pop_centroid_RPK_dist_4_iso_15.RDS")
 st_crs(pop_centroid_RPK_dist_4_iso_15) = 4326
-
 #########################################################################################################################
+
+#For 20 mins
+#indices = c(2,4,9)
+#pop_centroid_RPK_dist_4_iso_20 <- traveltime_map(appId= traveltime_id,
+#                                        apiKey = traveltime_api,
+#                                       location=c(CenterPop_dist4$LATITUDE[1],CenterPop_dist4$LONGITUDE[1]),
+#                                        traveltime=1200,
+#                                       type="driving",
+#                                        departure="2020-08-07T08:00:00+01:00")
+# we save each object as an RDS file because the api limits the amount of calls you can do in a given period of time and because we don't want to waste our time looping through this whenever we want to work.
+#saveRDS(pop_centroid_RPK_dist_4_iso_20, file = paste0('pop_centroid_RPK_dist_4_iso_20','.RDS'))
+#this particular isochrone is for a 10 minute travel window
+
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_20 <- readRDS("C:/Users/Leo Allen/Desktop/Isochrones/pop_centroid_RPK_dist_4_iso_20.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_20) = 4326
+
+#For 25 mins
+#indices = c(2,4,9)
+#pop_centroid_RPK_dist_4_iso_25 <- traveltime_map(appId= traveltime_id,
+#                                                 apiKey = traveltime_api,
+#                                                 location=c(CenterPop_dist4$LATITUDE[1],CenterPop_dist4$LONGITUDE[1]),
+#                                                 traveltime=1500,
+#                                                 type="driving",
+#                                                 departure="2020-08-07T08:00:00+01:00")
+# we save each object as an RDS file because the api limits the amount of calls you can do in a given period of time and because we don't want to waste our time looping through this whenever we want to work.
+#saveRDS(pop_centroid_RPK_dist_4_iso_25, file = paste0('pop_centroid_RPK_dist_4_iso_25','.RDS'))
+#this particular isochrone is for a 10 minute travel window
+
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_25 <- readRDS("C:/Users/Leo Allen/Desktop/Isochrones/pop_centroid_RPK_dist_4_iso_25.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_25) = 4326
+
+#For 40 mins
+#indices = c(2,4,9)
+#pop_centroid_RPK_dist_4_iso_40 <- traveltime_map(appId= traveltime_id,
+#                                                 apiKey = traveltime_api,
+#                                                 location=c(CenterPop_dist4$LATITUDE[1],CenterPop_dist4$LONGITUDE[1]),
+#                                                 traveltime=2400,
+#                                                 type="driving",
+#                                                 departure="2020-08-07T08:00:00+01:00")
+# we save each object as an RDS file because the api limits the amount of calls you can do in a given period of time and because we don't want to waste our time looping through this whenever we want to work.
+#saveRDS(pop_centroid_RPK_dist_4_iso_40, file = paste0('pop_centroid_RPK_dist_4_iso_40','.RDS'))
+#this particular isochrone is for a 10 minute travel window
+
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_40 <- readRDS("C:/Users/Leo Allen/Desktop/Isochrones/pop_centroid_RPK_dist_4_iso_40.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_40) = 4326
+
+
+#For 50 mins
+#indices = c(2,4,9)
+#pop_centroid_RPK_dist_4_iso_50 <- traveltime_map(appId= traveltime_id,
+#                                                 apiKey = traveltime_api,
+#                                                 location=c(CenterPop_dist4$LATITUDE[1],CenterPop_dist4$LONGITUDE[1]),
+#                                                 traveltime=3000,
+#                                                 type="driving",
+#                                                 departure="2020-08-07T08:00:00+01:00")
+# we save each object as an RDS file because the api limits the amount of calls you can do in a given period of time and because we don't want to waste our time looping through this whenever we want to work.
+#saveRDS(pop_centroid_RPK_dist_4_iso_50, file = paste0('pop_centroid_RPK_dist_4_iso_50','.RDS'))
+#this particular isochrone is for a 10 minute travel window
+
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_50 <- readRDS("C:/Users/Leo Allen/Desktop/Isochrones/pop_centroid_RPK_dist_4_iso_50.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_50) = 4326
+#########################################################################################################################
+
 #5
 
 #For 30 mins
@@ -530,17 +594,17 @@ acs_RPK_dist <- read.csv("C:/Users/Leo Allen/Desktop/Isochrones/Distrpk.csv", he
 ################################################################################################################################################################
 
 #making the map
-mypalette <- colorNumeric(palette="viridis", acs_RPK_dist$Total_Population)
+mypalette <- colorNumeric(palette="viridis", centerPop_RPK_dist$POPULATION)
 
 map_with_all_point <- leaflet() %>%
   addTiles() %>%
   addProviderTiles("Esri") %>%
   
-  addPolygons(data=RPK_dist_outline,color = mypalette(acs_RPK_dist$Total_Population),
+  addPolygons(data=RPK_dist_outline,color = mypalette(centerPop_RPK_dist$POPULATION),
               smoothFactor = 0.2, fillOpacity=.6, weight = 1,stroke = F, 
-              label=paste(" ", acs_RPK_dist$Census_tract,", Population: ",acs_RPK_dist$Total_Population), 
+              label=paste(" ", acs_RPK_dist$Census_tract,", Population: ",centerPop_RPK_dist$POPULATION), 
   )%>%
-  addLegend(pal = mypalette,position = "topleft",values = acs_RPK_dist$Total_Population,
+  addLegend(pal = mypalette,position = "topleft",values = centerPop_RPK_dist$POPULATION,
             opacity = .6,title= paste("Total Population")) %>%
   
   addPolylines(data = RPK_dist_outline, color = "black", opacity = 2, weight = 2,)       %>%
@@ -611,6 +675,13 @@ addCircleMarkers(centerPop_RPK_dist,lat = centerPop_RPK_dist$LATITUDE, lng= cent
                  stroke = TRUE, fillOpacity = 1,
 ) %>%
   addLegend(colors = "red", labels = "District Population Centroid") %>%
+  
+  addCircleMarkers(centerPop_RPK_dist,lat = centerPop_RPK_dist$LATITUDE[], lng= centerPop_RPK_dist$LONGITUDE,
+                   radius =  4,
+                   color = "red",
+                   stroke = TRUE, fillOpacity = 1,
+  ) %>%
+  
   
   addCircleMarkers(centerPop_RPK,lat = centerPop_RPK$LATITUDE, lng= centerPop_RPK$LONGITUDE,
                    radius =  4,
