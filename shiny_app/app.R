@@ -385,18 +385,14 @@ ui <- navbarPage(title = "I'm a title!",
                                      h3("", align = "center"),
                                      br(""),
                                      column(4,
-                                            img(src = "data-hifld.png", style = "display: inline; float: left;", width = "100px"),
-                                            p(strong("Homeland Infrastructure Foundation-Level Data."), "Homeland Infrastructure Foundation-Level Data (HIFLD) is a collection of public
-                                              source datasets at property level provided by the Department of Homeland Security. Since 2002, this HIFLD has provided quarterly
-                                              updated layers on topics from education to energy, including on health care facilities. We used HIFLD emergency medical services
-                                              station data at the latitude and longitude geographic level in our analyses."),
-                                            br(""),
+                                            
                                             img(src = "data-gmaps.png", style = "display: inline; float: left;", width = "130px"),
                                             p(strong("Google Maps."), "Google Maps is a comprehensive web mapping service created by Google. Its goal is to provide an interactive map
                                               of all the geographical contents of the world. This resource has a variety of uses, ranging from examining all service locations within
                                               a city to finding the quickest route between locations. It provides data at latitude and longitude level. We used Google Maps to locate
                                               all supermarkets, convenience stores, and farmers’ markets in Patrick County, and subsequently employed the information in calculating
-                                              grocery access and coverage isochrones.")
+                                              grocery access and coverage isochrones."),
+                                            br(""),
                                      ),
                                      column(4,
                                             img(src = "data-acs.png", style = "display: inline; float: left;", width = "200px"),
@@ -405,18 +401,9 @@ ui <- navbarPage(title = "I'm a title!",
                                             socioeconomic characteristics including employment, disability, and health insurance coverage. We used AC 2014/18 5-year
                                             estimates to obtain census tract and census block group-level to explore Patrick County resident characteristics."),
                                             br(""),
-                                            img(src = "data-connect.png", style = "display: inline; float: left;", width = "150px"),
-                                            p(strong("CommonwealthConnect."), "The Virginia Tech CommonwealthConnect Wi-Fi Hotspot Map is an interactive map of free, publicly
-                                           available wi-fi hotspots in Virginia. Its goal is to provide an easily accessible map of areas where individuals can connect to the
-                                           internet for free, decreasing the constraints placed on families that do not have internet access at home. We used the 2020 wi-fi
-                                           hotspot map data to retrieve hotspot locations in Patrick County and subsequently employed the information in calculating hotspot
-                                           coverage isochrones."),
+                                            
                                             br(""),
-                                            img(src = "data-corelogic.png", style = "display: inline; float: left;", width = "120px"),
-                                            p(strong("CoreLogic."), "CoreLogic is a supplier of proprietary US real estate and specialized business data at the property level.
-                                           This company provides data spanning over 50 years at the latitude and longitude level. Information available in the dataset includes
-                                           property characteristics, mortgage, foreclosures and performance. We used 2019 CoreLogic data to obtain the locations of all residential
-                                           properties in Patrick County.")
+                                         
                                      ),
                                      column(4,
                                             img(src = "data-traveltime.png", style = "display: inline; float: left;", width = "140px"),
@@ -426,11 +413,7 @@ ui <- navbarPage(title = "I'm a title!",
                                            15-minute drive time interval from supermarkets, farmers' markets, and free wi-fi hotspots, and of 8-, 10-, and 12-minute drive
                                            time intervals from all emergency medical service stations in Patrick County."),
                                             br(""),
-                                            img(src = "data-ers.png", style = "display: inline; float: left;", width = "120px"),
-                                            p(strong("Food Access Research Atlas."), "The United State Department of Agriculture Food Access Research Atlas is a data resource
-                                          created by the Economic Research Service that provides information on food access indicators at census tract level. The data allows
-                                          individuals to understand food access in communities based on factors like age and socioeconomic status. We used the 2017 Food Access
-                                          Research Atlas to examine Patrick County residents’ food access at multiple distance thresholds and by resident characteristics.")
+                                          
                                      )
                             ),
                             tabPanel("Measures",
@@ -449,7 +432,7 @@ ui <- navbarPage(title = "I'm a title!",
                  ),
 
                  # team tab -----------------------------------------------------------
-                 tabPanel("Contact", value = "contact",
+                 tabPanel("Meet the Team", value = "contact",
                           fluidRow(style = "margin-left: 300px; margin-right: 300px;",
                             h1(strong("Contact"), align = "center"),
                             br(),
@@ -465,22 +448,22 @@ ui <- navbarPage(title = "I'm a title!",
                           fluidRow(style = "margin-left: 300px; margin-right: 300px;",
                             column(6, align = "center",
                             h4(strong("DSPG Team Members")),
-                            img(src = "team-morgan.png", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
-                            img(src = "team-tasfia.png", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
-                            img(src = "team-isabel.png", style = "display: inline; border: 1px solid #C0C0C0;", width = "150px"),
-                            p(a(href = 'https://www.linkedin.com/in/morgan-stockham/', 'Morgan Stockham', target = '_blank'), "(Claremont Graduate University, Applied Microeconomics);",
-                              a(href = 'https://www.linkedin.com/in/tasfia-chowdhury-89005a1b2/', 'Tasfia Chowdhury', target = '_blank'), "(Indiana University Bloomington, Political Science);",
-                              a(href = 'https://www.linkedin.com/in/igomez-3099/', 'Isabel Gomez', target = '_blank'), "(Smith College, Statistical and Data Science)."),
+                            img(src = "team-tim.jpeg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
+                            img(src = "team-mousa.png", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
+                            img(src = "team-christina.jpeg", style = "display: inline; border: 1px solid #C0C0C0;", width = "150px"),
+                            p(a(href = 'https://www.linkedin.com/in/morgan-stockham/', 'Timothy Pierce', target = '_blank'), "(Virginia Tech, Agricultural and Applied Economics);",
+                              a(href = 'https://www.linkedin.com/in/tasfia-chowdhury-89005a1b2/', 'Mousa Toure', target = '_blank'), "(Virginia State University, Computer Science);",
+                              a(href = 'https://www.linkedin.com/in/igomez-3099/', 'Christina Prisbe', target = '_blank'), "(Virginia Tech, Computational Modeling and Data Analytics)."),
                             p("", style = "padding-top:10px;")
                             ),
                             column(6, align = "center",
                             h4(strong("UVA SDAD Team Members")),
-                            img(src = "team-teja.png", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
-                            img(src = "team-brandon.png", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
-                            img(src = "team-sallie.jpg", style = "display: inline; border: 1px solid #C0C0C0;", width = "150px"),
-                            p(a(href = "https://www.linkedin.com/in/tejapristavec/", 'Teja Pristavec', target = '_blank'), "(Project Lead, Research Assistant Professor);",
-                              a(href = "https://biocomplexity.virginia.edu/brandon-kramer", 'Brandon Kramer', target = '_blank'), "(Postdoctoral Research Associate);",
-                              a(href = 'https://biocomplexity.virginia.edu/sallie-keller', 'Sallie Keller', target = '_blank'), "(Division Director and Distinguished Professor)."),
+                            img(src = "faculty-chen.jpg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
+                            img(src = "faculty-gupta.jpg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
+                            img(src = "team-leo.jpeg", style = "display: inline; border: 1px solid #C0C0C0;", width = "150px"),
+                            p(a(href = "https://www.linkedin.com/in/tejapristavec/", 'Dr. Susan Chen', target = '_blank'), "(Faculty Lead);",
+                              a(href = "https://biocomplexity.virginia.edu/brandon-kramer", 'Dr. Anubhab Gupta', target = '_blank'), "(Faculty Lead);",
+                              a(href = 'https://biocomplexity.virginia.edu/sallie-keller', 'Leonard-Allen Quaye', target = '_blank'), "(Research Associate)."),
                             p("", style = "padding-top:10px;")
                             )
                             ),
@@ -554,7 +537,7 @@ server <- function(input, output, session) {
     traffic_data5 <- mutate(traffic_data5, count2 = abs(count))
     #We are getting rid of the roads that have changed less than 30 counts
     traffic_data6 <- traffic_data5 %>% filter(count2 >30)
-    coordinates <- read_excel("C:/Users/Christina Prisbe/Documents/R/Rappahannock/RAPPK/Data/traffic/traffic_coordinates.xlsx")
+    coordinates <- read_excel("data/traffic/traffic_coordinates.xlsx")
     #merging the data with the coordinates(by ID)
     rappk_data <- merge(coordinates, traffic_data6, by="ID")
     #rearranging rappk_map data to be able to graph line plots for each marker
