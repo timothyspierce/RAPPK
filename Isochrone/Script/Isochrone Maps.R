@@ -557,10 +557,10 @@ map_with_all_point <- leaflet() %>%
    
   
   addPolygons(data = pop_centroid_RPK_dist_2_iso_15 , color = "green",
-              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
   #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
   addPolygons(data = pop_centroid_RPK_dist_2_iso_30 , color = "red",
-              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
   # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
   
   
@@ -573,10 +573,10 @@ map_with_all_point <- leaflet() %>%
 
   
   addPolygons(data = pop_centroid_RPK_dist_4_iso_15 , color = "green",
-              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
   #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
   addPolygons(data = pop_centroid_RPK_dist_4_iso_30 , color = "red",
-              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
+              opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
   # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
   
   addPolygons(data = pop_centroid_RPK_dist_5_iso_15 , color = "green",
