@@ -461,8 +461,8 @@ ui <- navbarPage(title = "I'm a title!",
                             img(src = "faculty-chen.jpg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
                             img(src = "faculty-gupta.jpg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
                             img(src = "team-leo.jpeg", style = "display: inline; border: 1px solid #C0C0C0;", width = "150px"),
-                            p(a(href = "https://www.linkedin.com/in/tejapristavec/", 'Dr. Susan Chen', target = '_blank'), "(Faculty Lead);",
-                              a(href = "https://biocomplexity.virginia.edu/brandon-kramer", 'Dr. Anubhab Gupta', target = '_blank'), "(Faculty Lead);",
+                            p(a(href = "https://biocomplexity.virginia.edu/brandon-kramer", 'Dr. Anubhab Gupta', target = '_blank'), "(Faculty Lead);",
+                              a(href = "https://biocomplexity.virginia.edu/brandon-kramer", 'Dr. Mulugeta Kahsai', target = '_blank'), "(Faculty Affiliate);",
                               a(href = 'https://biocomplexity.virginia.edu/sallie-keller', 'Leonard-Allen Quaye', target = '_blank'), "(Research Associate)."),
                             p("", style = "padding-top:10px;")
                             )
