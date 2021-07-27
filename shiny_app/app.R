@@ -289,7 +289,7 @@ ui <- navbarPage(title = "I'm a title!",
                                           withSpinner(leafletOutput("traffic_markers_map", height ="700px")),
                                           p(tags$small("Data Source: Virginia Department of Transportation"))
                                    ),
-                                   column(8,
+                                   column(10,
                                           h4("Route Segments"),
                                           withSpinner(plotOutput("traffic_data_table"))
                                    )
