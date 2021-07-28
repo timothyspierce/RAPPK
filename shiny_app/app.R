@@ -36,7 +36,8 @@ colors <- c("#232d4b","#2c4f6b","#0e879c","#60999a","#d1e0bf","#d9e12b","#e6ce3a
 
 # data -----------------------------------------------------------
 # Read in Demographic Data ----------------------------------------------------------
-
+rappk_ageGroups <- read.csv("data/TableB01001FiveYearEstimates/rappkAgeGroups.csv")
+va_ageGroups <- read.csv("data/TableB01001FiveYearEstimates/vaAgeGroups.csv")
 # Read in Housing Data ----------------------------------------------------------
           
 # Read in Traffic Data ----------------------------------------------------------
@@ -210,46 +211,31 @@ ui <- navbarPage(title = "I'm a title!",
                           tabsetPanel(
                             tabPanel("Age Demographic",
                                      
-                                     column(8,
+                                     column(12,
                                               selectInput("agedrop", "Select Variable:", width = "100%", choices = c(
                                               "Age Groups" = "ageGroups",
                                               "Median Age" = "medAge",
-                                              "Age Depndency" = "ageDep"))
+                                              "Age Depndency" = "ageDep")),
+                                            withSpinner(plotOutput("ageplot")),
+                                            p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
+                                            
                                       )
                                    
-                                   # column(8,
-                                   #        h4(strong("SocioDemographics")),
-                                   #        selectInput("sociodrop", "Select Variable:", width = "100%", choices = c(
-                                   #          "Age Groups" = "ageGroups",
-                                   #          
-                                   #          
-                                   #          "Percent Population Age 18 and Younger" = "under18",
-                                   #          "Percent Population Black" = "black",
-                                   #          "Percent Population Hispanic" = "hispanic",
-                                   #          "Percent Population Without Bachelor's Degree" = "noba",
-                                   #          "Percent Population In Labor Force Unemployed" = "unempl",
-                                   #          "Percent Population Without Health Insurance" = "nohealthins2",
-                                   #          "Percent Population With Private Health Insurance" = "privateins",
-                                   #          "Percent Population With Public Health Insurance" = "publicins",
-                                   #          "Percent Population in Poverty" = "inpov",
-                                   #          "Percent Population Receiving SNAP Benefits or Public Assistance" = "snap",
-                                   #          "Total Population by Census Block Group" = "totalpop_bgrp",
-                                   #          "Total Population by Census Tract" = "totalpop_trct")
-                                   #        ),
-                                   #        withSpinner(leafletOutput("socioplot")),
-                                   #        p(tags$small("Data Source: American Community Survey 2014/18 5-Year Estimates."))
-                                   # ))
+
                           ),
                           tabPanel("Broadband",
                                    
-                                   column(8,
+                                   column(12,
                                           selectInput("bbdrop", "Select Variable:", width = "100%", choices = c(
                                             "Internet Subscriptions by Income" = "intIncome",
                                             "Internet Subscription by District" = "compDist",
                                             "Computer Ownership by District" = "intDist")
                                           )
                                    )
-                ))),
+                )),
+        
+                
+                ),
 
                  # housing market tab -----------------------------------------------------------
                  tabPanel("Housing Market", value = "older",
@@ -521,11 +507,57 @@ server <- function(input, output, session) {
 
   
   
-  #age group pie charts --------------------------------------------------
+  #age tabset -----------------------------------------------------
+  ageVar <- reactive({
+    input$agedrop
+  })
   
-  
-  
-  
+  output$ageplot <- renderPlot({
+    
+    if (ageVar() == "ageGroups") {
+      
+      cbPalette <- c("#E69F00","#56B4E9","#009E73","#0072B2","#D55E00", "#CC79A7")
+      
+      age_group_rappk_pie_plot  <- ggplot(rappk_ageGroups, aes(x="", y=`Percent.of.Population`, fill=Key)) +
+        geom_bar(stat="identity", width=1, color =1) +
+        coord_polar("y", start=0) +
+        geom_text(aes(label = paste0(Rounded, "%")), position = position_stack(vjust=0.5), size =3.5) +
+        labs(x = NULL, y = NULL) +
+        theme_classic() +
+        theme(axis.line = element_blank(),
+              axis.text = element_blank(),
+              axis.ticks = element_blank(),
+              legend.title = element_blank()) +
+        scale_fill_manual(values=cbPalette) +
+        ggtitle("Rappahannock") +
+        theme(plot.title = element_text(hjust = 0.5))
+      
+       age_group_va_pie_plot <- ggplot(va_ageGroups, aes(x="", y=`Percent.of.Population`, fill=Key)) +
+         geom_bar(stat="identity", width=1, color=1) +
+         coord_polar("y", start=0) +
+        geom_text(aes(label = paste0(Rounded, "%")), position = position_stack(vjust=0.5), size=3.5) +
+         labs(x = NULL, y = NULL) +
+         theme_classic() +
+         theme(axis.line = element_blank(),
+               axis.text = element_blank(),
+               axis.ticks = element_blank()) +
+         scale_fill_manual(values=cbPalette) + 
+         ggtitle("Virginia") +
+         theme(plot.title = element_text(hjust = 0.5), legend.title = element_blank())
+      
+       ageplot <- grid.arrange(age_group_rappk_pie_plot,age_group_va_pie_plot, ncol =2)
+       ageplot
+      
+    }
+    else if (ageVar() == "medAge") {
+      
+      
+    }
+    else if (ageVar() == "ageDep") {
+      
+    }
+    
+  })
   
   
   
