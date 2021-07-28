@@ -38,6 +38,11 @@ colors <- c("#232d4b","#2c4f6b","#0e879c","#60999a","#d1e0bf","#d9e12b","#e6ce3a
 # Read in Demographic Data ----------------------------------------------------------
 rappk_ageGroups <- read.csv("data/TableB01001FiveYearEstimates/rappkAgeGroups.csv")
 va_ageGroups <- read.csv("data/TableB01001FiveYearEstimates/vaAgeGroups.csv")
+counties_median_age<- read.csv("data/TableB01001FiveYearEstimates/countyMedianAge.csv")
+sub_median_age<- read.csv("data/TableB01001FiveYearEstimates/subdivisionMedianAge.csv")
+county_dep<- read.csv("data/TableB01001FiveYearEstimates/countyAgeDependency.csv")
+sub_dep<- read.csv("data/TableB01001FiveYearEstimates/subdivisionAgeDependency.csv")
+va_rappk_dep<- read.csv("data/TableB01001FiveYearEstimates/rappkAgeDependency.csv")
 # Read in Housing Data ----------------------------------------------------------
           
 # Read in Traffic Data ----------------------------------------------------------
@@ -211,12 +216,12 @@ ui <- navbarPage(title = "I'm a title!",
                           tabsetPanel(
                             tabPanel("Age Demographic",
                                      
-                                     column(12,
+                                     column(12, 
                                               selectInput("agedrop", "Select Variable:", width = "100%", choices = c(
                                               "Age Groups" = "ageGroups",
                                               "Median Age" = "medAge",
                                               "Age Depndency" = "ageDep")),
-                                            withSpinner(plotOutput("ageplot")),
+                                            withSpinner(plotOutput("ageplot", height = "800px")),
                                             p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
                                             
                                       )
@@ -521,21 +526,22 @@ server <- function(input, output, session) {
       age_group_rappk_pie_plot  <- ggplot(rappk_ageGroups, aes(x="", y=`Percent.of.Population`, fill=Key)) +
         geom_bar(stat="identity", width=1, color =1) +
         coord_polar("y", start=0) +
-        geom_text(aes(label = paste0(Rounded, "%")), position = position_stack(vjust=0.5), size =3.5) +
+        geom_text(aes(label = paste0(Rounded, "%")), position = position_stack(vjust=0.5), size =9) +
         labs(x = NULL, y = NULL) +
         theme_classic() +
         theme(axis.line = element_blank(),
               axis.text = element_blank(),
               axis.ticks = element_blank(),
-              legend.title = element_blank()) +
+              legend.title = element_blank(),
+              legend.text = element_text(size =15)) +
         scale_fill_manual(values=cbPalette) +
         ggtitle("Rappahannock") +
-        theme(plot.title = element_text(hjust = 0.5))
+        theme(plot.title = element_text(hjust = 0.5, size = 25))
       
        age_group_va_pie_plot <- ggplot(va_ageGroups, aes(x="", y=`Percent.of.Population`, fill=Key)) +
          geom_bar(stat="identity", width=1, color=1) +
          coord_polar("y", start=0) +
-        geom_text(aes(label = paste0(Rounded, "%")), position = position_stack(vjust=0.5), size=3.5) +
+        geom_text(aes(label = paste0(Rounded, "%")), position = position_stack(vjust=0.5), size=9) +
          labs(x = NULL, y = NULL) +
          theme_classic() +
          theme(axis.line = element_blank(),
@@ -543,18 +549,68 @@ server <- function(input, output, session) {
                axis.ticks = element_blank()) +
          scale_fill_manual(values=cbPalette) + 
          ggtitle("Virginia") +
-         theme(plot.title = element_text(hjust = 0.5), legend.title = element_blank())
+         theme(plot.title = element_text(hjust = 0.5, size =25), legend.title = element_blank(),
+               legend.text = element_text(size =15))
       
        ageplot <- grid.arrange(age_group_rappk_pie_plot,age_group_va_pie_plot, ncol =2)
        ageplot
       
     }
     else if (ageVar() == "medAge") {
+      counties_median_age_plot <- ggplot(counties_median_age, aes(x=County, y=`Median.Age`, fill=Key)) + 
+        geom_bar(stat="identity") +
+        geom_text(aes(label=paste0(round(`Median.Age`))), vjust=1.5, colour="white", size=10) +
+        theme(axis.text = element_text(size = 15)) +
+        geom_hline(aes(yintercept= 38.2, linetype = "   Virginia Median Age: 38"), 
+                   color= "black", size = 1.5, alpha = 0.25) +
+        ggtitle("Virginia Counties") +
+        ylab("Median Age") +
+        theme(plot.title = element_text(hjust = 0.5, size =20), legend.title = element_blank(), axis.title.x=element_blank(),
+              legend.text = element_text(size =15),
+              axis.title.y = element_text(size=15)) +
+        scale_fill_viridis_d()
       
+      district_median_age <- ggplot(data = sub_median_age, aes(x = District, y = `Median.Age`, fill = Key)) +
+        geom_bar(stat="identity") +
+        geom_text(aes(label=paste0(round(`Median.Age`))), vjust=1.5, colour="white", size=10) +
+        geom_hline(aes(yintercept= 50.1, linetype = "Rappahannock Median Age: 50"), color= "black", size = 1.5, alpha = 0.25) +
+        ggtitle("Rappahannock Districts") +
+        ylab("Median Age")+
+        theme(plot.title = element_text(hjust = 0.5, size =20),legend.title = element_blank(),
+              axis.title.x=element_blank(),
+              axis.text = element_text(size=15),
+              legend.text = element_text(size =15),
+              axis.title.y =element_text(size=15)) +
+        scale_fill_viridis_d()
       
+      ageplot <- grid.arrange(counties_median_age_plot, district_median_age)
+      ageplot
     }
     else if (ageVar() == "ageDep") {
+      counties_dep_plot <- ggplot(county_dep, aes(x=County, y=`Dependency.Ratio`, fill=Key)) +
+        geom_bar(stat='identity', position='dodge') +
+        ggtitle("Age Dependecy Ratios in Virginia Counties") +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        theme(axis.text.x = element_text(size = 8.5),legend.title = element_blank(), axis.title.x = element_blank()) +
+        scale_fill_viridis_d()
       
+      district_dep_plot <- ggplot(sub_dep, aes(x=District, y=`Dependency.Ratio`, fill=Key)) +
+        geom_bar(stat='identity', position='dodge')  +
+        ggtitle("Age Dependecy Ratios in Rappahannock Districts") +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        theme(axis.text.x = element_text(size = 8.5), legend.title = element_blank(),
+              axis.title.x = element_blank()) +
+        scale_fill_viridis_d()
+      
+      va_dep_plot <- ggplot(va_rappk_dep, aes(x=`Location`, y=`Dependency.Ratio`, fill=Key)) +
+        geom_bar(stat='identity', position='dodge')  +
+        ggtitle("Age Dependecy Ratios") +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        theme(axis.text.x = element_text(size = 8.5), legend.title = element_blank(),  axis.title.x=element_blank()) +
+        scale_fill_viridis_d()
+      
+      ageplot <- grid.arrange(va_dep_plot, counties_dep_plot,district_dep_plot)
+      ageplot
     }
     
   })
