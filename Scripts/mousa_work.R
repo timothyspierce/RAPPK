@@ -43,3 +43,15 @@ ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group
   geom_col(position = "dodge") +
   facet_wrap(~year) +
   coord_flip()
+
+#### Population Over Time #### 
+population2010_2019 <- readRDS("shiny_app/data/population2010_2019.Rds")
+
+
+ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
+  geom_line(aes(size = "Percent of Population" <- percent)) +
+  ggtitle(label = "Estimated Total Population 2010-2019")
+
+ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = percent, group = NAME, color = NAME)) +
+  geom_line(aes(size = "Percent of Population" <- estimate)) +
+  ggtitle(label = "Estimated Total Population 2010-2019")
