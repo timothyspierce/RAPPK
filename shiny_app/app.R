@@ -590,23 +590,25 @@ server <- function(input, output, session) {
       counties_dep_plot <- ggplot(county_dep, aes(x=County, y=`Dependency.Ratio`, fill=Key)) +
         geom_bar(stat='identity', position='dodge') +
         ggtitle("Age Dependecy Ratios in Virginia Counties") +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        theme(axis.text.x = element_text(size = 8.5),legend.title = element_blank(), axis.title.x = element_blank()) +
+        theme(plot.title = element_text(hjust = 0.5, size=20)) +
+        theme(axis.text = element_text(size = 15),legend.title = element_blank(), axis.title.x = element_blank(),
+              legend.text = element_text(size=15),axis.title.y = element_text(size=15) ) +
         scale_fill_viridis_d()
       
       district_dep_plot <- ggplot(sub_dep, aes(x=District, y=`Dependency.Ratio`, fill=Key)) +
         geom_bar(stat='identity', position='dodge')  +
         ggtitle("Age Dependecy Ratios in Rappahannock Districts") +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        theme(axis.text.x = element_text(size = 8.5), legend.title = element_blank(),
-              axis.title.x = element_blank()) +
+        theme(plot.title = element_text(hjust = 0.5, size=20)) +
+        theme(axis.text = element_text(size = 15), legend.title = element_blank(),
+              axis.title.x = element_blank(), legend.text = element_text(size=15), axis.title.y = element_text(size=15)) +
         scale_fill_viridis_d()
       
       va_dep_plot <- ggplot(va_rappk_dep, aes(x=`Location`, y=`Dependency.Ratio`, fill=Key)) +
         geom_bar(stat='identity', position='dodge')  +
         ggtitle("Age Dependecy Ratios") +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        theme(axis.text.x = element_text(size = 8.5), legend.title = element_blank(),  axis.title.x=element_blank()) +
+        theme(plot.title = element_text(hjust = 0.5, size =20)) +
+        theme(axis.text = element_text(size = 15), legend.title = element_blank(),  axis.title.x=element_blank(),
+              legend.text = element_text(size =15),axis.title.y = element_text(size=15)) +
         scale_fill_viridis_d()
       
       ageplot <- grid.arrange(va_dep_plot, counties_dep_plot,district_dep_plot)
