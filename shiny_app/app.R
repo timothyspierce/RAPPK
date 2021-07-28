@@ -40,7 +40,18 @@ colors <- c("#232d4b","#2c4f6b","#0e879c","#60999a","#d1e0bf","#d9e12b","#e6ce3a
 # Read in Housing Data ----------------------------------------------------------
           
 # Read in Traffic Data ----------------------------------------------------------
-          
+traffic_2010 <- read_excel("data/traffic/traffic_data_2010.xls")
+traffic_2011 <- read_excel("data/traffic/traffic_data_2011.xls")
+traffic_2012 <- read_excel("data/traffic/traffic_data_2012.xls")
+traffic_2013 <- read_excel("data/traffic/traffic_data_2013.xls")
+traffic_2014 <- read_excel("data/traffic/traffic_data_2014.xls")
+traffic_2015 <- read_excel("data/traffic/traffic_data_2015.xls")
+traffic_2016 <- read_excel("data/traffic/traffic_data_2016.xls")
+traffic_2017 <- read_excel("data/traffic/traffic_data_2017.xls")
+traffic_2018 <- read_excel("data/traffic/traffic_data_2018.xls")
+traffic_2019 <- read_excel("data/traffic/traffic_data_2019.xls")
+traffic_2020 <- read_excel("data/traffic/traffic_data_2020.xlsx") 
+coordinates <- read_excel("data/traffic/traffic_coordinates.xlsx")
 # Read in Service Data ----------------------------------------------------------
 
 # Examples of previous data being read in  ----------------------------------------------------------
@@ -196,9 +207,11 @@ ui <- navbarPage(title = "I'm a title!",
                                           p("More words"),
                                           p("final words")),
                                    column(8,
-                                          h4(strong("Map of Resident Socioeconomic Characteristics by Census Tract or Block Group")),
+                                          h4(strong("SocioDemographics")),
                                           selectInput("sociodrop", "Select Variable:", width = "100%", choices = c(
                                             "Percent Population Age 65 and Older" = "age65",
+                                            
+                                            
                                             "Percent Population Age 18 and Younger" = "under18",
                                             "Percent Population Black" = "black",
                                             "Percent Population Hispanic" = "hispanic",
@@ -488,17 +501,6 @@ server <- function(input, output, session) {
   
 #traffic  leaflet -------------------------------------------------------------
   output$traffic_markers_map <- renderLeaflet({
-    traffic_2010 <- read_excel("data/traffic/traffic_data_2010.xls")
-    traffic_2011 <- read_excel("data/traffic/traffic_data_2011.xls")
-    traffic_2012 <- read_excel("data/traffic/traffic_data_2012.xls")
-    traffic_2013 <- read_excel("data/traffic/traffic_data_2013.xls")
-    traffic_2014 <- read_excel("data/traffic/traffic_data_2014.xls")
-    traffic_2015 <- read_excel("data/traffic/traffic_data_2015.xls")
-    traffic_2016 <- read_excel("data/traffic/traffic_data_2016.xls")
-    traffic_2017 <- read_excel("data/traffic/traffic_data_2017.xls")
-    traffic_2018 <- read_excel("data/traffic/traffic_data_2018.xls")
-    traffic_2019 <- read_excel("data/traffic/traffic_data_2019.xls")
-    traffic_2020 <- read_excel("data/traffic/traffic_data_2020.xlsx")
     #changing 2010-2015 data to have only the same roads that 2016-2020 has (getting rid of one route from 2014,2015)
     traff_2010 <- filter(traffic_2010, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
     traff_2011 <- filter(traffic_2011, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
@@ -537,7 +539,6 @@ server <- function(input, output, session) {
     traffic_data5 <- mutate(traffic_data5, count2 = abs(count))
     #We are getting rid of the roads that have changed less than 30 counts
     traffic_data6 <- traffic_data5 %>% filter(count2 >30)
-    coordinates <- read_excel("data/traffic/traffic_coordinates.xlsx")
     #merging the data with the coordinates(by ID)
     rappk_data <- merge(coordinates, traffic_data6, by="ID")
     #rearranging rappk_map data to be able to graph line plots for each marker
@@ -636,17 +637,6 @@ server <- function(input, output, session) {
   
   #trafficd route table ------------------------------------------------------------
   output$traffic_data_table <- renderPlot({
-    traffic_2010 <- read_excel("data/traffic/traffic_data_2010.xls")
-    traffic_2011 <- read_excel("data/traffic/traffic_data_2011.xls")
-    traffic_2012 <- read_excel("data/traffic/traffic_data_2012.xls")
-    traffic_2013 <- read_excel("data/traffic/traffic_data_2013.xls")
-    traffic_2014 <- read_excel("data/traffic/traffic_data_2014.xls")
-    traffic_2015 <- read_excel("data/traffic/traffic_data_2015.xls")
-    traffic_2016 <- read_excel("data/traffic/traffic_data_2016.xls")
-    traffic_2017 <- read_excel("data/traffic/traffic_data_2017.xls")
-    traffic_2018 <- read_excel("data/traffic/traffic_data_2018.xls")
-    traffic_2019 <- read_excel("data/traffic/traffic_data_2019.xls")
-    traffic_2020 <- read_excel("data/traffic/traffic_data_2020.xlsx")
     #changing 2010-2015 data to have only the same roads that 2016-2020 has (getting rid of one route from 2014,2015)
     traff_2010 <- filter(traffic_2010, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
     traff_2011 <- filter(traffic_2011, `Virginia Department of Transportation`  %in% traffic_2019$`Virginia Department of Transportation`)
