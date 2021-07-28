@@ -230,7 +230,10 @@ ui <- navbarPage(title = "I'm a title!",
                                             withSpinner(plotOutput("ageplot", height = "800px")),
                                             p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
                                             
-                                      )
+                                      ),
+                                     column(12,
+                                            h4("description.....")
+                                            )
                                    
 
                           ),
@@ -243,8 +246,42 @@ ui <- navbarPage(title = "I'm a title!",
                                           ),
                                           withSpinner(plotOutput("bbplot", height ="800px")),
                                           p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
+                                          
+                                   ),
+                                   column(12,
+                                          h4("Description......")
+                                     
                                    )
-                )),
+                                   
+                          ),
+                          tabPanel("Income",
+                                   column(12,
+                                          #withSpinner(plotOutput(incomePlot)),
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                          )
+                                   
+                                   
+                                   ),
+                          
+                          tabPanel("Household Characteristics",
+                                   column(12,
+                                          selectInput("hcdrop", "Select Variable:", width = "100%", choices = c(
+                                            "Household Size" = "houseSize",
+                                            "Households Occupied by Renters and Owners" = "rentOwn",
+                                            "Vehicles per Household" = "vehicles")
+                                          ),
+                                          withSpinner(plotOutput("hcplot", height ="800px")),
+                                          p(tags$small("Data Source: ACS Five Year Estimate Tables S2504 and S2501"))
+                                          
+                                   ),
+                                   column(12,
+                                          h4("Description......")
+                                          
+                                   )  
+                            
+                          )
+                
+                ),
         
                 
                 ),
