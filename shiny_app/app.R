@@ -27,6 +27,7 @@ library(dplyr)
 library(ggplotify)
 library(grid)
 library(gridExtra)
+library(forcats)
 
 prettyblue <- "#232D4B"
 navBarBlue <- '#427EDC'
@@ -737,7 +738,7 @@ server <- function(input, output, session) {
   output$hcplot <- renderPlot({
     
     if(hcVar() == "houseSize") {
-       hcplot <- ggplot(householdSize, aes(x = "", y = estimate, fill = fct_inorder(People))) +
+       hcplot1 <- ggplot(householdSize, aes(x = "", y = estimate, fill = fct_inorder(People))) +
          geom_col(width = 1, color = 1) +
        geom_text(aes(label = paste0(estimate, "%")),
                    position = position_stack(vjust = 0.5), colour="white", size =8) +
@@ -752,7 +753,8 @@ server <- function(input, output, session) {
                panel.background = element_rect(fill = "white")) +
          ggtitle("Rappahannock Household Size") +
          scale_fill_viridis_d()
-       hcplot
+       
+       hcplot <- grid.arrange(hcplot1)
     }
     
     
