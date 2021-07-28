@@ -43,6 +43,11 @@ sub_median_age<- read.csv("data/TableB01001FiveYearEstimates/subdivisionMedianAg
 county_dep<- read.csv("data/TableB01001FiveYearEstimates/countyAgeDependency.csv")
 sub_dep<- read.csv("data/TableB01001FiveYearEstimates/subdivisionAgeDependency.csv")
 va_rappk_dep<- read.csv("data/TableB01001FiveYearEstimates/rappkAgeDependency.csv")
+rappage_timeseries <- readRDS("data/rapp_age_time_series.Rda")
+
+intByIncome <- read.csv("data/TableS2801FiveYearEstimates/internetIncome.csv")
+compDist <- read.csv("data/TableS2801FiveYearEstimates/districtComputers.csv")
+intDist <- read.csv("data/TableS2801FiveYearEstimates/districtInternet.csv")
 # Read in Housing Data ----------------------------------------------------------
           
 # Read in Traffic Data ----------------------------------------------------------
@@ -218,9 +223,10 @@ ui <- navbarPage(title = "I'm a title!",
                                      
                                      column(12, 
                                               selectInput("agedrop", "Select Variable:", width = "100%", choices = c(
-                                              "Age Groups" = "ageGroups",
+                                              "Age Composition" = "ageGroups",
+                                              "Age Composition Over Time" = "ageTime",
                                               "Median Age" = "medAge",
-                                              "Age Depndency" = "ageDep")),
+                                              "Age Dependency" = "ageDep")),
                                             withSpinner(plotOutput("ageplot", height = "800px")),
                                             p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
                                             
@@ -232,10 +238,11 @@ ui <- navbarPage(title = "I'm a title!",
                                    
                                    column(12,
                                           selectInput("bbdrop", "Select Variable:", width = "100%", choices = c(
-                                            "Internet Subscriptions by Income" = "intIncome",
-                                            "Internet Subscription by District" = "compDist",
-                                            "Computer Ownership by District" = "intDist")
-                                          )
+                                            "Internet Subscriptions by Income in Rappahannock" = "intIncome",
+                                            "Internet Subscription and Computer Ownership by District" = "compDist")
+                                          ),
+                                          withSpinner(plotOutput("bbplot", height ="800px")),
+                                          p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
                                    )
                 )),
         
@@ -552,7 +559,7 @@ server <- function(input, output, session) {
          theme(plot.title = element_text(hjust = 0.5, size =25), legend.title = element_blank(),
                legend.text = element_text(size =15))
       
-       ageplot <- grid.arrange(age_group_rappk_pie_plot,age_group_va_pie_plot, ncol =2)
+       ageplot <- grid.arrange(age_group_rappk_pie_plot,age_group_va_pie_plot, ncol =1)
        ageplot
       
     }
@@ -614,12 +621,85 @@ server <- function(input, output, session) {
       ageplot <- grid.arrange(va_dep_plot, counties_dep_plot,district_dep_plot)
       ageplot
     }
+    else if ( ageVar() == "ageTime") {
+      
+      
+    }
     
   })
   
   
   
+  #broadband tab -------------------------------------------------------------
+  bbVar <- reactive({
+    input$bbdrop
+  })
   
+  output$bbplot <- renderPlot({
+    
+    if (bbVar() == "intIncome") {
+      rappk_data4 <- intByIncome%>%
+        group_by(`Income.Range`) %>%
+        arrange(`Income.Range`, desc(Int)) %>%
+        mutate(lab_ypos = cumsum(Percentage) - 0.25 * Percentage) 
+      
+     bbplot <- ggplot(data = rappk_data4, aes(x = `Income.Range`, y = Percentage)) +
+        geom_col(aes(fill = Int), width = 0.7)+
+        geom_text(aes(y = lab_ypos, label = paste0(round(Percentage),"%"), group =Int), color = "white", size =8)+
+        coord_flip() +ggtitle("Internet Subscription based on Income in Rappahannock") +
+        theme(plot.title = element_text(hjust = 0.5, size=20),
+              legend.title = element_blank(),
+              axis.text=element_text(size=15),
+              legend.text = element_text(size=15),
+              axis.title.x=element_blank(),
+              axis.title.y=element_text(size =15)) +
+        xlab("Income Range") +
+        scale_fill_manual(values=c("#009E73","#D55E00"))
+      #plot
+      bbplot
+    }
+    else if (bbVar() == "compDist") {
+      sub_comp3 <- compDist %>%
+        group_by(District) %>%
+        arrange(District, desc(key)) %>%
+        mutate(lab_ypos = cumsum(Percentage) - 0.25 * Percentage) 
+      
+      comp_plot <- ggplot(data = sub_comp3, aes(x = District, y = Percentage)) +
+        geom_col(aes(fill = key), width = 0.7)+
+        geom_text(aes(y = lab_ypos, label = paste0(round(Percentage),"%"), group =key), color = "white", size=8)+
+        coord_flip() +
+        ggtitle("Computer Ownership") +
+        theme(plot.title = element_text(hjust=0.5, size=20),
+              legend.title = element_blank(),
+              axis.text=element_text(size=15),
+              legend.text = element_text(size=15),
+              axis.title.x=element_blank(),
+              axis.title.y=element_text(size =15)) +
+        scale_fill_manual(values=c("#009E73","#D55E00"))
+      
+      sub_int3 <- intDist %>%
+        group_by(District) %>%
+        arrange(District, desc(key)) %>%
+        mutate(lab_ypos = cumsum(Percentage) - 0.25 * Percentage) 
+      
+      sub_plot <- ggplot(data = sub_int3, aes(x = District, y = Percentage)) +
+        geom_col(aes(fill = key), width = 0.7)+
+        geom_text(aes(y = lab_ypos, label = paste0(round(Percentage), "%"), group =key), color = "white", size=8)+
+        coord_flip() +
+        ggtitle("Internet Subscription") +
+        theme(plot.title = element_text(hjust=0.5, size=20),
+              legend.title = element_blank(),
+              axis.text=element_text(size=15),
+              legend.text = element_text(size=15),
+              axis.title.x=element_blank(),
+              axis.title.y=element_text(size =15)) +
+        scale_fill_manual(values=c("#009E73","#D55E00"))
+      
+      bbplot <- grid.arrange(sub_plot, comp_plot, ncol=1)
+      bbplot
+    }
+    
+  })
   
   
   
