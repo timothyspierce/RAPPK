@@ -213,27 +213,6 @@ st_crs(pop_centroid_RPK_dist_4_iso_30) = 4326
 pop_centroid_RPK_dist_4_iso_15 <- readRDS("C:/Users/Leo Allen/Desktop/pop_centroid_RPK_dist_4_iso_15.RDS")
 st_crs(pop_centroid_RPK_dist_4_iso_15) = 4326
 #########################################################################################################################
-
-#For 20 mins
-#POP CENTROID
-pop_centroid_RPK_dist_4_iso_20 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_20.RDS")
-st_crs(pop_centroid_RPK_dist_4_iso_20) = 4326
-
-#For 25 mins
-#POP CENTROID
-pop_centroid_RPK_dist_4_iso_25 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_25.RDS")
-st_crs(pop_centroid_RPK_dist_4_iso_25) = 4326
-
-#For 40 mins
-#POP CENTROID
-pop_centroid_RPK_dist_4_iso_40 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_40.RDS")
-st_crs(pop_centroid_RPK_dist_4_iso_40) = 4326
-
-
-#For 50 mins
-#POP CENTROID
-pop_centroid_RPK_dist_4_iso_50 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_50.RDS")
-st_crs(pop_centroid_RPK_dist_4_iso_50) = 4326
 #########################################################################################################################
 
 #5
@@ -255,7 +234,7 @@ st_crs(pop_centroid_RPK_dist_5_iso_15) = 4326
 ################################################################################################################################################################
 
 # Read in all files file
-mapVA  <- st_read("data/Isochrone/tl_2019_51_tract/tl_2019_51_tract.shp",
+mapVA  <- st_read("data/Isochrone/tract/tl_2019_51_tract.shp",
                   stringsAsFactors = FALSE)
 
 map_and_data <- inner_join(mapVA, acs_RPK_area, by = "GEOID")
