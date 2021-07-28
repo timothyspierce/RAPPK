@@ -205,30 +205,51 @@ ui <- navbarPage(title = "I'm a title!",
                                           h4(strong("Who lives in Rappahannock County?")),
                                           p("Some words"),
                                           p("More words"),
-                                          p("final words")),
+                                          p("final words"))
+                          ),
+                          tabsetPanel(
+                            tabPanel("Age Demographic",
+                                     
+                                     column(8,
+                                              selectInput("agedrop", "Select Variable:", width = "100%", choices = c(
+                                              "Age Groups" = "ageGroups",
+                                              "Median Age" = "medAge",
+                                              "Age Depndency" = "ageDep"))
+                                      )
+                                   
+                                   # column(8,
+                                   #        h4(strong("SocioDemographics")),
+                                   #        selectInput("sociodrop", "Select Variable:", width = "100%", choices = c(
+                                   #          "Age Groups" = "ageGroups",
+                                   #          
+                                   #          
+                                   #          "Percent Population Age 18 and Younger" = "under18",
+                                   #          "Percent Population Black" = "black",
+                                   #          "Percent Population Hispanic" = "hispanic",
+                                   #          "Percent Population Without Bachelor's Degree" = "noba",
+                                   #          "Percent Population In Labor Force Unemployed" = "unempl",
+                                   #          "Percent Population Without Health Insurance" = "nohealthins2",
+                                   #          "Percent Population With Private Health Insurance" = "privateins",
+                                   #          "Percent Population With Public Health Insurance" = "publicins",
+                                   #          "Percent Population in Poverty" = "inpov",
+                                   #          "Percent Population Receiving SNAP Benefits or Public Assistance" = "snap",
+                                   #          "Total Population by Census Block Group" = "totalpop_bgrp",
+                                   #          "Total Population by Census Tract" = "totalpop_trct")
+                                   #        ),
+                                   #        withSpinner(leafletOutput("socioplot")),
+                                   #        p(tags$small("Data Source: American Community Survey 2014/18 5-Year Estimates."))
+                                   # ))
+                          ),
+                          tabPanel("Broadband",
+                                   
                                    column(8,
-                                          h4(strong("SocioDemographics")),
-                                          selectInput("sociodrop", "Select Variable:", width = "100%", choices = c(
-                                            "Percent Population Age 65 and Older" = "age65",
-                                            
-                                            
-                                            "Percent Population Age 18 and Younger" = "under18",
-                                            "Percent Population Black" = "black",
-                                            "Percent Population Hispanic" = "hispanic",
-                                            "Percent Population Without Bachelor's Degree" = "noba",
-                                            "Percent Population In Labor Force Unemployed" = "unempl",
-                                            "Percent Population Without Health Insurance" = "nohealthins2",
-                                            "Percent Population With Private Health Insurance" = "privateins",
-                                            "Percent Population With Public Health Insurance" = "publicins",
-                                            "Percent Population in Poverty" = "inpov",
-                                            "Percent Population Receiving SNAP Benefits or Public Assistance" = "snap",
-                                            "Total Population by Census Block Group" = "totalpop_bgrp",
-                                            "Total Population by Census Tract" = "totalpop_trct")
-                                          ),
-                                          withSpinner(leafletOutput("socioplot")),
-                                          p(tags$small("Data Source: American Community Survey 2014/18 5-Year Estimates."))
-                                   ))
-                                          ),
+                                          selectInput("bbdrop", "Select Variable:", width = "100%", choices = c(
+                                            "Internet Subscriptions by Income" = "intIncome",
+                                            "Internet Subscription by District" = "compDist",
+                                            "Computer Ownership by District" = "intDist")
+                                          )
+                                   )
+                ))),
 
                  # housing market tab -----------------------------------------------------------
                  tabPanel("Housing Market", value = "older",
@@ -498,6 +519,26 @@ server <- function(input, output, session) {
   # Run JavaScript Code
   runjs(jscode)
 
+  
+  
+  #age group pie charts --------------------------------------------------
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
 #traffic  leaflet -------------------------------------------------------------
   output$traffic_markers_map <- renderLeaflet({
