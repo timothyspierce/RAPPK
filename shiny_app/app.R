@@ -44,8 +44,15 @@ county_dep<- read.csv("data/TableB01001FiveYearEstimates/countyAgeDependency.csv
 sub_dep<- read.csv("data/TableB01001FiveYearEstimates/subdivisionAgeDependency.csv")
 va_rappk_dep<- read.csv("data/TableB01001FiveYearEstimates/rappkAgeDependency.csv")
 rappage_timeseries <- readRDS("data/rapp_age_time_series.Rda")
-
+agetimeseries <- readRDS("data/district_age_time_series.Rds")
 intByIncome <- read.csv("data/TableS2801FiveYearEstimates/internetIncome.csv")
+income2010_2019 <- readRDS("data/income2010_2019.Rda")
+householdSize <- read.csv("data/TableS2501FiveYearEstimates/householdSize.csv")
+own <- read.csv("data/TableS2501FiveYearEstimates/ownerOccupied.csv")
+rent <- read.csv("data/TableS2501FiveYearEstimates/renterOccupied.csv")
+rappk_veh <- read.csv("data/TableS2501FiveYearEstimates/vehiclesHousehold.csv")
+county_veh <- read.csv("data/TableS2501FiveYearEstimates/vehiclesHouseholdCounty.csv")
+
 compDist <- read.csv("data/TableS2801FiveYearEstimates/districtComputers.csv")
 intDist <- read.csv("data/TableS2801FiveYearEstimates/districtInternet.csv")
 # Read in Housing Data ----------------------------------------------------------
@@ -225,6 +232,7 @@ ui <- navbarPage(title = "I'm a title!",
                                               selectInput("agedrop", "Select Variable:", width = "100%", choices = c(
                                               "Age Composition" = "ageGroups",
                                               "Age Composition Over Time" = "ageTime",
+                                              "Age Composition Over Time by District" ="ageTime2",
                                               "Median Age" = "medAge",
                                               "Age Dependency" = "ageDep")),
                                             withSpinner(plotOutput("ageplot", height = "800px")),
@@ -237,27 +245,11 @@ ui <- navbarPage(title = "I'm a title!",
                                    
 
                           ),
-                          tabPanel("Broadband",
-                                   
-                                   column(12,
-                                          selectInput("bbdrop", "Select Variable:", width = "100%", choices = c(
-                                            "Internet Subscriptions by Income in Rappahannock" = "intIncome",
-                                            "Internet Subscription and Computer Ownership by District" = "compDist")
-                                          ),
-                                          withSpinner(plotOutput("bbplot", height ="800px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
-                                          
-                                   ),
-                                   column(12,
-                                          h4("Description......")
-                                     
-                                   )
-                                   
-                          ),
+  
                           tabPanel("Income",
                                    column(12,
-                                          #withSpinner(plotOutput(incomePlot)),
-                                          #p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                          withSpinner(plotOutput("incomePlot", height = "1000px")),
+                                          p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
                                           )
                                    
                                    
@@ -279,6 +271,23 @@ ui <- navbarPage(title = "I'm a title!",
                                           
                                    )  
                             
+                          ),
+                          tabPanel("Broadband",
+                                   
+                                   column(12,
+                                          selectInput("bbdrop", "Select Variable:", width = "100%", choices = c(
+                                            "Internet Subscriptions by Income in Rappahannock" = "intIncome",
+                                            "Internet Subscription and Computer Ownership by District" = "compDist")
+                                          ),
+                                          withSpinner(plotOutput("bbplot", height ="800px")),
+                                          p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
+                                          
+                                   ),
+                                   column(12,
+                                          h4("Description......")
+                                          
+                                   )
+                                   
                           )
                 
                 ),
@@ -658,11 +667,161 @@ server <- function(input, output, session) {
       ageplot <- grid.arrange(va_dep_plot, counties_dep_plot,district_dep_plot)
       ageplot
     }
-    else if ( ageVar() == "ageTime") {
-      
+    else if (ageVar() == "ageTime") {
+      ageplot <- ggplot(rappage_timeseries, aes(x = year, y = percent, group = ages, color = ages)) +
+        geom_line(aes(size = estimate)) +
+        labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
+        ylab("Percent of the population") +
+        scale_color_viridis_d(
+          labels = c("under18" = "Under 18", 
+                     "age18_29" = "18 to 29", 
+                     "age30_64" = "30 to 64", 
+                     "age65_older" = "65 and Older")) +
+        theme(plot.title = element_text(hjust=0.5, size =20),
+              legend.text = element_text(size=15),
+              legend.title =element_text(size=15),
+              axis.title.x = element_blank(),
+              axis.title.y = element_text(size=15),
+              axis.text = element_text(size=15))
+      ageplot
       
     }
+    else if (ageVar() == "ageTime2") {
+      ageplot <- ggplot(agetimeseries, aes(x = year, y = percent, color = ages, group = ages)) +
+        geom_line(aes(size = estimate)) +
+        labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
+        xlab("Years") +
+        ylab("Percent of the population") +
+        scale_color_viridis_d(
+          labels = c("under18" = "Under 18", 
+                     "age18_29" = "18 to 29", 
+                     "age30_64" = "30 to 64", 
+                     "age65_older" = "65 and Older")) +
+        facet_wrap(~NAME) +
+        theme(plot.title = element_text(hjust=0.5, size=20),
+              axis.text = element_text(size=15),
+              legend.title = element_text(size=15),
+              legend.text = element_text(size=15),
+              axis.title.x = element_blank(),
+              axis.title.y = element_text(size=15)
+         )
+       ageplot
+    }
     
+  })
+  
+  
+  #income plot ----------------------------------------------------------
+  output$incomePlot <- renderPlot({
+   incomePlot <- ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
+      geom_col(position = "dodge") +
+      facet_wrap(~year) +
+      coord_flip() +
+      scale_fill_viridis_d(name="District") +
+      ylab("Median Income")+
+      ggtitle("Median Income from 2010 to 2019") +
+      theme(plot.title = element_text(hjust=0.5, size=20),
+            legend.text = element_text(size=15),
+            axis.text = element_text(size=15),
+            axis.title.x = element_blank(),
+            axis.title.y = element_text(size=15),
+            legend.title=element_text(size=15))
+   incomePlot
+  })
+  
+  #housheold characteristics -----------------------------------------------
+  hcVar <- reactive({
+    input$hcdrop
+  })
+  
+  output$hcplot <- renderPlot({
+    
+    if(hcVar() == "houseSize") {
+       hcplot <- ggplot(householdSize, aes(x = "", y = estimate, fill = fct_inorder(People))) +
+         geom_col(width = 1, color = 1) +
+       geom_text(aes(label = paste0(estimate, "%")),
+                   position = position_stack(vjust = 0.5), colour="white", size =8) +
+         coord_polar(theta = "y") +
+        guides(fill = guide_legend(title = "Number of People")) +
+         theme(plot.title = element_text(hjust = 0.5, size =20),
+               axis.ticks = element_blank(),
+               axis.title = element_blank(),
+               axis.text = element_blank(), 
+               legend.text = element_text(size=15),
+               legend.title = element_text(size=15),
+               panel.background = element_rect(fill = "white")) +
+         ggtitle("Rappahannock Household Size") +
+         scale_fill_viridis_d()
+       hcplot
+    }
+    
+    
+    else if(hcVar() == "rentOwn") {
+      own_graph <- own %>%
+        ggplot(aes(x = year, y = `Household.Units`)) + 
+        geom_line(position = "identity", show.legend = TRUE, size=1.5) +
+        ggtitle("Owner-Occupied") + theme_minimal() +
+        theme(plot.title = element_text(hjust = 0.5, size=20),
+              axis.title.y = element_text("Housing Units", size=15),
+              axis.title.x = element_blank(),
+              axis.text = element_text(size=15)) +
+        scale_x_continuous(breaks=seq(2010,2019,by=1))
+      #Graph (rent)
+      rent_graph <- rent %>%
+        ggplot(aes(x = year, y = `Household.Units`)) + 
+        geom_line(position = "identity", show.legend = TRUE, size=1.5) +
+        theme_minimal() +
+        ggtitle("Renter-Occupied") +
+        theme(plot.title = element_text(hjust = 0.5, size=20),
+              axis.title.y = element_text("Housing Units", size =15),
+              axis.title.x = element_blank(),
+              axis.text = element_text(size=15)) +
+        scale_x_continuous(breaks=seq(2010,2019,by=1))
+      #putting the graphs together
+      hcplot <- grid.arrange(own_graph, rent_graph, ncol=1)
+    }
+    if(hcVar() == "vehicles"){
+      rappk_veh_plot <- ggplot(rappk_veh, aes(x = "", y = estimate, fill = fct_inorder(type))) +
+        geom_col(width = 1, color = 1) +
+        geom_text(aes(label = paste0(estimate, "%")),
+                  position = position_stack(vjust = 0.5),colour="white", size =8) +
+        coord_polar(theta = "y") +
+        guides(fill = guide_legend(title = "Number of Vehicles")) +
+        theme(plot.title = element_text(hjust = 0.5, size =20),
+              axis.ticks = element_blank(),
+              axis.title = element_blank(),
+              axis.text = element_blank(), 
+              legend.text = element_text(size=15),
+              legend.title = element_text(size=15),
+              panel.background = element_rect(fill = "white")) +
+        ggtitle("Vehicles Available per Household") +
+        scale_fill_viridis_d()
+      
+      county_veh3 <- county_veh %>%
+        group_by(county) %>%
+        arrange(county, desc(num)) %>%
+        mutate(lab_ypos = cumsum(estimate) - 0.20 * estimate) 
+      #Graph
+      county_veh3$num <- factor(county_veh3$num, levels = c("None", "One", "Two", "Three or more"))
+      vehicle_graph <- ggplot(data = county_veh3, aes(x = county, y = estimate)) +
+        geom_col(aes(fill = num), width = 0.7)+
+        geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=8, hjust =1.1)+
+        coord_flip() +
+        ylab("County")+
+        ggtitle("Number of Vehicles per Household")+
+        theme(plot.title = element_text(hjust = 0.5, size=20),
+              legend.title = element_blank(),
+              axis.text=element_text(size=12),
+              legend.text = element_text(size=15),
+              axis.title.x=element_blank(),
+              axis.title.y=element_text(size =15)) +
+        scale_fill_viridis_d()
+      
+      hcplot <- grid.arrange(rappk_veh_plot, vehicle_graph, ncol=1)
+      hcplot
+      
+    }
+ 
   })
   
   
