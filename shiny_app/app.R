@@ -126,10 +126,6 @@ pop_centroid_RPK_iso_30 <- readRDS("data/Isochrone/pop_centroid_RPK_iso_30.RDS")
 #) 
 
 
-
-
-
-
 #write.csv(centerPop_RPK_dist, file="centerPop_RPK_dist.csv")
 CenterPop_dist1 <- read_excel("data/Isochrone/centerPop_RPK_dist.xlsx", sheet=1)
 colnames(CenterPop_dist1)[8] <- "LONGITUDE"
@@ -210,7 +206,7 @@ st_crs(pop_centroid_RPK_dist_4_iso_30) = 4326
 
 #For 15 mins
 #POP CENTROID
-pop_centroid_RPK_dist_4_iso_15 <- readRDS("C:/Users/Leo Allen/Desktop/pop_centroid_RPK_dist_4_iso_15.RDS")
+pop_centroid_RPK_dist_4_iso_15 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_15.RDS")
 st_crs(pop_centroid_RPK_dist_4_iso_15) = 4326
 #########################################################################################################################
 #########################################################################################################################
@@ -287,28 +283,6 @@ acs_RPK_dist <- read.csv("data/Isochrone/Distrpk.csv", header =T)
 ################################################################################################################################################################
 
 
-
-# Examples of previous data being read in  ----------------------------------------------------------
-
-# socdem_block <- readRDS("data/socdem_block.Rds")
-# socdem_block <- st_transform(socdem_block, '+proj=longlat +datum=WGS84')
-# 
-# socdem_tract <- readRDS("data/socdem_tract.Rds")
-# socdem_tract <- st_transform(socdem_tract, '+proj=longlat +datum=WGS84')
-# 
-# connectivity <- readRDS("data/connectivity.Rds")
-# connectivity <- st_transform(connectivity, '+proj=longlat +datum=WGS84')
-# 
-# ems <- readRDS("data/ems.Rds")
-# ems <- st_transform(ems, '+proj=longlat +datum=WGS84')
-# 
-# groceries <- readRDS("data/groceries.Rds")
-# groceries <- st_as_sf(groceries, coords = c("longitude", "latitude"))
-# st_crs(groceries) <- "+proj=longlat +datum=WGS84"
-# groceries <- st_transform(groceries, '+proj=longlat +datum=WGS84')
-# groceries <- subset(groceries, type == "farmers market" | type == "supermarket")
-# groceries_latlong <- readRDS("data/groceries.Rds")
-# groceries_latlong <- subset(groceries_latlong, type == "farmers market" | type == "supermarket")
 
 # CODE TO DETECT ORIGIN OF LINK AND CHANGE LOGO ACCORDINGLY
 jscode <- "function getUrlVars() {
@@ -596,81 +570,7 @@ ui <- navbarPage(title = "I'm a title!",
                           )
                  ),
                  
-                 # Template Services data tab-----------------------------------------------------------
-                 tabPanel("Services", value = "connectivity",
-                          fluidRow(style = "margin: 6px;",
-                                   h1(strong("Services Available Rappahannock County"), align = "center"),
-                                   p("", style = "padding-top:10px;"),
-                                   column(6,
-                                          h4(strong("Computing Device Ownership and Internet Access Type")),
-                                          p("Internet connection and computing devices are key for access to health information and participation in online health-related services like
-                                             telemedicine. Rural areas frequently lack broadband access, experience low internet speeds, and have fewer internet providers available
-                                             than urban areas. It is crucial to consider digital connectivity in improving health care access. We examined digital connectivity in Patrick County in two ways to
-                                             provide the county with insights on where increasing connectivity would facilitate communicating health information and improve online health service access."),
-                                          p("We first examined access to computing devices and internet connection types in Patrick County. We used American Community Survey (ACS) data to
-                                            obtain this information at census block group level. ACS is an ongoing yearly survey conducted by the U.S Census Bureau that samples households
-                                            to compile 1-year and 5-year estimates of population sociodemographic and socioeconomic characteristics. We used the most
-                                            recently available 5-year data from 2014/18 to calculate the percentage of the Patrick County residents with access to devices
-                                            and internet by census block group."),
-                                          br(),
-                                          selectInput("devicedrop", "Select Variable:", width = "100%", choices = c(
-                                            "Percent Households with No Computer" = "nocomputer",
-                                            "Percent Households with Laptop" = "laptop",
-                                            "Percent Households with Smartphone" = "smartphone",
-                                            "Percent Households with Tablet" = "tablet",
-                                            "Percent Households without Internet" = "nointernet",
-                                            "Percent Households with Satellite Internet" = "satellite",
-                                            "Percent Households with Cellular Internet" = "cellular",
-                                            "Percent Households with Broadband Internet" = "broadband")
-                                          ),
-                                          p(strong("Map of Access by Census Block Group")),
-                                          withSpinner(leafletOutput("deviceplot")),
-                                          p(tags$small("Data Source: American Community Survey 2014/18 5-Year Estimates."))),
-                                   column(6,
-                                          h4(strong("Free WiFi Hotspot Access")),
-                                          p("To understand internet access at a more granular level, we examined access to free wi-fi hotspots in the county."),
-                                          p("We obtained wifi hotspot locations using the Virginia Tech and CommonwealthConnect hotspot map. CommonwealthConnect identifies where people can connect to
-                                            the internet for free, decreasing constraints placed on families that do not have internet access at home. We retrieved free internet locations in Patrick
-                                            County from the data. We extracted locations of Patrick County residential properties from 2019 CoreLogic, a proprietary dataset for US real estate that
-                                            includes information on building characteristics. Finally, we used the TravelTime Application Programming Interface (API) to calculate 10- and 15-minute
-                                            car travel time isochrones—areas of equal travel time given a departure time and mode of transportation—from wifi hotspots. TravelTime API aggregates data
-                                            from Open Street Maps, transport timetables and speed profiles to generate isochrones. Isochrones allowed us to identify wifi gaps, or clusters of
-                                            residential properties that cannot reach a free internet location within a selected travel time range."),
-                                          p("This information equips extension agents with knowledge on how best to reach their constituents, as well as identifies internet gaps that suggest where
-                                            new wi-fi hotspots could be optimally placed to provide internet access to more residents."),
-                                          br(),
-                                          tabsetPanel(
-                                            tabPanel("Explore Hotspot Coverage",
-                                                     p(""),
-                                                     selectInput("wifidrop", "Select Free Wifi Location:", width = "100%", choices = c(
-                                                       "Meadows of Dan Elementary School",
-                                                       "Woolwine Elementary School",
-                                                       "Patrick Springs Primary School",
-                                                       "Blue Ridge Elementary School",
-                                                       "Patrick County High School",
-                                                       "Stuart Elementary School",
-                                                       "Patrick County Branch Library",
-                                                       "Hardin Reynolds Memorial School",
-                                                       "Stuart Baptist Church",
-                                                       "Patrick Henry Community College Stuart Campus")),
-                                                     p(strong("Percent Residential Properties Covered")),
-                                                     withSpinner(tableOutput("wifitable")),
-                                                     p(strong("Map of Coverage")),
-                                                     withSpinner(leafletOutput("wifiplot")),
-                                                     p(tags$small("Data Sources: CommonwealthConnect, 2020; CoreLogic, 2019; TravelTime API."))
-                                            ),
-                                            tabPanel("Explore 'Deserts'",
-                                                     p(""),
-                                                     p(strong("Percent Residential Properties Covered")),
-                                                     withSpinner(tableOutput("allwifitable")),
-                                                     p(strong("Map of Free Wi-Fi Deserts")),
-                                                     withSpinner(leafletOutput("allwifi")),
-                                                     p(tags$small("Data Sources: CommonwealthConnect, 2020; CoreLogic, 2019; TravelTime API."))
-                                            )
-                                          )
-                                   )
-                          )
-                 ),
+
   # Services data tab-----------------------------------------------------------
                  tabPanel("Services", value = "",
                           fluidRow(style = "margin: 6px;",
