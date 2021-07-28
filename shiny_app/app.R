@@ -229,7 +229,7 @@ ui <- navbarPage(title = "I'm a title!",
                           tabsetPanel(
                             tabPanel("Age Demographic",
                                      
-                                     column(12, 
+                                     column(8, 
                                               selectInput("agedrop", "Select Variable:", width = "100%", choices = c(
                                               "Age Composition" = "ageGroups",
                                               "Age Composition Over Time" = "ageTime",
@@ -240,24 +240,28 @@ ui <- navbarPage(title = "I'm a title!",
                                             p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
                                             
                                       ),
-                                     column(12,
-                                            h4("description.....")
+                                     column(4,
+                                            h4("Age Description.....")
                                             )
                                    
 
                           ),
   
                           tabPanel("Income",
-                                   column(12,
+                                   column(8,
                                           withSpinner(plotOutput("incomePlot", height = "1000px")),
                                           p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
-                                          )
+                                          ),
+                                   column(4,
+                                          h4("Income Description....")
+                                     
+                                   )
                                    
                                    
                                    ),
                           
                           tabPanel("Household Characteristics",
-                                   column(12,
+                                   column(8,
                                           selectInput("hcdrop", "Select Variable:", width = "100%", choices = c(
                                             "Household Size" = "houseSize",
                                             "Households Occupied by Renters and Owners" = "rentOwn",
@@ -267,15 +271,15 @@ ui <- navbarPage(title = "I'm a title!",
                                           p(tags$small("Data Source: ACS Five Year Estimate Tables S2504 and S2501"))
                                           
                                    ),
-                                   column(12,
-                                          h4("Description......")
+                                   column(4,
+                                          h4("Houshold Characteristics Description......")
                                           
                                    )  
                             
                           ),
                           tabPanel("Broadband",
                                    
-                                   column(12,
+                                   column(8,
                                           selectInput("bbdrop", "Select Variable:", width = "100%", choices = c(
                                             "Internet Subscriptions by Income in Rappahannock" = "intIncome",
                                             "Internet Subscription and Computer Ownership by District" = "compDist")
@@ -284,8 +288,8 @@ ui <- navbarPage(title = "I'm a title!",
                                           p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
                                           
                                    ),
-                                   column(12,
-                                          h4("Description......")
+                                   column(4,
+                                          h4(" Broadband Description......")
                                           
                                    )
                                    
@@ -807,16 +811,16 @@ server <- function(input, output, session) {
       county_veh3$num <- factor(county_veh3$num, levels = c("None", "One", "Two", "Three or more"))
       vehicle_graph <- ggplot(data = county_veh3, aes(x = county, y = estimate)) +
         geom_col(aes(fill = num), width = 0.7)+
-        geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=8, hjust =1.1)+
+        geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=6, hjust =1.1)+
         coord_flip() +
         ylab("County")+
-        ggtitle("Number of Vehicles per Household")+
+        ggtitle("Number of Vehicles per Household in Surrounding Counties")+
         theme(plot.title = element_text(hjust = 0.5, size=20),
               legend.title = element_blank(),
               axis.text=element_text(size=12),
               legend.text = element_text(size=15),
               axis.title.x=element_blank(),
-              axis.title.y=element_text(size =15)) +
+              axis.title.y=element_blank()) +
         scale_fill_viridis_d()
       
       hcplot <- grid.arrange(rappk_veh_plot, vehicle_graph, ncol=1)
