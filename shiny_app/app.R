@@ -27,7 +27,6 @@ library(dplyr)
 library(ggplotify)
 library(grid)
 library(gridExtra)
-library(forcats)
 
 prettyblue <- "#232D4B"
 navBarBlue <- '#427EDC'
@@ -71,7 +70,244 @@ traffic_2018 <- read_excel("data/traffic/traffic_data_2018.xls")
 traffic_2019 <- read_excel("data/traffic/traffic_data_2019.xls")
 traffic_2020 <- read_excel("data/traffic/traffic_data_2020.xlsx") 
 coordinates <- read_excel("data/traffic/traffic_coordinates.xlsx")
+
 # Read in Service Data ----------------------------------------------------------
+#Save
+#saveRDS(acs5, file = paste0('acs5','.RDS'))
+acs5 <- readRDS("data/Isochrone/acs5.RDS")
+
+#saveRDS(acs_RPK, file = paste0('acs_RPK','.RDS'))
+acs_RPK <- readRDS("data/Isochrone/acs_RPK.RDS")
+
+#saveRDS(acs_RPK_dist, file = paste0('acs_RPK_dist','.RDS'))
+acs_RPK_dist <- readRDS("data/Isochrone/acs_RPK_dist.RDS")
+
+#saveRDS(acs_RPK_area, file = paste0('acs_RPK_area','.RDS'))
+acs_RPK_area <- readRDS("data/Isochrone/acs_RPK_area.RDS")
+
+#saveRDS(va_sf, file = paste0('va_sf','.RDS'))
+va_sf <- readRDS("data/Isochrone/va_sf.RDS")
+
+#saveRDS(RPK_outline, file = paste0('RPK_outline','.RDS'))
+RPK_outline <- readRDS("data/Isochrone/RPK_outline.RDS")
+
+#saveRDS(RPK_area_outline, file = paste0('RPK_area_outline','.RDS'))
+RPK_area_outline <- readRDS("data/Isochrone/RPK_area_outline.RDS")
+
+#saveRDS(RPK_dist_outline, file = paste0('RPK_dist_outline','.RDS'))
+RPK_dist_outline <- readRDS("data/Isochrone/RPK_dist_outline.RDS")
+################################################################################################################################################################
+
+#Centroid of the County
+#CenterPop_county <- read.csv("data/Isochrone/CenPop2010_Mean_CO51.txt", header =T)
+
+#centerPop_RPK <- CenterPop_county %>% filter(COUNAME %in% c("Rappahannock")
+#) #%>% filter(COUNTYFP == 157)
+#saveRDS(centerPop_RPK, file = paste0('centerPop_RPK','.RDS'))
+centerPop_RPK <- readRDS("data/Isochrone/centerPop_RPK.RDS")
+
+#saveRDS(centerPop_RPK_dist, file = paste0('centerPop_RPK_dist','.RDS'))
+centerPop_RPK_dist <- readRDS("data/Isochrone/centerPop_RPK_dist.RDS")
+
+
+
+pop_centroid_RPK_iso_15 <- readRDS("data/Isochrone/pop_centroid_RPK_iso_15.RDS")
+pop_centroid_RPK_iso_30 <- readRDS("data/Isochrone/pop_centroid_RPK_iso_30.RDS")
+
+
+#Centroid of the Districts
+#Obtained from:
+#https://www.census.gov/geographies/reference-files/time-series/geo/centers-population.html
+
+#CenterPop_dist <- read.csv("data/Isochrone/CenPop2010_Mean_CO51_157.txt", header =T)
+
+#centerPop_RPK_dist <- CenterPop_dist %>%  filter(COUNTYFP == 157)
+#%>% filter(COUNAME %in% c("Rappahannock")
+#) 
+
+
+
+
+
+
+#write.csv(centerPop_RPK_dist, file="centerPop_RPK_dist.csv")
+CenterPop_dist1 <- read_excel("data/Isochrone/centerPop_RPK_dist.xlsx", sheet=1)
+colnames(CenterPop_dist1)[8] <- "LONGITUDE"
+colnames(CenterPop_dist1)[7] <- "LATITUDE"
+
+CenterPop_dist2 <- read_excel("data/Isochrone/centerPop_RPK_dist.xlsx", sheet=2)
+colnames(CenterPop_dist2)[8] <- "LONGITUDE"
+colnames(CenterPop_dist2)[7] <- "LATITUDE"
+
+CenterPop_dist3 <- read_excel("data/Isochrone/centerPop_RPK_dist.xlsx", sheet=3)
+colnames(CenterPop_dist3)[8] <- "LONGITUDE"
+colnames(CenterPop_dist3)[7] <- "LATITUDE"
+
+CenterPop_dist4 <- read_excel("data/Isochrone/centerPop_RPK_dist.xlsx", sheet=4)
+colnames(CenterPop_dist4)[8] <- "LONGITUDE"
+colnames(CenterPop_dist4)[7] <- "LATITUDE"
+
+CenterPop_dist5 <- read_excel("data/Isochrone/centerPop_RPK_dist.xlsx", sheet=5)
+colnames(CenterPop_dist5)[8] <- "LONGITUDE"
+colnames(CenterPop_dist5)[7] <- "LATITUDE"
+
+
+################################################################################################################################################################
+#travel time, I did this once to generate center RDS file
+#to get the api and the id I visited the website and signed up:
+#https://traveltime.com/docs/api/overview/getting-keys
+
+traveltime_api <- "7bbbad489d637c38b2bea80e1e413721"
+traveltime_id <- "c1fae682"
+
+###################################################################################################################################
+#INDIVIDUAL DISTRICTS
+#1
+
+#For 30 mins
+#POP CENTROID
+pop_centroid_RPK_dist_1_iso_30 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_1_iso_30.RDS")
+st_crs(pop_centroid_RPK_dist_1_iso_30) = 4326
+
+#For 15 mins
+#POP CENTROID
+pop_centroid_RPK_dist_1_iso_15 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_1_iso_15.RDS")
+st_crs(pop_centroid_RPK_dist_1_iso_15) = 4326
+
+#########################################################################################################################
+#2
+
+#For 30 mins
+#POP CENTROID
+pop_centroid_RPK_dist_2_iso_30 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_2_iso_30.RDS")
+st_crs(pop_centroid_RPK_dist_2_iso_30) = 4326
+
+#For 15 mins
+#POP CENTROID
+pop_centroid_RPK_dist_2_iso_15 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_2_iso_15.RDS")
+st_crs(pop_centroid_RPK_dist_2_iso_15) = 4326
+
+#########################################################################################################################
+#3
+
+#For 30 mins
+#POP CENTROID
+pop_centroid_RPK_dist_3_iso_30 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_3_iso_30.RDS")
+st_crs(pop_centroid_RPK_dist_3_iso_30) = 4326
+
+#For 15 mins
+#POP CENTROID
+pop_centroid_RPK_dist_3_iso_15 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_3_iso_15.RDS")
+st_crs(pop_centroid_RPK_dist_3_iso_15) = 4326
+
+#########################################################################################################################
+#4
+
+#For 30 mins
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_30 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_30.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_30) = 4326
+
+#For 15 mins
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_15 <- readRDS("C:/Users/Leo Allen/Desktop/pop_centroid_RPK_dist_4_iso_15.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_15) = 4326
+#########################################################################################################################
+
+#For 20 mins
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_20 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_20.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_20) = 4326
+
+#For 25 mins
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_25 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_25.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_25) = 4326
+
+#For 40 mins
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_40 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_40.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_40) = 4326
+
+
+#For 50 mins
+#POP CENTROID
+pop_centroid_RPK_dist_4_iso_50 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_4_iso_50.RDS")
+st_crs(pop_centroid_RPK_dist_4_iso_50) = 4326
+#########################################################################################################################
+
+#5
+
+#For 30 mins
+#POP CENTROID
+pop_centroid_RPK_dist_5_iso_30 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_5_iso_30.RDS")
+st_crs(pop_centroid_RPK_dist_5_iso_30) = 4326
+
+
+
+#For 15 mins
+#POP CENTROID
+pop_centroid_RPK_dist_5_iso_15 <- readRDS("data/Isochrone/pop_centroid_RPK_dist_5_iso_15.RDS")
+st_crs(pop_centroid_RPK_dist_5_iso_15) = 4326
+################################################################################################################################################################
+
+
+################################################################################################################################################################
+
+# Read in all files file
+mapVA  <- st_read("data/Isochrone/tl_2019_51_tract/tl_2019_51_tract.shp",
+                  stringsAsFactors = FALSE)
+
+map_and_data <- inner_join(mapVA, acs_RPK_area, by = "GEOID")
+
+################################################################################################################################################################
+
+#Services
+Adultcare <- read_excel("data/Isochrone/assistedAdultDisabilityElderly.xlsx", sheet=1)
+colnames(Adultcare)[7] <- "Longitude"
+colnames(Adultcare)[8] <- "Latitude"
+
+Food_Clothing <- read_excel("data/Isochrone/FoodClothing.xlsx")
+colnames(Food_Clothing)[7] <- "Longitude"
+colnames(Food_Clothing)[8] <- "Latitude"
+
+entertain <- read_excel("data/Isochrone/Entertainment.xlsx")
+colnames(entertain)[7] <- "Longitude"
+colnames(entertain)[8] <- "Latitude"
+
+Hospital <- read_excel("data/Isochrone/hospitalsHealthDentalFreeClinics.xlsx")
+colnames(Hospital)[7] <- "Longitude"
+colnames(Hospital)[8] <- "Latitude"
+
+education <- read_excel("data/Isochrone/education.xlsx")
+colnames(education)[7] <- "Longitude"
+colnames(education)[8] <- "Latitude"
+
+professional <- read_excel("data/Isochrone/professional.xlsx")
+colnames(professional)[7] <- "Longitude"
+colnames(professional)[8] <- "Latitude"
+
+recreation <- read_excel("data/Isochrone/recreation.xlsx")
+colnames(recreation)[7] <- "Longitude"
+colnames(recreation)[8] <- "Latitude"
+
+transit <- read_excel("data/Isochrone/transit.xlsx")
+colnames(transit)[7] <- "Longitude"
+colnames(transit)[8] <- "Latitude"
+
+banks <- read_excel("data/Isochrone/banks.xlsx")
+colnames(transit)[7] <- "Longitude"
+colnames(transit)[8] <- "Latitude"
+
+################################################################################################################################################################
+
+
+#I am reordering the districts to correct them in the map, without this the map
+#does not have the right figures.
+acs_RPK_dist <- read.csv("data/Isochrone/Distrpk.csv", header =T)
+################################################################################################################################################################
+
+
 
 # Examples of previous data being read in  ----------------------------------------------------------
 
@@ -381,7 +617,7 @@ ui <- navbarPage(title = "I'm a title!",
                           )
                  ),
                  
-                 # traffic data tab-----------------------------------------------------------
+                 # Template Services data tab-----------------------------------------------------------
                  tabPanel("Services", value = "connectivity",
                           fluidRow(style = "margin: 6px;",
                                    h1(strong("Services Available Rappahannock County"), align = "center"),
@@ -456,7 +692,41 @@ ui <- navbarPage(title = "I'm a title!",
                                    )
                           )
                  ),
-                 
+  # Services data tab-----------------------------------------------------------
+                 tabPanel("Services", value = "",
+                          fluidRow(style = "margin: 6px;",
+                                   h2(strong("Services Available Rappahannock County"), align = "center"),
+                                   p("", style = "padding-top:10px;"),
+                                   column(6,
+                                          h4("Services in Rappahannock County"),
+                                          p("Rappahannock Map with services and Driving boundaries.")
+                                   ),
+                                   column(12,h2(strong("About the Map")),
+                                          p(" Write up ->To understand a general suite of services available in Rappahannock, we sourced publicly available demographic and infrastructure data to provide an overview of the services and amenities in Rappahannock. The data were primarily obtained from the 
+ American Community Survey. The list of services was compiled from the Rappahannock news guide and resource guide."),
+                                   column(12,
+                                          withSpinner(leafletOutput("map_with_all_point", height ="700px")),
+                                          p(tags$small("Data Source: American Community Survey"))
+                                   ),
+                                   column(12,h2(strong("Services")),
+                                          p(" In many respects, Rappahannock County is uniquely endowed with built amenities and services. However, most of them are clustered or available outside the county. The map highlights the key resources that are available and accessed in the county.
+ As the map shows, it most of the services are situated in and around Washington district where  inhabitants have easy access to  and other supporting infrastructure. "),
+                                          
+                                  column(12,h2(strong("Distance")),
+                                          p("From the map we can see two boundaries. The inner driving boundary the map surrounding District centroid represents all parts of the region that are within a 15-minute drive from the center of the county (the green cloud). The outer driving boundary on the map surrounding District centroid represents all parts of the region 
+ that are within a 30-minute drive from the center of the county (the red cloud). Additionally, the Rappahanock centroud has a driving map included. Talk about the Piedmont issue"),
+
+column(12,h2(strong("Sources")),
+ p("Services Check these and get a standardized reference
+ https://www.rappahannock.com/business-directory
+ resource_guide pdf
+ rappk_news_guide pdf"),
+p(tags$small("Data Source: American Community Survey"))
+                                   ),
+                                   
+                                   
+                          )
+                 ),),),),                  
                  # data tab -----------------------------------------------------------
                  tabPanel("Data and Measures", value = "data",
                           fluidRow(style = "margin: 6px;",
@@ -742,7 +1012,7 @@ server <- function(input, output, session) {
   output$hcplot <- renderPlot({
     
     if(hcVar() == "houseSize") {
-       hcplot1 <- ggplot(householdSize, aes(x = "", y = estimate, fill = fct_inorder(People))) +
+       hcplot <- ggplot(householdSize, aes(x = "", y = estimate, fill = fct_inorder(People))) +
          geom_col(width = 1, color = 1) +
        geom_text(aes(label = paste0(estimate, "%")),
                    position = position_stack(vjust = 0.5), colour="white", size =8) +
@@ -757,8 +1027,7 @@ server <- function(input, output, session) {
                panel.background = element_rect(fill = "white")) +
          ggtitle("Rappahannock Household Size") +
          scale_fill_viridis_d()
-       
-       hcplot <- grid.arrange(hcplot1)
+       hcplot
     }
     
     
@@ -1101,7 +1370,173 @@ server <- function(input, output, session) {
   
   
   
+   #Service  leaflet -------------------------------------------------------------
+  output$map_with_all_point <- renderLeaflet({
+    
+    #making the map
+    mypalette <- colorNumeric(palette="viridis", centerPop_RPK_dist$POPULATION)
+    
+    map_with_all_point <- leaflet() %>%
+      addTiles() %>%
+      addProviderTiles("Esri") %>%
+      
+      addPolygons(data=RPK_dist_outline,color = mypalette(centerPop_RPK_dist$POPULATION),
+                  smoothFactor = 0.2, fillOpacity=.6, weight = 1,stroke = F, 
+                  label=paste(" ", acs_RPK_dist$Census_tract,", Population: ",centerPop_RPK_dist$POPULATION), 
+      )%>%
+      addLegend(pal = mypalette,position = "topleft",values = centerPop_RPK_dist$POPULATION,
+                opacity = .6,title= paste("Total Population")) %>%
+      
+      addPolylines(data = RPK_dist_outline, color = "black", opacity = 2, weight = 2,)       %>%
+      addPolylines(data = RPK_area_outline, color = "black", opacity = 1, weight = 1)       %>%
+      addPolylines(data = RPK_outline, color = "black", opacity = 2, weight = 2 ) %>%
+      
+      ###Adding the travel time bounds
+      addPolygons(data = pop_centroid_RPK_dist_1_iso_15 , color = "green",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Wakefield Driving")%>%
+      #addLegend(colors = "slategray", labels = "60 Minute Drive Boundary") %>%
+      addPolygons(data = pop_centroid_RPK_dist_1_iso_30, color = "red",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Wakefield Driving")%>%
+      #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
+      
+      
+      addPolygons(data = pop_centroid_RPK_dist_2_iso_15 , color = "green",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
+      #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
+      addPolygons(data = pop_centroid_RPK_dist_2_iso_30 , color = "red",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Hampton Driving")%>%
+      # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
+      
+      
+      addPolygons(data = pop_centroid_RPK_dist_3_iso_15 , color = "green",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Jackson Driving")%>%
+      #addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
+      addPolygons(data = pop_centroid_RPK_dist_3_iso_30 , color = "red",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Jackson Driving")%>%
+      #addLegend(colors = "slategray", labels = "60 Minute Drive Boundary") %>%
+      
+      
+      addPolygons(data = pop_centroid_RPK_dist_4_iso_15 , color = "green",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
+      #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
+      addPolygons(data = pop_centroid_RPK_dist_4_iso_30 , color = "red",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Piedmont Driving")%>%
+      # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
+      
+      addPolygons(data = pop_centroid_RPK_dist_5_iso_15 , color = "green",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Stonewall-Hawthorne Driving")%>%
+      #addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
+      addPolygons(data = pop_centroid_RPK_dist_5_iso_30 , color = "red",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Stonewall-Hawthorne Driving")%>%
+      # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
+      
+      addPolygons(data = pop_centroid_RPK_iso_30 , color = "red",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Rappahannock Driving")%>%
+      # addLegend(colors = "blue", labels = "30 Minute Drive Boundary") %>%
+      addPolygons(data = pop_centroid_RPK_iso_15 , color = "green",
+                  opacity = 1, weight = 2, fillColor = "white",fillOpacity = .1, group = "Rappahannock Driving")%>%
+      # addLegend(colors = "green", labels = "15 Minute Drive Boundary") %>%
+      
+      
+      addLayersControl(overlayGroups = c("Rappahannock Driving", "Wakefield Driving", 
+                                         "Piedmont Driving", "Hampton Driving", "Jackson Driving", "Stonewall-Hawthorne Driving"), 
+                       options = layersControlOptions(collapsed = FALSE), position = "topright") %>%
+      hideGroup("Rappahannock Driving")%>% 
+      hideGroup("Wakefield Driving")%>% 
+      hideGroup("Piedmont Driving")%>%
+      hideGroup("Hampton Driving")%>%
+      hideGroup("Jackson Driving")%>%
+      hideGroup("Stonewall-Hawthorne Driving")%>%
+      
+      
+      addCircleMarkers(centerPop_RPK_dist,lat = centerPop_RPK_dist$LATITUDE, lng= centerPop_RPK_dist$LONGITUDE,
+                       radius =  4,
+                       color = "red",
+                       stroke = TRUE, fillOpacity = 1,
+      ) %>%
+      addLegend(colors = "red", labels = "District Population Centroid") %>%
+      
+      addCircleMarkers(centerPop_RPK,lat = centerPop_RPK$LATITUDE, lng= centerPop_RPK$LONGITUDE,
+                       radius =  4,
+                       color = "white",
+                       stroke = TRUE, fillOpacity = 1
+      ) %>%
+      addLegend(colors = "white", labels = " Rappahannock Population Centroid") %>%
+      
+      ###SERVICES
+      addCircleMarkers(entertain,lat = entertain$Latitude, lng= entertain$Longitude,
+                       radius =  4,
+                       color = "#55DDE0",
+                       stroke = TRUE, fillOpacity = 1
+      ) %>%
+      addLegend(colors = "#55DDE0", labels = "Entertainment Centers") %>%
+      
+      addCircleMarkers(Adultcare,lat = Adultcare$Latitude ,
+                       lng = Adultcare$Longitude,
+                       radius =  3,
+                       color = "magenta",
+                       stroke = TRUE, fillOpacity = 1
+      ) %>%
+      addLegend(colors = "magenta", labels = "Adultcare/Assisted Living/Disability Center/Elderly") %>%
+      
+      addCircleMarkers(Food_Clothing,lat = Food_Clothing$Latitude ,
+                       lng = Food_Clothing$Longitude,
+                       radius =  3,
+                       color = "tomato",
+                       stroke = TRUE, fillOpacity = 1
+      ) %>%
+      addLegend(colors = "tomato", labels = "Food & Clothing")%>%
+      addCircleMarkers(Hospital,lat = Hospital$Latitude ,
+                       lng = Hospital$Longitude,
+                       radius =  3,
+                       color = "orange",
+                       stroke = TRUE, fillOpacity = 1
+      ) %>%
+      addLegend(colors = "orange", labels = "Hospitals/Healthcare/Dental/FreeClinics")%>%
+      
+      addCircleMarkers(education,lat = education$Latitude ,
+                       lng = education$Longitude,
+                       radius =  3,
+                       color = "black",
+                       stroke = TRUE, fillOpacity = 1
+      )%>%
+      addLegend(colors = "black", labels = "Education")%>%
+      addCircleMarkers(professional,lat = professional$Latitude ,
+                       lng = professional$Longitude,
+                       radius =  3,
+                       color = "brown",
+                       stroke = TRUE, fillOpacity = 1
+      )%>%
+      addLegend(colors = "brown", labels = "Professional")%>%
+      addCircleMarkers(recreation,lat = recreation$Latitude ,
+                       lng = recreation$Longitude,
+                       radius =  3,
+                       color = "purple",
+                       stroke = TRUE, fillOpacity = 1
+      )%>%
+      addLegend(colors = "purple", labels = "Recreation")%>%
+      
+      addCircleMarkers(transit,lat = transit$Latitude ,
+                       lng = transit$Longitude,
+                       radius =  3,
+                       color = "darkgreen",
+                       stroke = TRUE, fillOpacity = 1
+      )%>%
+      addLegend(colors = "darkgreen", labels = "Transit")%>%
+      addCircleMarkers(banks,lat = banks$Latitude ,
+                       lng = banks$Longitude,
+                       radius =  3,
+                       color = "deeppink",
+                       stroke = TRUE, fillOpacity = 1
+      )%>%
+      addLegend(colors = "deeppink", labels = "Banks")%>% 
+      setView(lat = centerPop_RPK$LATITUDE, lng= centerPop_RPK$LONGITUDE, zoom =11)
+    
+    
+    #Show the map
+    map_with_all_point
   
+  }) 
   
   
   
