@@ -390,24 +390,27 @@ ui <- navbarPage(title = "I'm a title!",
                                             Rappahannock is surrounded in the northwest by the Blue Ridge Mountains and in the southwest by Shenandoah National Park.
                                             Despite the geographical proximity to the state and national capital, an aging population in rural Rappahannock faces geographical isolation, income inequality,
                                             lack of local services, and rising housing prices amidst tensions around land conservation."),
-                                         
-                                   ),
-                                   column(4,
-                                          h2(strong("Our Work")),
                                           p("With the help of the Virginia Cooperative Extension personnel and other stakeholders in Rappahannock county, 
                                             our research team identified the pressing challenges faced by the current inhabitants in the county. 
                                             The priority challenges surrounding demographics, income inequality, availability of services, transportation, housing, etc. 
                                             were discussed in a meeting between the research team and the stakeholders at the inception of the project.
                                             In the initial meeting, there seemed to be a lack of compiled data that the county stakeholders could analyze and visualize,
                                             which has been inhibiting them from taking actionable policies to improve certain focus areas identified as challenges for Rappahannock residents."),
+                                         
+                                   ),
+                                   column(4,
+                                          h2(strong("Our Work")),
+                                    
                                           p(),
                                           p("The research team compiled and utilized publicly available data from the American Community Survey (ACS) 
                                             and Virginia Department of Transportation’s Annual Average Daily Traffic (AADT) to explore the questions and concerns held by stakeholders.
                                             We implemented the data science approach to analyze and create four priority areas for Rappahannock county. In our temporal analysis (wherever applicable), 
                                             we use a 10 year time frame from 2010-2019."),
+                                          p(),
+                                          p("Our conclusions based on state-of-the-art techniques of data analysis and visualization allow the stakeholders to better understand the interplay of the county’s current profile with the present and recently evolved characterization of housing market, availability of services, and changing traffic patterns. The combined analysis helps correlate the several challenges in Rappahannock both spatially and how they evolved over the last decade and helps provide directions for policies that could help the county residents in the future. "),
                                           
                                           p(),
-                                          p("This dashboard compiles our findings and allows extension professionals, stakeholders, and other users to explore the information interactively.")
+                                          p("This dashboard compiles our findings and allows users to explore the information interactively.")
                                    ),
                                    column(4,
                                           h2(strong("Project Outcomes")),
@@ -415,12 +418,11 @@ ui <- navbarPage(title = "I'm a title!",
                                           tags$li(strong("County Profile:"), "A characterization by the five Rappahannock districts and over time of age composition and prevalence of dependency, income distribution, 
                                                   household description and ownership of housing and vehicles, and access to computer and internet.
                                                   A basic understanding of the county profile and its evolution over time enables us to associate the demographic characteristics with the current challenges in the county."),
-                                          tags$li(strong("Housing Market:"), "An overview of the distribution of housing prices in the five districts and how that has changed over time. This district-by-district analysis of the housing market displays where more expensive houses (over $500,000) were built over the last decade. It also shows the total number of houses in each housing price bracket, by district. "),
+                                          tags$li(strong("Housing Market:"), "Included in the County Profile, an overview of the distribution of housing prices in the five districts and how that has changed over time. This district-by-district analysis of the housing market displays where more expensive houses (over $500,000) were built over the last decade. It also shows the total number of houses in each housing price bracket, by district. "),
                                           tags$li(strong("Traffic:"), "Using last 10 years AADT data from Virginia Department of Transportation, we analyze and provide a visualization of volume and percentage change of traffic in major route segments with Rappahannock. The interactive map shows the routes where traffic volume has expanded as well as segments where traffic volume shrunk. Additionally, we also display the annual change in traffic volume for each year in the last decade for all the chosen segments.  ."),
-                                          tags$li(strong("Services:"), " To explore the issue on availability of services, we sourced publicly available online data from the ACS, Rappahannock news and resource guides, as well as undigitized pamphlets gathered by the research team from Rappahannock County Library, and georeferenced the list of services in the county’s map, which overlayed on a base map of population distribution by district. For each of the five districts, we create 15- and 30- minute driving distance isochrones with the center being the district population centroid as obtained from the ACS. Since many residents also access services outside of Rappahannock in the neighboring counties of Culpeper and Fauquier, our interactive map also shows the cluster of services in the towns of Culpeper and Warrenton, respectively. The isochrones from each district center shows the services that can be reached within 15 and 30 minutes. Since the base of the map is a that of a district population density, this interactive visualization displays the pattern of driving distance isochrones, population densities, and available services within and outside of Rappahannock. "),
+                                          tags$li(strong("Services:"), " To explore the availability of services, we sourced publicly available online data from the ACS, The Guide by Rappahannock News, the Aging Together’s Regional Resource Guide, and various undigitized pamphlets gathered from the Rappahannock County Library. We georeferenced this list of services and overlayed them on a map of population distribution by district. We then create driving distance isochrones that show which services can reached within 15 or 30 minutes of the district population-centroid. Population centroid data is provided by the ACS. Since some services are only available outside of Rappahannock, we include clusters of services in Culpeper and Warrenton. Our interactive map displays the pattern of driving distance isochrones, population densities, and available services within and outside of Rappahannock.")
                                           
-                                          p(strong("State government representatives in the Virginia Department of Health and the State Office of Rural Health."), "These and similar stakeholders may
-                                            need small or rural area-specific insights that Centers for Disease Control and other county-level datasets cannot provide.")
+                              
                                    )
                           ),
                           fluidRow(align = "center",
