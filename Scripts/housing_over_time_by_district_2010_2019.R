@@ -504,7 +504,9 @@ housing2010_2019$homevalues <- factor(housing2010_2019$homevalues, levels = home
 housing2010_2019 <- housing2010_2019  %>%  mutate(percent_of_houses = (housing2010_2019$estimated_total/housing2010_2019$summary_est * 100))
 housing2010_2019 <- housing2010_2019 %>% mutate(pop_per_home = estimated_total/population)
 
+View(housing2010_2019)
 
+saveRDS(housing2010_2019, "shiny_app/data/housing2010_2019_by_district.Rds")
 
 ggplot(housing2010_2019, aes(x = year, y = pop_per_home, group = homevalues, color = homevalues)) +
   geom_line(aes(size = estimated_total)) +
