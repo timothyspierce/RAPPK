@@ -43,7 +43,8 @@ plot_theme <- theme(plot.title = element_text(hjust = 0.5),
                     axis.text=element_text(size=12),
                     legend.text = element_text(size=12),
                     axis.title.x=element_text(size =13),
-                    axis.title.y=element_text(size =13))
+                    axis.title.y=element_text(size =13),
+                    panel.background = element_blank())
 
 ####################### For Housing Values ###########################
 
@@ -500,14 +501,39 @@ housing2010_2019 <-  housingwide2019 %>%
   st_as_sf()
 
 housing2010_2019$homevalues <- factor(housing2010_2019$homevalues, levels = homevalue_vector) 
-housing2010_2019 %>%  mutate(percent_of_houses = (housing2010_2019$estimated_total/housing2010_2019$summary_est * 100))
-
-
-
+housing2010_2019 <- housing2010_2019  %>%  mutate(percent_of_houses = (housing2010_2019$estimated_total/housing2010_2019$summary_est * 100))
 housing2010_2019 <- housing2010_2019 %>% mutate(pop_per_home = estimated_total/population)
+
+
 
 ggplot(housing2010_2019, aes(x = year, y = pop_per_home, group = homevalues, color = homevalues)) +
   geom_line(aes(size = estimated_total)) +
-  facet_wrap(~NAME)
+  facet_wrap(~NAME) +
+  labs(size = "Number of Homes") +
+  ylab("Proportion of People Per Home") +
+  ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
+  scale_color_viridis_d(name = "Home Value Brackets") +
+  plot_theme
+
+
+ggplot(housing2010_2019, aes(x = year, y = estimated_total, group = homevalues, color = homevalues)) +
+  geom_line(aes(size = estimated_total)) +
+  ylab("Number of Homes") +
+  facet_wrap(~NAME) +
+  labs(size = "Number of Homes") +
+  ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
+  scale_color_viridis_d(name = "Home Value Brackets") +
+  plot_theme
+
+
+ggplot(housing2010_2019, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
+  geom_line(aes(size = estimated_total)) +
+  ylab("Percentage of Homes") +
+  facet_wrap(~NAME) +
+  labs(size = "Number of Homes") +
+  ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
+  scale_color_viridis_d(name = "Home Value Brackets") +
+  plot_theme
+
 
 

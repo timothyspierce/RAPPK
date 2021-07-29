@@ -451,13 +451,34 @@ ui <- navbarPage(title = "I'm a title!",
                                               "Median Age" = "medAge",
                                               "Age Dependency" = "ageDep")),
                                             withSpinner(plotOutput("ageplot", height = "800px")),
-                                            #p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
                                             
                                       ),
                                      column(3,
-                                            h4("Age Description.....")
-                                            )
-                                   
+                                            h4("Age Demographic", align = "center"),
+                                            h5("Age Composition"),
+                                            p("The pie charts show the age proportions for Rappahannock and Virginia in 2019. Rappahannock county has a greater percent
+                                            population of seniors than Virginia with an 11% difference. Rappahnnock has a noticeably smaller percent of adolescent and young adult populations
+                                              than Virginia."),
+                             
+                                     
+                                            h5("Age Composition Over Time"),
+                                            p("description....................................................."),
+
+                                     
+                                            
+                                            h5("Median Age"),
+                                             p("Rappahhannock has a higher median age than its surrounding counties and Virginia.
+                                               Rappahannock's districts all show the same trend of a high median age, except the district of Wakefield."),
+                                      
+                                            
+                                            h5("Age Dependency"),
+                                            p("The age dependency ratio is an age-population ratio for dependents or those who are not in the labor force. There is the
+                                              age dependecy ratio that account for all ages of dependents, the child dependecy ratio that accounts for dependents under the age
+                                              of 15, and the old-age dependency ratio that accounts for dependents over the age of 64. The ratio is calculated by taking the
+                                              number of people ages 14 and under and 65 and over and dividing it by the number of people ages 15 to 64.
+                                              The charts show that Rappahannock has the highest age depedency ratios for the overall age and old-age, but has the lowest 
+                                              ratio for child compared to Virginia and the surrounding counties.")
+                            ),
 
                           ),
                           tabPanel("Race",
@@ -780,7 +801,7 @@ server <- function(input, output, session) {
                legend.text = element_text(size =12))
       
        ageplot <- grid.arrange(age_group_rappk_pie_plot,age_group_va_pie_plot, ncol =1,
-                               bottom = textGrob("Data Source: ACS Five Year Estimate Table B01001",
+                               bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table B01001",
                                just= "left", gp = gpar(fontsize = 13))) 
        ageplot
       
@@ -806,7 +827,7 @@ server <- function(input, output, session) {
         geom_hline(aes(yintercept= 50.1, linetype = "Rappahannock Median Age: 50"), color= "black", size = 1.5, alpha = 0.7) +
         ggtitle("Rappahannock by Districts") +
         ylab("Median Age")+
-        labs(caption = "Data Source: ACS Five Year Estimate Table S0101") +
+        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101") +
         theme_minimal() +
         theme(plot.title = element_text(hjust = 0.5, size =20),legend.title = element_blank(),
               axis.title.x=element_blank(),
@@ -835,7 +856,7 @@ server <- function(input, output, session) {
         ggtitle("Age Dependency Ratios in Rappahannock by Districts") +
         ylab("Dependecy Ratio")+
         theme_minimal() +
-        labs(caption = "Data Source: ACS Five Year Estimate Table S0101")+
+        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101")+
         theme(plot.title = element_text(hjust = 0.5, size=20)) +
         theme(axis.text = element_text(size = 15), legend.title = element_blank(),
               axis.title.x = element_blank(), legend.text = element_text(size=15), axis.title.y = element_text(size=15),

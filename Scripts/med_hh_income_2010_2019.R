@@ -39,7 +39,6 @@ options(tigris_class="sf")
 
 
 
-
 #Rappk Coordinates, Latitude = 38.6762° Longitude = -78.1564
 
 #Generalized vector to get the total population for any function
@@ -51,7 +50,9 @@ plot_theme <- theme(plot.title = element_text(hjust = 0.5),
                     axis.text=element_text(size=12),
                     legend.text = element_text(size=12),
                     axis.title.x=element_text(size =13),
-                    axis.title.y=element_text(size =13)) 
+                    axis.title.y=element_text(size =13),
+                    panel.background = element_blank())
+
 
 
 ########## Necessary functions for working all variables ############
@@ -158,7 +159,7 @@ medianincome_var <- c(
   med_hh_income_200kmore = "B19001_017")
 median_income_all = "B19001_001"
 
-incomevector <- c("medianunder25k", "median25to50k", "median50to100k", "medianover100k")
+incomevector <- c("Under $25,000" = "medianunder25k", "$25,000 to $50,000" = "median25to50k", "$50,000 to $100,000" = "median50to100k", "Over $100,000" = "medianover100k")
 
 
 #For every year I summon forth the median income, combine them into succinct brackets, and give them a percentage value
@@ -172,7 +173,7 @@ medianincome2019 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2019)
+  cbind(year = "2019")
 
 
 
@@ -185,7 +186,7 @@ medianincome2018 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2018)
+  cbind(year = "2018")
 
 
 
@@ -198,7 +199,7 @@ medianincome2017 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2017)
+  cbind(year = "2017")
 
 
 
@@ -210,7 +211,7 @@ medianincome2016 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2016)
+  cbind(year = "2016")
 
 
 
@@ -222,7 +223,7 @@ medianincome2015 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2015)
+  cbind(year = "2015")
 
 
 
@@ -234,7 +235,7 @@ medianincome2014 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2014)
+  cbind(year = "2014")
 
 # 2014's shapefile is incompatible with all the other years so I have to drop the z-axis from its dataframe
 medianincome2014 <- st_zm(medianincome2014, drop=TRUE, what = "ZM")
@@ -249,7 +250,7 @@ medianincome2013 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2013)
+  cbind(year = "2013")
 
 
 
@@ -262,7 +263,7 @@ medianincome2012 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2012)
+  cbind(year = "2012")
 
 
 
@@ -275,7 +276,7 @@ medianincome2011 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2011)
+  cbind(year = "2011")
 
 
 
@@ -288,7 +289,7 @@ medianincome2010 <-  medianincome_wide %>%
   mutate(median50to100k = (((medianincome_wide$med_hh_income_50_59kE + medianincome_wide$med_hh_income_60_74kE + medianincome_wide$med_hh_income_75_99kE)/ sum(medianincome_wide$summary_est)) * 100)) %>%
   mutate(medianover100k = (((medianincome_wide$med_hh_income_100_124kE + medianincome_wide$med_hh_income_125_149kE + medianincome_wide$med_hh_income_150_199kE + med_hh_income_200kmoreE) / sum(medianincome_wide$summary_est)) * 100)) %>%
   subset(select = c(GEOID, NAME.x, medianunder25k, median25to50k, median50to100k, medianover100k, summary_est, summary_moe, geometry)) %>%
-  cbind(year = 2010)
+  cbind(year = "2010")
 
 
 
@@ -310,28 +311,66 @@ medianincome2010_2019 <- medianincome2019 %>%
 income2010_2019 <- medianincome2010_2019 %>%
   pivot_longer(cols = c(medianunder25k, median25to50k, median50to100k, medianover100k), names_to = "incomebracket", values_to = "percent")
 income2010_2019$incomebracket <- factor(income2010_2019$incomebracket, levels = incomevector)
+income2010_2019 <- income2010_2019 %>% mutate(estimate = ((income2010_2019$percent / 100) * income2010_2019$summary_est) )
 
 
 income2010_2019 <- st_as_sf(income2010_2019)
 
+
+
 ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
   geom_col(position = "dodge") +
+  ggtitle("Median Household Income (In US Dollars) by District  2010-2019") +
+  xlab("Income Bracket") +
+  ylab("Percentage of Population") +
   facet_wrap(~year) +
-  coord_flip()
+  scale_fill_viridis_d(name = "District") +
+  coord_flip() +
+  scale_x_discrete(labels = c("Under $25,000", "$25,000 to $50,000" , "$50,000 to $100,000" , "Over $100,000" ))
+  plot_theme
+  
+  ggplot(income2010_2019, aes(x = incomebracket, y = estimate, fill = NAME.x, group = NAME.x)) +
+    geom_col(position = "dodge") +
+    ggtitle("Median Household Income (In US Dollars) by District 2010-2019") +
+    xlab("Income Bracket") +
+    ylab("Total Population") +
+  facet_wrap(~year) +
+    scale_fill_viridis_d(name = "District") +
+    coord_flip() +
+    scale_x_discrete(labels = c("Under $25,000", "$25,000 to $50,000" , "$50,000 to $100,000" , "Over $100,000" )) +
+    plot_theme
+  
+  ggplot(income2010_2019, aes(x = year, y = estimate, fill = incomebracket, group = incomebracket)) +
+    geom_col(position = "dodge") +
+    ggtitle("Median Household Income (In US Dollars) 2010-2019") +
+    xlab("Income Bracket") +
+    ylab("Total Population") +
+    scale_fill_viridis_d(name = "Income Bracket", labels = c("Under $25,000", "$25,000 to $50,000" , "$50,000 to $100,000" , "Over $100,000" )) +
+    plot_theme
+  
+  
+  ggplot(income2010_2019, aes(x = year, y = estimate, group = incomebracket, color = incomebracket,)) +
+geom_line(aes(size = percent)) +
+  ggtitle(label = "Median Household Income (In US Dollars) by District 2010-2019") +
+  ylab("Total Population") +
+    labs(size ="Percent of Population") +
+  scale_color_viridis_d(name = "Income Brackets", labels = c("Under $25,000", "$25,000 to $50,000" , "$50,000 to $100,000" , "Over $100,000" )) +
+    facet_wrap(~NAME.x) +
+    plot_theme
+ 
+  
+  ggplot(income2010_2019, aes(x = year, y = percent, group = incomebracket, color = incomebracket,)) +
+    geom_line(aes(size = estimate)) +
+    ggtitle(label = "Median Household Income (In US Dollars) by District 2010-2019") +
+    ylab("Percentage of Population") +
+    labs(size = "Total Population") +
+    scale_color_viridis_d(name = "Income Brackets", labels = c("Under $25,000", "$25,000 to $50,000" , "$50,000 to $100,000" , "Over $100,000" )) +
+    facet_wrap(~NAME.x) +
+    plot_theme
+  
+    
 
-
-tm_shape(income2010_2019) +
-  tm_borders() +
-  tm_fill("percent") +
-  tm_text("NAME.x") +
-  tm_facets("year")
-
-
-
-
-
-
-####################### Median Income in Dollars #######################
+####################### Median Income in raw Dollars #######################
 
 
 median_income_dollars <- c(median_income_dollars = "S1901_C01_012")
@@ -404,17 +443,22 @@ mediandollars2010_2019 <- mediandollars2019 %>%
   rbind(mediandollars2010) 
 
 ggplot(mediandollars2010_2019, aes(x = year, y = estimate, color = NAME, group = NAME)) +
-  geom_line(aes) +
+  geom_line(aes(size = 3)) +
+  labs(title = "Median Household Income by District (In US Dollars) 2010-2019") +
+  xlab("Income in Dollars") +
+  guides(size = FALSE) +
+  ylim(30000,120000) +
+  scale_color_viridis_d(name = "District") +
+  plot_theme
   
-
-tm_shape(mediandollars2010_2019) +
-  tm_borders() +
-  tm_fill("estimate") +
-  tm_text("NAME") +
-  tm_facets("year")
+  
 
 ggplot(mediandollars2010_2019) +
   geom_sf(aes(fill = estimate)) +
+  ggtitle("Median Household Income by District (In US Dollars) 2010-2019")
+  geom_sf_label(aes(label = NAME)) +
+  xlab("") +
+  ylab("") +
   coord_sf(datum = NA) +
   facet_wrap(~year)
 
