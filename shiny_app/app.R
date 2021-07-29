@@ -375,7 +375,7 @@ ui <- navbarPage(title = "I'm a title!",
                                       br(""),
                                       h4("Data Science for the Public Good Program"),
                                       h4("Virginia Polytechnic Institute and State University"),
-                                      h4("Department of Agricultural and Applied Economics"),
+                                      h4("[updat this]"),
                                       br()
                                    )
                           ),
@@ -623,41 +623,61 @@ ui <- navbarPage(title = "I'm a title!",
                           )
                  ),
                  
-                 # Services data tab-----------------------------------------------------------
-                 tabPanel("Services", value = "",
-                          fluidRow(style = "margin: 6px;",
-                                   h2(strong("Services Available Rappahannock County"), align = "center"),
-                                   p("", style = "padding-top:10px;"),
-                                   column(6,
-                                          h4("Services in Rappahannock County"),
-                                          p("Rappahannock Map with services and Driving boundaries.")
-                                   ),
-                                   column(12,h2(strong("About the Map")),
-                                          p(" Write up ->To understand a general suite of services available in Rappahannock, we sourced publicly available demographic and infrastructure data to provide an overview of the services and amenities in Rappahannock. The data were primarily obtained from the 
- American Community Survey. The list of services was compiled from the Rappahannock news guide and resource guide."),
-                                   column(12,
-                                          withSpinner(leafletOutput("map_with_all_point", height ="700px")),
-                                          p(tags$small("Data Source: American Community Survey"))
-                                   ),
-                                   column(12,h2(strong("Services")),
-                                          p(" In many respects, Rappahannock County is uniquely endowed with built amenities and services. However, most of them are clustered or available outside the county. The map highlights the key resources that are available and accessed in the county.
- As the map shows, it most of the services are situated in and around Washington district where  inhabitants have easy access to  and other supporting infrastructure. "),
-                                          
-                                  column(12,h2(strong("Distance")),
-                                          p("From the map we can see two boundaries. The inner driving boundary the map surrounding District centroid represents all parts of the region that are within a 15-minute drive from the center of the county (the green cloud). The outer driving boundary on the map surrounding District centroid represents all parts of the region 
- that are within a 30-minute drive from the center of the county (the red cloud). Additionally, the Rappahanock centroud has a driving map included. Talk about the Piedmont issue"),
-
-column(12,h2(strong("Sources")),
- p("Services Check these and get a standardized reference
- https://www.rappahannock.com/business-directory
- resource_guide pdf
- rappk_news_guide pdf"),
-p(tags$small("Data Source: American Community Survey"))
-                                   ),
-                                   
-                                   
-                          )
-                 ),),),),                  
+               # Services data tab-----------------------------------------------------------
+                tabPanel("Services", value = "",
+                         fluidRow(style = "margin: 6px;",
+                                  h1(strong("Services Available Rappahannock County"), align = "center"),
+                                  p("", style = "padding-top:10px;"),
+                                  column(12,h4(strong("Overview")),
+                                         p("To understand a general suite of services available in Rappahannock County, 
+                                          we sourced publicly available demographic and infrastructure data to provide an overview 
+                                          of the services and amenities in Rappahannock County. The data were primarily obtained from the
+                                            American Community Survey. The list of services was compiled from the Rappahannock news
+                                            guide and resource guide as well as the Rappahanock Business Directory."),
+                                         br(""),
+                                  column(8,
+                                         withSpinner(leafletOutput("map_with_all_point", height ="700px")),
+                                         p(tags$small("Data Source: American Community Survey")),
+                                         p(tags$small("Services Source: https://www.rappahannock.com/business-directory")), 
+                                         p(tags$small("Services Source: rappk_news_guide pdf")),
+                                         p(tags$small("Services Source: rappk_resourcec_guide pdf")),
+                                  ),
+                                  
+                                         column(4,h4(strong("Services")),
+                                                p("In many respects, Rappahannock County is uniquely endowed with built amenities and services.
+                                          However, most of them are clustered or available outside the county. There is a general limited
+                                          Number of services in the county. The primary services we consider include Food and Clothing, Hospitals, Education,
+                                          Recreation, Entertainment, Professional, Transit, Banks, and Adultcare Facilites.
+                                          The map highlights the key resources that are available and accessed in the county."),
+                                          p("As the map shows, most of the services in Rappahanock County are clustered in and around Washington in Hampton district 
+                                          where inhabitants have access to among other supporting infrastructure. Additionally, most services can be
+                                            accessed in neighbouring counties. Similar to the clusters of Services in Washington, neighboring counties
+                                            have clusters of more services as well."), 
+                                          p("Population-wise, the majority of the population in Rappahannock County 
+                                            are situated in Hampton District which is home to more services in the entire county. Hovering over each district displays 
+                                            their corresponding population (according to the 2010 census data from the American Community Survey)"),
+                                                       
+                                                column(12,h4(strong("Travel Distance")),
+                                                       p("We include driving distances (15 and 30 minute) from specific points called the population centroids. First,
+                                          we have services that are in proximity from pouplation centroid for Rappahannock 
+                                          County (white dot around the center) in a 15 and 30 minute
+                                          drive. Similarly, we have travel time distance boundaries for each of the five (5) 
+                                          district centroids (red dot in each district)."),
+                                          p("From the map we can see two driving boundaries. The inner driving boundary the map 
+                                          surrounding the centroid represents all parts of the region that are within a 15-minute 
+                                          drive from the center of the county (the green cloud). The outer driving boundary on the 
+                                          map surrounding the centroid represents all parts of the region that are within a 
+                                          30-minute drive from the center of the county (the red cloud).Talk about the Piedmont issue."),),
+                                                       
+                                                       
+                                                                ),),
+                                                       ),
+                                                       
+                                                       
+                                                ),
+                                        
+                         
+                                                 
                  # data tab -----------------------------------------------------------
                  tabPanel("Data", value = "data",
                           fluidRow(style = "margin: 6px;",
@@ -709,13 +729,13 @@ p(tags$small("Data Source: American Community Survey"))
                           fluidRow(style = "margin-left: 300px; margin-right: 300px;",
                             h1(strong("Contact"), align = "center"),
                             br(),
-                            h4(strong("Virginia Tech Data Science for the Public Good")),
-                            p("The", a(href = 'https://aaec.vt.edu/academics/undergraduate/beyond-classroom/dspg.html', 'Data Science for the Public Good (DSPG) Young Scholars program', target = "_blank"),
-                              "is a summer immersive program held at the", a(href = 'https://aaec.vt.edu/s', 'Virginia Tech Department of Agricultural and Applied Economics.'),
-                              "In its second year, the program engages students from across the country to work together on projects that address state, federal, and local government challenges around
+                            h4(strong("UVA Data Science for the Public Good")),
+                            p("The", a(href = 'https://biocomplexity.virginia.edu/social-decision-analytics/dspg-program', 'Data Science for the Public Good (DSPG) Young Scholars program', target = "_blank"),
+                              "is a summer immersive program held at the", a(href = 'https://biocomplexity.virginia.edu/social-decision-analytics', 'University of Virginia Biocomplexity Institute’s Social and Decision Analytics division (SDAD).'),
+                              "In its seventh year, the program engages students from across the country to work together on projects that address state, federal, and local government challenges around
                               critical social issues relevant in the world today. DSPG young scholars conduct research at the intersection of statistics, computation, and the social sciences
                               to determine how information generated within every community can be leveraged to improve quality of life and inform public policy. For more information on program
-                              highlights, how to apply, and our annual symposium, please visit", a(href = 'https://aaec.vt.edu/academics/undergraduate/beyond-classroom/dspg.html', 'the official VT DSPG website.', target = "_blank")),
+                              highlights, how to apply, and our annual symposium, please visit", a(href = 'https://biocomplexity.virginia.edu/social-decision-analytics/dspg-program', 'the official Biocomplexity DSPG website.', target = "_blank")),
                             p("", style = "padding-top:10px;")
                             ),
                           fluidRow(style = "margin-left: 300px; margin-right: 300px;",
@@ -730,7 +750,7 @@ p(tags$small("Data Source: American Community Survey"))
                             p("", style = "padding-top:10px;")
                             ),
                             column(6, align = "center",
-                            h4(strong("VT Team Members")),
+                            h4(strong("UVA SDAD Team Members")),
                             img(src = "faculty-gupta.jpg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
                             img(src = "faculty-mulu.jpeg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
                             img(src = "team-leo.jpeg", style = "display: inline; border: 1px solid #C0C0C0;", width = "150px"),
@@ -742,11 +762,11 @@ p(tags$small("Data Source: American Community Survey"))
                             ),
                           fluidRow(style = "margin-left: 300px; margin-right: 300px;",
                             h4(strong("Project Stakeholders")),
-                            p(a(href = 'https://www.linkedin.com/in/nancy-bell-aa293810/', '[update this]', target = '_blank'), "([...]);",
-                              a(href = 'https://www.linkedin.com/in/terri-alt-3138b4101/', '[update this]', target = '_blank'), "([...)."),
+                            p(a(href = 'https://www.linkedin.com/in/nancy-bell-aa293810/', 'Nancy Bell', target = '_blank'), "(Virginia Department of Health);",
+                              a(href = 'https://www.linkedin.com/in/terri-alt-3138b4101/', 'Terri Alt', target = '_blank'), "(Virginia Cooperative Extension, Patrick County at Virginia Tech)."),
                             p("", style = "padding-top:10px;"),
                             h4(strong("Acknowledgments")),
-                            p("[Wupdated this].")
+                            p("We would like to thank Healthy Patrick County, an association of concerned Patrick County residents, and Brandon Kramer for their input to this project.")
                           )
                  ),
                  inverse = T)
@@ -1530,7 +1550,7 @@ server <- function(input, output, session) {
                        stroke = TRUE, fillOpacity = 1
       )%>%
       addLegend(colors = "deeppink", labels = "Banks")%>% 
-      setView(lat = centerPop_RPK$LATITUDE, lng= centerPop_RPK$LONGITUDE, zoom =11)
+      setView(lat = centerPop_RPK$LATITUDE, lng= centerPop_RPK$LONGITUDE, zoom =10)
     
     
     #Show the map
