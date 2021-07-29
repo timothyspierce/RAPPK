@@ -1146,12 +1146,14 @@ server <- function(input, output, session) {
        theme_minimal() +
         geom_text(aes(y = lab_ypos, label = paste0(round(Percentage),"%"), group =Int), color = "white", size =8)+
         coord_flip() +ggtitle("Internet Subscription based on Income in Rappahannock") +
+       labs(caption  = "Data Source: ACS 2019 Five Year Estimate Table S2801")+
         theme(plot.title = element_text(hjust = 0.5, size=20),
               legend.title = element_blank(),
               axis.text=element_text(size=15),
               legend.text = element_text(size=15),
               axis.title.x=element_blank(),
-              axis.title.y=element_text(size =15)) +
+              axis.title.y=element_text(size =15),
+              plot.caption = element_text(size=12)) +
         xlab("Income Range") +
         scale_fill_manual(values=c("#009E73","#D55E00"))
       #plot
@@ -1196,7 +1198,9 @@ server <- function(input, output, session) {
               axis.title.y=element_text(size =15)) +
         scale_fill_manual(values=c("#009E73","#D55E00"))
       
-      bbplot <- grid.arrange(sub_plot, comp_plot, ncol=1)
+      bbplot <- grid.arrange(sub_plot, comp_plot, ncol=1,
+                             bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table S2801",
+                                               just= "left", gp = gpar(fontsize = 13)))
       bbplot
     }
     
