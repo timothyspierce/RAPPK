@@ -444,7 +444,7 @@ ui <- navbarPage(title = "I'm a title!",
                           tabsetPanel(
                             tabPanel("Age Demographic",
                                      
-                                     column(8, 
+                                     column(9, 
                                               selectInput("agedrop", "Select Variable:", width = "100%", choices = c(
                                               "Age Composition" = "ageGroups",
                                               "Age Composition Over Time" = "ageTime",
@@ -455,7 +455,7 @@ ui <- navbarPage(title = "I'm a title!",
                                             p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
                                             
                                       ),
-                                     column(4,
+                                     column(3,
                                             h4("Age Description.....")
                                             )
                                    
@@ -463,11 +463,11 @@ ui <- navbarPage(title = "I'm a title!",
                           ),
   
                           tabPanel("Income",
-                                   column(8,
+                                   column(9,
                                           withSpinner(plotOutput("incomePlot", height = "1000px")),
                                           p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
                                           ),
-                                   column(4,
+                                   column(3,
                                           h4("Income Description....")
                                      
                                    )
