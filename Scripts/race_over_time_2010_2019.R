@@ -156,6 +156,9 @@ race_time_series <- race2019 %>%
 
 race_time_series <-  race_time_series %>% mutate(Percent = ( (race_time_series$estimate/race_time_series$summary_est) * 100))
 
+race_time_series <- race_time_series %>% filter(race != "White")
+
+saveRDS(race_time_series, file = "shiny_app/data/race_time_series.Rds")
 
 ggplot(race_time_series, aes(x = year, y = estimate, color = race, group = race)) +
   geom_line(aes(size = Percent)) +
@@ -274,8 +277,10 @@ race_district <- racedistrict2019 %>%
   pivot_longer(cols = c(White, Black, "First Nations", Asian, "Pacific Islander", Other, Mixed), names_to = "race", values_to = "estimate")
 race_district <-  race_district %>% mutate(Percent = ( (race_district$estimate/race_district$summary_est) * 100))
 
-race_district %>% filter(year == "2013")
+race_district %>% filter(year == "2013") 
+race_district <- race_district %>% filter(race != "White")
 
+saveRDS(race_district, file = "shiny_app/data/race_district.Rds")
 
 ggplot(race_district, aes(x = year, y = estimate, color = race, group = race)) +
   geom_line(aes(size = Percent)) +

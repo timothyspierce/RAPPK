@@ -35,6 +35,18 @@ housing2010_2019 <- readRDS("shiny_app/data/housing_over_time.Rda")
 ggplot(housing2010_2019, aes(x = year, y = pop_per_home, group = homevalues, color = homevalues)) +
   geom_line(aes(size = estimated_total))
 
+#heres another housing map
+  housing2010_2019_by_district <- readRDS("shiny_app/data/housing2010_2019_by_district.Rds")
+  
+  ggplot(housing2010_2019_by_district, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
+  geom_line(aes(size = estimated_total)) +
+  ylab("Percentage of Homes") +
+  facet_wrap(~NAME) +
+  labs(size = "Number of Homes") +
+  ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
+  scale_color_viridis_d(name = "Home Value Brackets") +
+  plot_theme
+
 #### Income Over Time
 
 income2010_2019 <- readRDS("shiny_app/data/income2010_2019.Rda")
