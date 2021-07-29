@@ -503,15 +503,28 @@ ui <- navbarPage(title = "I'm a title!",
                                    column(8,
                                           selectInput("hcdrop", "Select Variable:", width = "100%", choices = c(
                                             "Household Size" = "houseSize",
-                                            "Households Occupied by Renters and Owners" = "rentOwn",
+                                            "Households Occupied by Owners and Renters" = "rentOwn",
                                             "Vehicles per Household" = "vehicles")
                                           ),
                                           withSpinner(plotOutput("hcplot", height ="800px")),
-                                          #p(tags$small("Data Source: ACS Five Year Estimate Tables S2504 and S2501"))
+                                          
                                           
                                    ),
                                    column(4,
-                                          h4("Houshold Characteristics Description......")
+                                          h4("Houshold Characteristics", align = "center"),
+                                          h5("Household Size"),
+                                          p("Rappahannock in 2019 had 68.2% of households were occupied by two or leass people"),
+                                          
+                                          h5("Households Occcupied b Owners and Renters"),
+                                          p("These graphs show the number of households in Rappahannock occupied owners and renters 
+                                          from 2010 to 2020. In the early 2010s, households occupied by owners were increasing as households
+                                            occupied by renters were decrasing up until 2014, where they flipped and owner occupation started decreasing,
+                                            and renter occupation statrted decrasing. Towards the end of the 2010's renter occupation fall back into
+                                            a decreasing trend"),
+                                          
+                                          h5("Vehicles per Household"),
+                                          p("Rappahhanock follows the same trend as its surrounding counties of having a higher percentage of
+                                            households using three or more cars")
                                           
                                    )  
                             
@@ -550,7 +563,7 @@ ui <- navbarPage(title = "I'm a title!",
                                    
                                    column(8,
                                           selectInput("bbdrop", "Select Variable:", width = "100%", choices = c(
-                                            "Internet Subscriptions by Income in Rappahannock" = "intIncome",
+                                            "Internet Subscription by Income in Rappahannock" = "intIncome",
                                             "Internet Subscription and Computer Ownership by District" = "compDist")
                                           ),
                                           withSpinner(plotOutput("bbplot", height ="800px")),
@@ -558,7 +571,15 @@ ui <- navbarPage(title = "I'm a title!",
                                           
                                    ),
                                    column(4,
-                                          h4(" Broadband Description......")
+                                          h4("Broadband", align = "center"),
+                                          h5("Internet Suscription by Income"),
+                                          p("Rappahannock shows that resident with a higher income or more likely to have an internet
+                                            subscription."),
+                                          h5("Internet Subscriptions and Computer Ownership by District"),
+                                          p("The bar graphs show internet subscriptions and computer ownership broken down into Rappahanock's districts.
+                                            For both internet subscirptions and computer ownership, Hampton and Jackson have the highest percent of residents
+                                            with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent internet subcriptions
+                                            and computer ownership")
                                           
                                    )
                                    
@@ -955,6 +976,7 @@ server <- function(input, output, session) {
        geom_text(aes(label = paste0(estimate, "%")),
                    position = position_stack(vjust = 0.5), colour="white", size =8) +
          coord_polar(theta = "y") +
+         labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S2504")+
         guides(fill = guide_legend(title = "Number of People")) +
          theme(plot.title = element_text(hjust = 0.5, size =20),
                axis.ticks = element_blank(),
@@ -962,6 +984,7 @@ server <- function(input, output, session) {
                axis.text = element_blank(), 
                legend.text = element_text(size=15),
                legend.title = element_text(size=15),
+               plot.caption = element_text(size=12),
                panel.background = element_rect(fill = "white")) +
          ggtitle("Rappahannock Household Size") +
          scale_fill_viridis_d()
@@ -972,21 +995,25 @@ server <- function(input, output, session) {
         ggplot(aes(x = year, y = `Household.Units`)) + 
         geom_line(position = "identity", show.legend = TRUE, size=1.5) +
         ggtitle("Owner-Occupied") + theme_minimal() +
+        ylab("Household Units")+
         theme(plot.title = element_text(hjust = 0.5, size=20),
               axis.title.y = element_text("Housing Units", size=15),
               axis.title.x = element_blank(),
-              axis.text = element_text(size=15)) +
+              axis.text = element_text(size=15),
+              axis.line = element_line(color = "black", size=0.5)) +
         scale_x_continuous(breaks=seq(2010,2019,by=1))
       #Graph (rent)
       rent_graph <- rent %>%
         ggplot(aes(x = year, y = `Household.Units`)) + 
         geom_line(position = "identity", show.legend = TRUE, size=1.5) +
+        ylab("Household Units") +
         theme_minimal() +
         ggtitle("Renter-Occupied") +
         theme(plot.title = element_text(hjust = 0.5, size=20),
               axis.title.y = element_text("Housing Units", size =15),
               axis.title.x = element_blank(),
-              axis.text = element_text(size=15)) +
+              axis.text = element_text(size=15),
+              axis.line = element_line(color = "black", size=0.5)) +
         scale_x_continuous(breaks=seq(2010,2019,by=1))
       #putting the graphs together
       hcplot <- grid.arrange(own_graph, rent_graph, ncol=1)
@@ -1016,8 +1043,9 @@ server <- function(input, output, session) {
       county_veh3$num <- factor(county_veh3$num, levels = c("None", "One", "Two", "Three or more"))
       vehicle_graph <- ggplot(data = county_veh3, aes(x = county, y = estimate)) +
         geom_col(aes(fill = num), width = 0.7)+
-        geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=6, hjust =1.1)+
+        geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=5, hjust =1.1)+
         coord_flip() +
+        theme_minimal() +
         ylab("County")+
         ggtitle("Number of Vehicles per Household in Surrounding Counties")+
         theme(plot.title = element_text(hjust = 0.5, size=20),
@@ -1028,7 +1056,9 @@ server <- function(input, output, session) {
               axis.title.y=element_blank()) +
         scale_fill_viridis_d()
       
-      hcplot <- grid.arrange(rappk_veh_plot, vehicle_graph, ncol=1)
+      hcplot <- grid.arrange(rappk_veh_plot, vehicle_graph, ncol=1,
+                             bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table S2504",
+                                               just= "left", gp = gpar(fontsize = 13)))
       hcplot
       
     }
@@ -1086,6 +1116,11 @@ server <- function(input, output, session) {
   output$bbplot <- renderPlot({
     
     if (bbVar() == "intIncome") {
+      intByIncome[,3][intByIncome[,3] == "< $20,000"] <- "Less than $20,000"
+      intByIncome[,3][intByIncome[,3] == "$20,000-$74,999"] <- "$20,000 to $75,000"
+      intByIncome[,3][intByIncome[,3] == "> $75,000"] <- "Greater than $75,000"
+      intByIncome[,3] <- factor(intByIncome[,3], levels = c("Less than $20,000","$20,000 to $75,000","Greater than $75,000"))
+      
       rappk_data4 <- intByIncome%>%
         group_by(`Income.Range`) %>%
         arrange(`Income.Range`, desc(Int)) %>%
@@ -1093,6 +1128,7 @@ server <- function(input, output, session) {
       
      bbplot <- ggplot(data = rappk_data4, aes(x = `Income.Range`, y = Percentage)) +
         geom_col(aes(fill = Int), width = 0.7)+
+       theme_minimal() +
         geom_text(aes(y = lab_ypos, label = paste0(round(Percentage),"%"), group =Int), color = "white", size =8)+
         coord_flip() +ggtitle("Internet Subscription based on Income in Rappahannock") +
         theme(plot.title = element_text(hjust = 0.5, size=20),
@@ -1116,6 +1152,7 @@ server <- function(input, output, session) {
         geom_col(aes(fill = key), width = 0.7)+
         geom_text(aes(y = lab_ypos, label = paste0(round(Percentage),"%"), group =key), color = "white", size=8)+
         coord_flip() +
+        theme_minimal() +
         ggtitle("Computer Ownership") +
         theme(plot.title = element_text(hjust=0.5, size=20),
               legend.title = element_blank(),
@@ -1134,6 +1171,7 @@ server <- function(input, output, session) {
         geom_col(aes(fill = key), width = 0.7)+
         geom_text(aes(y = lab_ypos, label = paste0(round(Percentage), "%"), group =key), color = "white", size=8)+
         coord_flip() +
+        theme_minimal()+
         ggtitle("Internet Subscription") +
         theme(plot.title = element_text(hjust=0.5, size=20),
               legend.title = element_blank(),
