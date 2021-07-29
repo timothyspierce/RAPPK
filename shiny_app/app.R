@@ -442,7 +442,7 @@ ui <- navbarPage(title = "I'm a title!",
                                           p("final words"))
                           ),
                           tabsetPanel(
-                            tabPanel("Age Demographic",
+                            tabPanel("Age",
                                      
                                      column(9, 
                                               selectInput("agedrop", "Select Variable:", width = "100%", choices = c(
@@ -452,7 +452,7 @@ ui <- navbarPage(title = "I'm a title!",
                                               "Median Age" = "medAge",
                                               "Age Dependency" = "ageDep")),
                                             withSpinner(plotOutput("ageplot", height = "800px")),
-                                            p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
+                                            #p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
                                             
                                       ),
                                      column(3,
@@ -461,19 +461,23 @@ ui <- navbarPage(title = "I'm a title!",
                                    
 
                           ),
-  
-                          tabPanel("Income",
-                                   column(9,
-                                          withSpinner(plotOutput("incomePlot", height = "1000px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
-                                          ),
+                          tabPanel("Race",
+                                   
+                                   column(9, 
+                                          selectInput("racedrop", "Select Variable:", width = "100%", choices = c(
+                                            "race graph1" = "race1",
+                                            "race graoh 2" = "race2")),
+                                          withSpinner(plotOutput("raceplot", height = "800px")),
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Table ????"))
+                                          
+                                   ),
                                    column(3,
-                                          h4("Income Description....")
-                                     
+                                          h4("Race Description.....")
                                    )
                                    
                                    
-                                   ),
+                          ),
+      
                           
                           tabPanel("Household Characteristics",
                                    column(8,
@@ -483,7 +487,7 @@ ui <- navbarPage(title = "I'm a title!",
                                             "Vehicles per Household" = "vehicles")
                                           ),
                                           withSpinner(plotOutput("hcplot", height ="800px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Tables S2504 and S2501"))
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Tables S2504 and S2501"))
                                           
                                    ),
                                    column(4,
@@ -491,6 +495,36 @@ ui <- navbarPage(title = "I'm a title!",
                                           
                                    )  
                             
+                          ),
+                          
+                          tabPanel("Education",
+                                   column(8,
+                                          selectInput("edudrop", "Select Variable:", width = "100%", choices = c(
+                                            "education graph1" = "edu1",
+                                            "education graph2" = "edu2")
+                                          ),
+                                          withSpinner(plotOutput("eduplot", height ="800px")),
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Tables ????"))
+                                          
+                                   ),
+                                   column(4,
+                                          h4("Education Description......")
+                                          
+                                   )  
+                                   
+                          ),
+                          
+                          tabPanel("Income",
+                                   column(9,
+                                          withSpinner(plotOutput("incomePlot", height = "1000px")),
+                                          p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                   ),
+                                   column(3,
+                                          h4("Income Description....")
+                                          
+                                   )
+                                   
+                                   
                           ),
                           tabPanel("Broadband",
                                    
@@ -500,11 +534,28 @@ ui <- navbarPage(title = "I'm a title!",
                                             "Internet Subscription and Computer Ownership by District" = "compDist")
                                           ),
                                           withSpinner(plotOutput("bbplot", height ="800px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
                                           
                                    ),
                                    column(4,
                                           h4(" Broadband Description......")
+                                          
+                                   )
+                                   
+                          ),
+                          tabPanel("Housing Market",
+                                   
+                                   column(8,
+                                          selectInput("hmdrop", "Select Variable:", width = "100%", choices = c(
+                                            "housing market graph1" = "housing1",
+                                            "housing market graph2" = "housing2")
+                                          ),
+                                          withSpinner(plotOutput("hmplot", height ="800px")),
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
+                                          
+                                   ),
+                                   column(4,
+                                          h4("Housing Market Description......")
                                           
                                    )
                                    
@@ -674,7 +725,7 @@ server <- function(input, output, session) {
 
   
   
-           #age tabset -----------------------------------------------------
+ #age tabset -----------------------------------------------------
   ageVar <- reactive({
     input$agedrop
   })
@@ -819,26 +870,30 @@ server <- function(input, output, session) {
     
   })
   
-  
-           #income plot ----------------------------------------------------------
-  output$incomePlot <- renderPlot({
-   incomePlot <- ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
-      geom_col(position = "dodge") +
-      facet_wrap(~year) +
-      coord_flip() +
-      scale_fill_viridis_d(name="District") +
-      ylab("Median Income")+
-      ggtitle("Median Income from 2010 to 2019") +
-      theme(plot.title = element_text(hjust=0.5, size=20),
-            legend.text = element_text(size=15),
-            axis.text = element_text(size=15),
-            axis.title.x = element_blank(),
-            axis.title.y = element_text(size=15),
-            legend.title=element_text(size=15))
-   incomePlot
+  #Race plots --------------------------------------------------------------
+  raceVar <- reactive({
+    input$racedrop
+  })
+  output$raceplot <- renderPlot({
+    if (raceVar() == "race1") {
+      
+      
+      
+      
+      
+      
+    }
+    else if (raceVar() == "race2"){
+      
+      
+      
+      
+      
+      
+    }
   })
   
-           #housheold characteristics -----------------------------------------------
+  #housheold characteristics -----------------------------------------------
   hcVar <- reactive({
     input$hcdrop
   })
@@ -863,8 +918,6 @@ server <- function(input, output, session) {
          scale_fill_viridis_d()
        hcplot <- grid.arrange(hcplot)
     }
-    
-    
     else if(hcVar() == "rentOwn") {
       own_graph <- own %>%
         ggplot(aes(x = year, y = `Household.Units`)) + 
@@ -889,7 +942,7 @@ server <- function(input, output, session) {
       #putting the graphs together
       hcplot <- grid.arrange(own_graph, rent_graph, ncol=1)
     }
-    if(hcVar() == "vehicles"){
+   else if(hcVar() == "vehicles"){
       rappk_veh_plot <- ggplot(rappk_veh, aes(x = "", y = estimate, fill = fct_inorder(type))) +
         geom_col(width = 1, color = 1) +
         geom_text(aes(label = paste0(estimate, "%")),
@@ -933,6 +986,47 @@ server <- function(input, output, session) {
  
   })
   
+  #education graphs------------------------------------------------------
+  eduVar <- reactive ({
+    input$edudrop
+  })
+  
+  output$eduplot <- renderPlot({
+    if(eduVar() == "edu1") {
+      
+      
+      
+      
+      
+      
+      
+    }
+    else if (eduVar() == "edu2") {
+      
+      
+      
+      
+    }
+    
+  })
+  
+  #income plot ----------------------------------------------------------
+  output$incomePlot <- renderPlot({
+    incomePlot <- ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
+      geom_col(position = "dodge") +
+      facet_wrap(~year) +
+      coord_flip() +
+      scale_fill_viridis_d(name="District") +
+      ylab("Median Income")+
+      ggtitle("Median Income from 2010 to 2019") +
+      theme(plot.title = element_text(hjust=0.5, size=20),
+            legend.text = element_text(size=15),
+            axis.text = element_text(size=15),
+            axis.title.x = element_blank(),
+            axis.title.y = element_text(size=15),
+            legend.title=element_text(size=15))
+    incomePlot
+  })
   
   
            #broadband tab -------------------------------------------------------------
@@ -1006,8 +1100,31 @@ server <- function(input, output, session) {
     
   })
   
+  #Housing Market --------------------------------------------------------------
+  hmVar <- reactive({
+    input$hmdrop
+  })
   
-  
+  output$hmplot <- renderPlot({
+    if(hmVar() == "housing1") {
+      
+      
+      
+      
+      
+      
+      
+    }
+    else if (hmVar() == "housing2") {
+      
+      
+      
+      
+      
+      
+    }
+    
+  })
   
   
   
