@@ -582,13 +582,13 @@ ui <- navbarPage(title = "I'm a title!",
                                              includes the 18 route segments with the highest AADT percent change and count change greater than 30 from 2010 to 2020. The locations of the circles
                                              are at the midpoint of the segment it represents. The table below the map will list the names, start location, and end location of the segments represented
                                             in the map."),
-                                         #  p("The size scale shows the absolute percent change of AADT from 2010 to 2020. The scale does not take positive and negative percent change into account, 
-                                         #    but by checking and unchecking the "Positive" and "Negative" boxes in the top right corner, segments with positive and negative percent change can be 
-                                         #    displayed separately.The color scale shows the AADT count change from 2010 to 2020. The scale does include negative count change in the lighter color, 
-                                         #    but the "Positive" and "Negative" boxes could also be used to analyze positive and negative count change separately."),
-                                         # p("Hovering over a circle displays the ID of the roads segment, that corresponds to the IDs in the table, count change and percent change of AADT from 2010 to 2020.
-                                         # Clicking on a circle pops up a time graph displaying the AADT counts for each year from 2010 to 2020 for that specific route segment.
-                                         #   ") 
+                                          p("The size scale shows the absolute percent change of AADT from 2010 to 2020. The scale does not take positive and negative percent change into account,
+                                            but by checking and unchecking the Positive and Negative boxes in the top right corner, segments with positive and negative percent change can be
+                                            displayed separately.The color scale shows the AADT count change from 2010 to 2020. The scale does include negative count change in the lighter color,
+                                            but the Positive and Negative boxes could also be used to analyze positive and negative count change separately."),
+                                         p("Hovering over a circle displays the ID of the roads segment, that corresponds to the IDs in the table, count change and percent change of AADT from 2010 to 2020.
+                                         Clicking on a circle pops up a time graph displaying the AADT counts for each year from 2010 to 2020 for that specific route segment.
+                                           "),
                                    ),
                                    
                                    column(8,
