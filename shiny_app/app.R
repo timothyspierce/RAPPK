@@ -846,7 +846,7 @@ server <- function(input, output, session) {
               legend.text = element_text(size =15)) +
         scale_fill_manual(values=cbPalette) +
         ggtitle("Rappahannock") +
-        theme(plot.title = element_text(hjust = 0.5, size = 25))
+        theme(plot.title = element_text(hjust = 0.5, size = 25))+ scale_fill_viridis_d()
       
        age_group_va_pie_plot <- ggplot(va_ageGroups, aes(x="", y=`Percent.of.Population`, fill=Key)) +
          geom_bar(stat="identity", width=1, color=1) +
@@ -860,11 +860,11 @@ server <- function(input, output, session) {
          scale_fill_manual(values=cbPalette) + 
          ggtitle("Virginia") +
          theme(plot.title = element_text(hjust = 0.5, size =20), legend.title = element_blank(),
-               legend.text = element_text(size =12))
+               legend.text = element_text(size =12)) + scale_fill_viridis_d()
       
        ageplot <- grid.arrange(age_group_rappk_pie_plot,age_group_va_pie_plot, ncol =1,
                                bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table B01001",
-                               just= "left", gp = gpar(fontsize = 13))) 
+                               just= "left", gp = gpar(fontsize = 13)))  + scale_fill_viridis_d()
        ageplot
       
     }
@@ -954,7 +954,7 @@ server <- function(input, output, session) {
               legend.title =element_text(size=15),
               axis.title.x = element_blank(),
               axis.title.y = element_text(size=15),
-              axis.text = element_text(size=15))
+              axis.text = element_text(size=15)) 
       ageplot
       
     }
@@ -993,7 +993,7 @@ server <- function(input, output, session) {
       
      raceplot <- ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race)) +
         geom_col(position = "fill") +
-        labs(title = "Racial Demographics 2010-2019", fill = "Race") +
+        labs(title = "Non-White Racial Breakdown 2010-2019", fill = "Race") +
         xlab("Years") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
@@ -1009,7 +1009,7 @@ server <- function(input, output, session) {
     else if (raceVar() == "race2"){
       raceplot <- ggplot(race_district, aes(x = year, y = Percent, fill = race, group = race)) +
         geom_col(position = "fill") +
-        labs(title = "Racial Demographics 2010-2019", fill = "Race") +
+        labs(title = "Non-White Racial Breakdown 2010-2019", fill = "Race") +
         xlab("Years") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
@@ -1033,7 +1033,7 @@ server <- function(input, output, session) {
 
     popplot <- ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
       geom_line(aes(size = "Percent of Population" <- percent)) +
-      theme_minimal()+
+      theme_minimal()+ scale_fill_viridis_d() +
       ggtitle(label = "Estimated Total Population 2010-2019") +
       theme(plot.title = element_text(hjust=0.5, size=20),
             axis.title.x = element_blank(),
@@ -1084,7 +1084,7 @@ server <- function(input, output, session) {
               axis.title.x = element_blank(),
               axis.text = element_text(size=15),
               axis.line = element_line(color = "black", size=0.5)) +
-        scale_x_continuous(breaks=seq(2010,2019,by=1))
+        scale_x_continuous(breaks=seq(2010,2019,by=1)) + scale_fill_viridis_d()
       #Graph (rent)
       rent_graph <- rent %>%
         ggplot(aes(x = year, y = `Household.Units`)) + 
@@ -1097,7 +1097,7 @@ server <- function(input, output, session) {
               axis.title.x = element_blank(),
               axis.text = element_text(size=15),
               axis.line = element_line(color = "black", size=0.5)) +
-        scale_x_continuous(breaks=seq(2010,2019,by=1))
+        scale_x_continuous(breaks=seq(2010,2019,by=1))+ scale_fill_viridis_d()
       #putting the graphs together
       hcplot <- grid.arrange(own_graph, rent_graph, ncol=1)
     }
@@ -1224,7 +1224,7 @@ server <- function(input, output, session) {
               axis.title.y=element_text(size =15),
               plot.caption = element_text(size=12)) +
         xlab("Income Range") +
-        scale_fill_manual(values=c("#009E73","#D55E00"))
+        scale_fill_viridis_d()
       #plot
       bbplot
     }
@@ -1246,7 +1246,7 @@ server <- function(input, output, session) {
               legend.text = element_text(size=15),
               axis.title.x=element_blank(),
               axis.title.y=element_text(size =15)) +
-        scale_fill_manual(values=c("#009E73","#D55E00"))
+        scale_fill_viridis_d()
       
       sub_int3 <- intDist %>%
         group_by(District) %>%
@@ -1265,7 +1265,7 @@ server <- function(input, output, session) {
               legend.text = element_text(size=15),
               axis.title.x=element_blank(),
               axis.title.y=element_text(size =15)) +
-        scale_fill_manual(values=c("#009E73","#D55E00"))
+       scale_fill_viridis_d()
       
       bbplot <- grid.arrange(sub_plot, comp_plot, ncol=1,
                              bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table S2801",
@@ -1284,7 +1284,7 @@ server <- function(input, output, session) {
     if(hmVar() == "housing1") {
       hmplot <- ggplot(housing2010_2019, aes(x = year, y = pop_per_home, group = homevalues, color = homevalues)) +
         geom_line(aes(size = estimated_total)) +
-        theme_minimal()+
+        theme_minimal() + scale_fill_viridis_d()+
         ylab("Percentage of Homes") +
         theme(plot.title = element_text(hjust=0.5, size =20),
               legend.text = element_text(size=15),
@@ -1301,7 +1301,7 @@ server <- function(input, output, session) {
      hmplot <- ggplot(housing2010_2019_by_district, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
         geom_line(aes(size = estimated_total)) +
         ylab("Percentage of Homes") +
-       theme_minimal()+
+       theme_minimal()+ scale_fill_viridis_d()+
         facet_wrap(~NAME) +
         labs(size = "Number of Homes") +
         ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
