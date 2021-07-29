@@ -382,46 +382,43 @@ ui <- navbarPage(title = "I'm a title!",
                           fluidRow(style = "margin: 6px;",
                                    column(4,
                                           h2(strong("Project Introduction")),
-                                          p(strong("Intro Word."), "Introduction to the project"),
-                                          p(),
-                                          p(strong("Another Word."), "lots more description of project"),
-                                          p(),
-                                          p(strong("final word."), "final project descriptions")
+                                          p(strong("Rappahannock,"), "a rural county situated in north of the Commonwealth of Virginia, 
+                                            separated from Culpeper County by an Act of the General Assembly in 1833. 
+                                            In the late 16th and the early 17th century,
+                                            new settlers mainly of English descent moved to certain parts of the present-day Rappahannock County from northern ports and other regions of Virginia. 
+                                            About 65 miles southwest of Washington DC and 120 miles northwest of Richmond, 
+                                            Rappahannock is surrounded in the northwest by the Blue Ridge Mountains and in the southwest by Shenandoah National Park.
+                                            Despite the geographical proximity to the state and national capital, an aging population in rural Rappahannock faces geographical isolation, income inequality,
+                                            lack of local services, and rising housing prices amidst tensions around land conservation."),
+                                         
                                    ),
                                    column(4,
                                           h2(strong("Our Work")),
-                                          p("Our research team worked closely with Patrick County Extension Office, Virginia Department of Health, and Healthy Patrick County coalition stakeholders
-                                            to identify the county’s priority challenges in the area of health. The research team reviewed a prior", a(href = "https://www.vdh.virginia.gov/west-piedmont/2020/05/27/patrick-county-health-needs-improvement-plan-completed/",
-                                            "community health assessment,", target = "blank"), a(href = "https://www.pubs.ext.vt.edu/VCE/VCE-596/VCE-596-75/VCE-1002-75.html", "situation analysis", target = "_blank"),
-                                            "relevant funding applications, and held a listening meeting with stakeholders to identify these challenges. Lack of
-                                            data on health care access, food access as related to diabetes and heart disease prevalence, older adult health, and digital connectivity that would facilitate
-                                            access to telemedicine emerged as key problems where providing actionable insights could address barriers to Patrick County residents’ health."),
+                                          p("With the help of the Virginia Cooperative Extension personnel and other stakeholders in Rappahannock county, 
+                                            our research team identified the pressing challenges faced by the current inhabitants in the county. 
+                                            The priority challenges surrounding demographics, income inequality, availability of services, transportation, housing, etc. 
+                                            were discussed in a meeting between the research team and the stakeholders at the inception of the project.
+                                            In the initial meeting, there seemed to be a lack of compiled data that the county stakeholders could analyze and visualize,
+                                            which has been inhibiting them from taking actionable policies to improve certain focus areas identified as challenges for Rappahannock residents."),
                                           p(),
-                                          p("We implemented the", a(href = "https://doi.org/10.1162/99608f92.2d83f7f5", "data science framework", target = "_blank"), "and identified, acquired, profiled, and used
-                                            publicly available data to provide Patrick County with data-driven resources in each of the four priority areas. We:"),
-                                          tags$li("Provided census tract- and census block group-level maps of Patrick County residents'", strong("sociodemographic and socioeconomic characteristics,"), " highlighting underprivileged areas."),
-                                          tags$li("Created census tract-level maps on", strong("older adult health"), "to show the geographic distribution of older adults in the county by gender and
-                                                  type of disability, identifying areas where providing telehealth or travelling preventive care services may be particularly important."),
-                                          tags$li("Mapped residents'", strong("computing device and internet access"), "at census block group level, and constructed 10- and 15-minute isochrones (areas of equal travel time) from households to free
-                                                  wifi hotspots to highlight internet gaps that could suggest where new wi-fi hotspots could be optimally placed to provide internet access to more residents."),
-                                          tags$li("Calculated and mapped", strong("emergency medical service (EMS) station coverage"), "of households within 8-, 10-, and 12-minute travel times, identifying areas difficult to reach within
-                                                   standard EMS travel thresholds."),
-                                          tags$li("Constructed", strong("food access"), "maps by census tract, 10- and 15-minute isochrones from households to grocery stores and farmers markets, and maps of food security resources in the county,
-                                                highlighting food deserts and areas that could benefit from programs facilitating access to fresh produce."),
+                                          p("The research team compiled and utilized publicly available data from the American Community Survey (ACS) 
+                                            and Virginia Department of Transportation’s Annual Average Daily Traffic (AADT) to explore the questions and concerns held by stakeholders.
+                                            We implemented the data science approach to analyze and create four priority areas for Rappahannock county. In our temporal analysis (wherever applicable), 
+                                            we use a 10 year time frame from 2010-2019."),
+                                          
                                           p(),
                                           p("This dashboard compiles our findings and allows extension professionals, stakeholders, and other users to explore the information interactively.")
                                    ),
                                    column(4,
                                           h2(strong("Project Outcomes")),
-                                          p("Our dashboard is aimed at:"),
-                                          p(strong("Patrick County extension professionals and the communities they serve."), "Information available through the interface helps extension
-                                            agents identify areas where residents may not have access to internet, or areas with a high smartphone ownership share, suggesting what channels agents may
-                                            want to use to disseminate health-related information most effectively. Information on older adult populations and grocery store access can help extension agents
-                                            better understand where underserved populations live and how to advocate on their behalf."),
-                                          p(strong("Local health-related agencies and departments seeking data insights to inform their decision-making."), "For local stakeholders, identifying broadband
-                                            access gaps that limit access to telemedicine, grocery store access gaps, and areas with high proportions of older adults with independent living difficulty can suggest
-                                            optimal locations for placing free wifi hotspots, providing grocery delivery services, devising mobile health unit routes, or can inform other solutions that would benefit
-                                            a broad population base."),
+                                          p(" The four priority areas are analysis of: "),
+                                          tags$li(strong("County Profile:"), "A characterization by the five Rappahannock districts and over time of age composition and prevalence of dependency, income distribution, 
+                                                  household description and ownership of housing and vehicles, and access to computer and internet.
+                                                  A basic understanding of the county profile and its evolution over time enables us to associate the demographic characteristics with the current challenges in the county."),
+                                          tags$li(strong("Housing Market:"), "An overview of the distribution of housing prices in the five districts and how that has changed over time. This district-by-district analysis of the housing market displays where more expensive houses (over $500,000) were built over the last decade. It also shows the total number of houses in each housing price bracket, by district. "),
+                                          tags$li(strong("Traffic:"), "Using last 10 years AADT data from Virginia Department of Transportation, we analyze and provide a visualization of volume and percentage change of traffic in major route segments with Rappahannock. The interactive map shows the routes where traffic volume has expanded as well as segments where traffic volume shrunk. Additionally, we also display the annual change in traffic volume for each year in the last decade for all the chosen segments.  ."),
+                                          tags$li(strong("Services:"), " To explore the issue on availability of services, we sourced publicly available online data from the ACS, Rappahannock news and resource guides, as well as undigitized pamphlets gathered by the research team from Rappahannock County Library, and georeferenced the list of services in the county’s map, which overlayed on a base map of population distribution by district. For each of the five districts, we create 15- and 30- minute driving distance isochrones with the center being the district population centroid as obtained from the ACS. Since many residents also access services outside of Rappahannock in the neighboring counties of Culpeper and Fauquier, our interactive map also shows the cluster of services in the towns of Culpeper and Warrenton, respectively. The isochrones from each district center shows the services that can be reached within 15 and 30 minutes. Since the base of the map is a that of a district population density, this interactive visualization displays the pattern of driving distance isochrones, population densities, and available services within and outside of Rappahannock. "),
+                                          
                                           p(strong("State government representatives in the Virginia Department of Health and the State Office of Rural Health."), "These and similar stakeholders may
                                             need small or rural area-specific insights that Centers for Disease Control and other county-level datasets cannot provide.")
                                    )
@@ -442,7 +439,7 @@ ui <- navbarPage(title = "I'm a title!",
                                           p("final words"))
                           ),
                           tabsetPanel(
-                            tabPanel("Age Demographic",
+                            tabPanel("Age",
                                      
                                      column(9, 
                                               selectInput("agedrop", "Select Variable:", width = "100%", choices = c(
@@ -452,7 +449,7 @@ ui <- navbarPage(title = "I'm a title!",
                                               "Median Age" = "medAge",
                                               "Age Dependency" = "ageDep")),
                                             withSpinner(plotOutput("ageplot", height = "800px")),
-                                            p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
+                                            #p(tags$small("Data Source: ACS Five Year Estimate Table B01001"))
                                             
                                       ),
                                      column(3,
@@ -461,19 +458,23 @@ ui <- navbarPage(title = "I'm a title!",
                                    
 
                           ),
-  
-                          tabPanel("Income",
-                                   column(9,
-                                          withSpinner(plotOutput("incomePlot", height = "1000px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
-                                          ),
+                          tabPanel("Race",
+                                   
+                                   column(9, 
+                                          selectInput("racedrop", "Select Variable:", width = "100%", choices = c(
+                                            "race graph1" = "race1",
+                                            "race graoh 2" = "race2")),
+                                          withSpinner(plotOutput("raceplot", height = "800px")),
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Table ????"))
+                                          
+                                   ),
                                    column(3,
-                                          h4("Income Description....")
-                                     
+                                          h4("Race Description.....")
                                    )
                                    
                                    
-                                   ),
+                          ),
+      
                           
                           tabPanel("Household Characteristics",
                                    column(8,
@@ -483,7 +484,7 @@ ui <- navbarPage(title = "I'm a title!",
                                             "Vehicles per Household" = "vehicles")
                                           ),
                                           withSpinner(plotOutput("hcplot", height ="800px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Tables S2504 and S2501"))
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Tables S2504 and S2501"))
                                           
                                    ),
                                    column(4,
@@ -491,6 +492,36 @@ ui <- navbarPage(title = "I'm a title!",
                                           
                                    )  
                             
+                          ),
+                          
+                          tabPanel("Education",
+                                   column(8,
+                                          selectInput("edudrop", "Select Variable:", width = "100%", choices = c(
+                                            "education graph1" = "edu1",
+                                            "education graph2" = "edu2")
+                                          ),
+                                          withSpinner(plotOutput("eduplot", height ="800px")),
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Tables ????"))
+                                          
+                                   ),
+                                   column(4,
+                                          h4("Education Description......")
+                                          
+                                   )  
+                                   
+                          ),
+                          
+                          tabPanel("Income",
+                                   column(9,
+                                          withSpinner(plotOutput("incomePlot", height = "1000px")),
+                                          p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                   ),
+                                   column(3,
+                                          h4("Income Description....")
+                                          
+                                   )
+                                   
+                                   
                           ),
                           tabPanel("Broadband",
                                    
@@ -500,11 +531,28 @@ ui <- navbarPage(title = "I'm a title!",
                                             "Internet Subscription and Computer Ownership by District" = "compDist")
                                           ),
                                           withSpinner(plotOutput("bbplot", height ="800px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
                                           
                                    ),
                                    column(4,
                                           h4(" Broadband Description......")
+                                          
+                                   )
+                                   
+                          ),
+                          tabPanel("Housing Market",
+                                   
+                                   column(8,
+                                          selectInput("hmdrop", "Select Variable:", width = "100%", choices = c(
+                                            "housing market graph1" = "housing1",
+                                            "housing market graph2" = "housing2")
+                                          ),
+                                          withSpinner(plotOutput("hmplot", height ="800px")),
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
+                                          
+                                   ),
+                                   column(4,
+                                          h4("Housing Market Description......")
                                           
                                    )
                                    
@@ -674,7 +722,7 @@ server <- function(input, output, session) {
 
   
   
-           #age tabset -----------------------------------------------------
+ #age tabset -----------------------------------------------------
   ageVar <- reactive({
     input$agedrop
   })
@@ -819,26 +867,30 @@ server <- function(input, output, session) {
     
   })
   
-  
-           #income plot ----------------------------------------------------------
-  output$incomePlot <- renderPlot({
-   incomePlot <- ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
-      geom_col(position = "dodge") +
-      facet_wrap(~year) +
-      coord_flip() +
-      scale_fill_viridis_d(name="District") +
-      ylab("Median Income")+
-      ggtitle("Median Income from 2010 to 2019") +
-      theme(plot.title = element_text(hjust=0.5, size=20),
-            legend.text = element_text(size=15),
-            axis.text = element_text(size=15),
-            axis.title.x = element_blank(),
-            axis.title.y = element_text(size=15),
-            legend.title=element_text(size=15))
-   incomePlot
+  #Race plots --------------------------------------------------------------
+  raceVar <- reactive({
+    input$racedrop
+  })
+  output$raceplot <- renderPlot({
+    if (raceVar() == "race1") {
+      
+      
+      
+      
+      
+      
+    }
+    else if (raceVar() == "race2"){
+      
+      
+      
+      
+      
+      
+    }
   })
   
-           #housheold characteristics -----------------------------------------------
+  #housheold characteristics -----------------------------------------------
   hcVar <- reactive({
     input$hcdrop
   })
@@ -863,8 +915,6 @@ server <- function(input, output, session) {
          scale_fill_viridis_d()
        hcplot <- grid.arrange(hcplot)
     }
-    
-    
     else if(hcVar() == "rentOwn") {
       own_graph <- own %>%
         ggplot(aes(x = year, y = `Household.Units`)) + 
@@ -889,7 +939,7 @@ server <- function(input, output, session) {
       #putting the graphs together
       hcplot <- grid.arrange(own_graph, rent_graph, ncol=1)
     }
-    if(hcVar() == "vehicles"){
+   else if(hcVar() == "vehicles"){
       rappk_veh_plot <- ggplot(rappk_veh, aes(x = "", y = estimate, fill = fct_inorder(type))) +
         geom_col(width = 1, color = 1) +
         geom_text(aes(label = paste0(estimate, "%")),
@@ -933,6 +983,47 @@ server <- function(input, output, session) {
  
   })
   
+  #education graphs------------------------------------------------------
+  eduVar <- reactive ({
+    input$edudrop
+  })
+  
+  output$eduplot <- renderPlot({
+    if(eduVar() == "edu1") {
+      
+      
+      
+      
+      
+      
+      
+    }
+    else if (eduVar() == "edu2") {
+      
+      
+      
+      
+    }
+    
+  })
+  
+  #income plot ----------------------------------------------------------
+  output$incomePlot <- renderPlot({
+    incomePlot <- ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
+      geom_col(position = "dodge") +
+      facet_wrap(~year) +
+      coord_flip() +
+      scale_fill_viridis_d(name="District") +
+      ylab("Median Income")+
+      ggtitle("Median Income from 2010 to 2019") +
+      theme(plot.title = element_text(hjust=0.5, size=20),
+            legend.text = element_text(size=15),
+            axis.text = element_text(size=15),
+            axis.title.x = element_blank(),
+            axis.title.y = element_text(size=15),
+            legend.title=element_text(size=15))
+    incomePlot
+  })
   
   
            #broadband tab -------------------------------------------------------------
@@ -1006,8 +1097,31 @@ server <- function(input, output, session) {
     
   })
   
+  #Housing Market --------------------------------------------------------------
+  hmVar <- reactive({
+    input$hmdrop
+  })
   
-  
+  output$hmplot <- renderPlot({
+    if(hmVar() == "housing1") {
+      
+      
+      
+      
+      
+      
+      
+    }
+    else if (hmVar() == "housing2") {
+      
+      
+      
+      
+      
+      
+    }
+    
+  })
   
   
   
