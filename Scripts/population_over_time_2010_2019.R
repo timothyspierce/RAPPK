@@ -44,7 +44,8 @@ plot_theme <- theme(plot.title = element_text(hjust = 0.5),
                     axis.text=element_text(size=12),
                     legend.text = element_text(size=12),
                     axis.title.x=element_text(size =13),
-                    axis.title.y=element_text(size =13)) 
+                    axis.title.y=element_text(size =13),
+                    panel.background = element_blank())
 
 ########## Necessary functions for working all variables ############
 
@@ -157,28 +158,59 @@ population2010_2019 <- population2015_2019 %>%
 
 population2010_2019 #<- filter(population2010_2019, NAME != "Rappahannock") 
 
+# 
+# ggplot(population2010_2019, aes(x = year, y = percent, group = NAME, color = NAME)) +
+#   geom_line()
 
-ggplot(population2010_2019, aes(x = year, y = percent, group = NAME, color = NAME)) +
-  geom_line()
-
-
-ggplot(population2010_2019, aes(x = year, y = estimate, group = NAME, color = NAME)) +
-  geom_line(aes(size = "Percent of Population" <- percent)) +
-  ggtitle(label = "Estimated Total Population 2010-2019")
+# 
+# ggplot(population2010_2019 %>% filter(NAME == "Rappahannock"), aes(x = year, y = estimate, group = variable)) +
+#   geom_line(aes(size = percent)) +
+#   ggtitle(label = "Estimated Total Population 2010-2019") +
+#   ylab("Total Population") +
+#   ylim(range = c(0,10000)) +
+#   guides(size = FALSE) +
+#   scale_color_viridis() +
+#   plot_theme
+# 
 
 ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
-  geom_line(aes(size = "Percent of Population" <- percent)) +
-  ggtitle(label = "Estimated Total Population 2010-2019")
+  geom_line(aes(size = percent)) +
+  ggtitle(label = "Estimated Total Population by District 2010-2019") +
+  ylab("Total Population") +
+  labs(size = "Percent of Population") +
+  scale_color_viridis_d(name = "District") +
+  plot_theme
+
+ggplot(population2010_2019 %>% filter(NAME != "Rappahannock")) +
+  geom_sf(aes(fill = percent)) +
+  coord_sf(datum = NA) +
+  facet_wrap(~year) +
+  plot_theme +
+  labs(fill = "Percent") +
+  geom_sf_label(aes(label = NAME), label.size = 0.005) +
+  xlab("") +
+  ylab("") +
+ # scale_color_viridis_c() +
+  ggtitle(label = "Estimated Percentage of Population by district 2010-2019")
 
 
-
-ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
-  geom_line(aes(size = "Percent of Population" <- percent)) +
-  ggtitle(label = "Estimated Total Population 2010-2019")
 
 ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = percent, group = NAME, color = NAME)) +
-  geom_line(aes(size = "Percent of Population" <- estimate)) +
-  ggtitle(label = "Estimated Total Population 2010-2019")
+  geom_line(aes(size = estimate)) +
+  ggtitle(label = "Percentage of Population per District 2010-2019") +
+  ylab("Percentage of Population") +
+  labs(size = "Total Population") +
+  scale_color_viridis_d(name = "District") +
+  plot_theme
+
+
+
+
+
+
+
+
+
 
 population_districts <- population2010_2019 %>% filter(NAME != "Rappahannock")
 tm_shape(population_districts) +
@@ -188,11 +220,5 @@ tm_shape(population_districts) +
   tm_text("NAME") +
   tm_layout(title = "Estimated percentage of Population 2010-2019")
 
-ggplot(population2010_2019 %>% filter(NAME != "Rappahannock")) +
-  geom_sf(aes(fill = percent)) +
-  coord_sf(datum = NA) +
-  facet_wrap(~year) +
-  plot_theme +
-  ggtitle(label = "Estimated Percentage of Population by district 2010-2019")
 
-# 
+
