@@ -55,3 +55,26 @@ ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y =
 ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = percent, group = NAME, color = NAME)) +
   geom_line(aes(size = "Percent of Population" <- estimate)) +
   ggtitle(label = "Estimated Total Population 2010-2019")
+
+
+#Race by district
+readRDS("shiny_app/data/race_district.Rds")
+ggplot(race_district, aes(x = year, y = Percent, fill = race, group = race)) +
+  geom_col(position = "fill") +
+  labs(title = "Racial Demographics 2010-2019", fill = "Race") +
+  xlab("Years") +
+  ylab("Percent of Population") +
+  scale_fill_viridis_d() +
+  plot_theme +
+  facet_wrap(~NAME)
+
+#Race for all of Rappahanock
+
+readRDS("shiny_app/data/race_time_series.Rds")
+ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race)) +
+  geom_col(position = "fill") +
+  labs(title = "Racial Demographics 2010-2019", fill = "Race") +
+  xlab("Years") +
+  ylab("Percent of Population") +
+  scale_fill_viridis_d() +
+  plot_theme 
