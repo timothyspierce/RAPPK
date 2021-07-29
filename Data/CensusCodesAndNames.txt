@@ -1,0 +1,166 @@
+TableID : P1
+Population for decennial
+
+"P004001" and "P005001" are the same as P001001
+
+poptotal = "P001001",
+white = "P003002",
+black = "P003003",
+first_nations = "P003004",
+asian = "P003005",
+oceania = "P003006",
+other = "P003007",
+mixed = "P003008",
+hisplatino = "P004003",
+
+#################################################
+TableID  S0101 post-2016
+
+under18 = "S0101_C02_022",
+age18_24 = "S0101_C02_023",
+age25_29 = "S0101_C01_007",
+age30_34 = "S0101_C01_008",
+age35_39 = "S0101_C01_009",
+age40_44 = "S0101_C01_010",
+age45_49 = "S0101_C01_011",
+age50_54 = "S0101_C01_012",
+age55_59 = "S0101_C01_013",
+age60_64 = "S0101_C01_014",
+65andolder = "S0101_C02_030"
+
+over60 = "S0101_C02_028"
+
+
+
+
+#########################################
+
+TableID  S0101, pre-2017, percentages
+
+under5 = "S0101_C01_002",
+age5_14 = "S0101_C01_020",
+age15_17 = "S0101_C01_021",
+age18_24 = "S0101_C01_022",
+age25_29 = "S0101_C01_007",
+age30_34 = "S0101_C01_008",
+age35_39 = "S0101_C01_009",
+age40_44 = "S0101_C01_010",
+age45_49 = "S0101_C01_011",
+age50_54 = "S0101_C01_012",
+age55_59 = "S0101_C01_013",
+age60_64 = "S0101_C01_014",
+age65andolder = "S0101_C01_028"
+
+age60andolder = ""
+
+
+medianage = "S0101_C01_030"
+
+
+#########################################
+TableID S0102, Population 60 and older. The Estimates use percentages
+
+
+
+
+
+
+
+
+###########################################
+
+
+TableID: S1901 Household Income withing the past 12 months
+median_income_dollars = "S1901_C01_012"
+mean_income_dollars = "S1901_C01_013"
+median_household_income = "B19013_001"
+
+
+###########################################################
+
+TableID: Estimated Total Population
+total_pop = "B01003_001
+
+
+TableID: B02001, race composition of Rappahannock
+race_total = "B02001_001",
+white = "B02001_002",
+black = "B02001_003",
+first_nations = "B02001_004",
+asian = "B02001_005",
+oceania = "B02001_006",
+other = "B02001_007",
+mixed_total = "B02001_008"
+#Mixed_total is the total of the two below and should be discounted for weird definitions
+
+mixed_ Two or more races:!!Two races including Some other race??? = "B02001_009"
+mixed_ Two races excluding Some other race, and three or more races??? = "B02001_010"
+
+#########################################################################
+
+TableID: B19326, Median Income by Sex by Work Experience, Population 15 Years and Over With Income in the Past 12 Months
+med_income_total = "B19326_001",
+med_income_men = "B19326_002",
+med_income_men_ftime = "B19326_003",
+med_income_men_other = "B19326_004",
+med_income_women = "B19326_005",
+med_income_women_ftime = "B19326_006",
+med_income_women_other = "B19326_007",
+summary_var = "B19326_001"
+
+########################################################################
+
+pop_total="DP05_0033",
+race_single_total = "DP05_0034",
+race_multi_total = "DP05_0035",
+race_single_white = "DP05_0037",
+race_single_black = "DP05_0038",
+race_single_firstnations ="DP05_0039",
+race_single_asian = "DP05_0044",
+race_single_oceania ="DP05_0052",
+race_single_other = "DP05_0057",
+race_hisp_latin_total = "DP05_0070",
+race_hisp_latin_anyrace = "DP05_0071",
+race_not_hisp_total = "DP05_0076",
+race_not_hisp_white = "DP05_077",
+race_not_hisp_black = "DP05_0078",
+race_not_hisp_firstnations = "DP05_0079",
+race_not_hisp_asian = "DP05_0080",
+race_not_hisp_oceania ="DP05_0081",
+race_not_hisp_other = "DP05_0082",
+race_not_hisp_mixed = "DP05_0083",
+summary_var = "DP05_0033"
+
+##########################################################################
+
+TableID: B08135, Aggregate time to work (in minutes) of workers by travel time to work
+
+
+
+Workers over 16 or older who did not work from home
+
+traveltimetotal = "B08135_001",
+lessthan10 = "B08135_002",
+time10to14 = "B08135_003",
+time15to19 = "B08135_004",
+time20to24 = "B08135_005",
+time25to29 = "B08135_006",
+time30to34 = "B08135_007",
+time35to44 = "B08135_008",
+time45to59 = "B08135_009",
+greaterthan60 = "B08135_010"
+summary_var = "B08135_001",
+
+#########################################################################
+
+TableID: S0601 SELECTED CHARACTERISTICS OF THE TOTAL AND NATIVE POPULATIONS IN THE UNITED STATES 
+_C1_23:26 LANGUAGE SPOKEN AT HOME AND ABILITY TO SPEAK ENGLISH Ages 5 and Over
+
+
+total = "S0601_C01_023",
+pct_polyglot  = "S0601_C01_024",
+pct_polyglot_eng_well = "S0601_C01_025",
+pct_polyglot_eng_poor = "S0601_C01_026"
+
+
+

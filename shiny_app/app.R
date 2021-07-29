@@ -370,7 +370,7 @@ ui <- navbarPage(title = "I'm a title!",
                                    # br("", style = "padding-top:2px;"),
                                    # img(src = "uva-dspg-logo.jpg", class = "topimage", width = "20%", style = "display: block; margin-left: auto; margin-right: auto;"),
                                    br(""),
-                                   h1(strong("Availability of Services"),
+                                   h1(strong("Availability of Services;"),
                                       h2(strong("Evolving Demographics, Housing, and Traffic in Rappahannock")),
                                       br(""),
                                       h4("Data Science for the Public Good Program"),
@@ -644,41 +644,56 @@ ui <- navbarPage(title = "I'm a title!",
                           )
                  ),
                  
-                 # Services data tab-----------------------------------------------------------
-                 tabPanel("Services", value = "",
-                          fluidRow(style = "margin: 6px;",
-                                   h2(strong("Services Available Rappahannock County"), align = "center"),
-                                   p("", style = "padding-top:10px;"),
-                                   column(6,
-                                          h4("Services in Rappahannock County"),
-                                          p("Rappahannock Map with services and Driving boundaries.")
-                                   ),
-                                   column(12,h2(strong("About the Map")),
-                                          p(" Write up ->To understand a general suite of services available in Rappahannock, we sourced publicly available demographic and infrastructure data to provide an overview of the services and amenities in Rappahannock. The data were primarily obtained from the 
- American Community Survey. The list of services was compiled from the Rappahannock news guide and resource guide."),
-                                   column(12,
-                                          withSpinner(leafletOutput("map_with_all_point", height ="700px")),
-                                          p(tags$small("Data Source: American Community Survey"))
-                                   ),
-                                   column(12,h2(strong("Services")),
-                                          p(" In many respects, Rappahannock County is uniquely endowed with built amenities and services. However, most of them are clustered or available outside the county. The map highlights the key resources that are available and accessed in the county.
- As the map shows, it most of the services are situated in and around Washington district where  inhabitants have easy access to  and other supporting infrastructure. "),
+                # Services data tab-----------------------------------------------------------
+                tabPanel("Services", value = "",
+                         fluidRow(style = "margin: 6px;",
+                                  h1(strong("Services Available Rappahannock County"), align = "center"),
+                                  p("", style = "padding-top:10px;"),
+                                  column(12,h4(strong("Overview")),
+                                         p("To understand a general suite of services available in Rappahannock County, 
+                                          we sourced publicly available demographic and infrastructure data to provide an overview 
+                                          of the services and amenities in Rappahannock County. The data were primarily obtained from the
+                                            American Community Survey. The list of services was compiled from the Rappahannock news
+                                            guide and resource guide as well as the Rappahanock Business Directory."),
+                                         br(""),
+                                  column(8,
+                                         withSpinner(leafletOutput("map_with_all_point", height ="700px")),
+                                         p(tags$small("Data Source: American Community Survey")),
+                                         p(tags$small("Services Source: https://www.rappahannock.com/business-directory")), 
+                                         p(tags$small("Services Source: rappk_news_guide pdf")),
+                                         p(tags$small("Services Source: rappk_resourcec_guide pdf")),
+                                  ),
+                                  
+                                         column(4,h4(strong("Services")),
+                                                p("In many respects, Rappahannock County is uniquely endowed with built amenities and services.
+                                          However, most of them are clustered or available outside the county. There is a general limited
+                                          Number of services in the county. The primary services we consider include Food and Clothing, Hospitals, Education,
+                                          Recreation, Entertainment, Professional, Transit, Banks, and Adult care Facilities.
+                                          The map highlights the key resources that are available and accessed in the county."),
+                                          p("As the map shows, most of the services in Rappahannock County are clustered in and around Washington in Hampton district 
+                                          where inhabitants have access to among other supporting infrastructure. Additionally, most services can be
+                                            accessed in neighboring counties. Similar to the clusters of Services in Washington, neighboring counties
+                                            have clusters of more services as well."), 
+                                          p("Population-wise, the majority of the population in Rappahannock County 
+                                            are situated in Hampton District which is home to more services in the entire county. Hovering over each district displays 
+                                            their corresponding population (according to the 2010 census data from the American Community Survey)."),
+                                                       
+                                                column(12,h4(strong("Travel Distance")),
+                                                       p("We include driving distances (15 and 30 minutes) from specific points called the population centroids. First,
+                                          we have services that are in proximity from population centroid for Rappahannock 
+                                          County (white dot around the center) in a 15-and-30 minute
+                                          drive. Similarly, we have travel time distance boundaries for each of the five (5) 
+                                          district centroids (red dot in each district)."),
+                                          p("From the map, we can see two driving boundaries. The inner driving boundary of the map 
+                                          surrounding the centroid represents all parts of the region that are within a 15-minute 
+                                          drive from the center of the county (the green cloud). The outer driving boundary on the 
+                                          map surrounding the centroid represents all parts of the region that are within a 
+                                          30-minute drive from the center of the county (the red cloud). "),
                                           
-                                  column(12,h2(strong("Distance")),
-                                          p("From the map we can see two boundaries. The inner driving boundary the map surrounding District centroid represents all parts of the region that are within a 15-minute drive from the center of the county (the green cloud). The outer driving boundary on the map surrounding District centroid represents all parts of the region 
- that are within a 30-minute drive from the center of the county (the red cloud). Additionally, the Rappahanock centroud has a driving map included. Talk about the Piedmont issue"),
-
-column(12,h2(strong("Sources")),
- p("Services Check these and get a standardized reference
- https://www.rappahannock.com/business-directory
- resource_guide pdf
- rappk_news_guide pdf"),
-p(tags$small("Data Source: American Community Survey"))
-                                   ),
-                                   
-                                   
-                          )
-                 ),),),),                  
+                                          
+                                          column(12,h4(strong("Piedmont")),
+                                          p("Talk about the Piedmont issue.")
+                                          ),),  ),),), ),     
                  # data tab -----------------------------------------------------------
                  tabPanel("Data", value = "data",
                           fluidRow(style = "margin: 6px;",
@@ -1568,7 +1583,7 @@ server <- function(input, output, session) {
                        stroke = TRUE, fillOpacity = 1
       )%>%
       addLegend(colors = "deeppink", labels = "Banks")%>% 
-      setView(lat = centerPop_RPK$LATITUDE, lng= centerPop_RPK$LONGITUDE, zoom =11)
+      setView(lat = centerPop_RPK$LATITUDE, lng= centerPop_RPK$LONGITUDE, zoom =10)
     
     
     #Show the map

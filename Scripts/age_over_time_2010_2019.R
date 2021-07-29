@@ -44,6 +44,12 @@ options(tigris_class="sf")
 pop_total <- c(poptotal = "B02001_001")
 
 ########## Necessary functions for working all variables ############
+plot_theme <- theme(plot.title = element_text(hjust = 0.5),
+                    axis.text=element_text(size=12),
+                    legend.text = element_text(size=12),
+                    axis.title.x=element_text(size =13),
+                    axis.title.y=element_text(size =13),
+                    panel.background = element_blank())
 
 
 
@@ -188,14 +194,15 @@ rappage_timeseries$ages <- factor(rappage_timeseries$ages, levels = age_vector)
 
 ggplot(rappage_timeseries, aes(x = year, y = percent, group = ages, color = ages)) +
   geom_line(aes(size = estimate)) +
-  labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
+  labs(title = "Age of Population from 2010 to 2019", color = "Age Categories", size = "Total Population") +
   xlab("Years") +
-  ylab("Percent of the population") +
-  scale_color_discrete(
+  ylab("Percent of the Population") +
+  scale_color_viridis_d(
     labels = c("under18" = "Under 18", 
                "age18_29" = "18 to 29", 
                "age30_64" = "30 to 64", 
-               "age65_older" = "65 and Older")) 
+               "age65_older" = "65 and Older")) +
+  plot_theme
   
   
   
@@ -231,11 +238,6 @@ age2017_2019 <- age2017_2019combined %>% mutate(percent = (age2017_2019combined$
 
 
 age2017_2019$ages <- factor(age2017_2019$ages, levels = age_vector)
-
-
-
-
-
 
 
 
@@ -296,15 +298,31 @@ agetimeseries <- age2017_2019 %>% rbind(age2010_2016) %>% st_as_sf()
 
 ggplot(agetimeseries, aes(x = year, y = percent, color = ages, group = ages)) +
   geom_line(aes(size = estimate)) +
-  labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
+  labs(title = "Age of Population by District from 2010-2019", color = "Age Categories", size = "Total Population") +
   xlab("Years") +
-  ylab("Percent of the population") +
-  scale_color_discrete(
+  ylab("Percentage of Population") +
+  scale_color_viridis_d(
     labels = c("under18" = "Under 18", 
                "age18_29" = "18 to 29", 
                "age30_64" = "30 to 64", 
                "age65_older" = "65 and Older")) +
-  facet_wrap(~NAME)
+  facet_wrap(~NAME) +
+  plot_theme
+
+ggplot(agetimeseries, aes(x = year, y = estimate, color = ages, group = ages)) +
+  geom_line(aes(size = percent)) +
+  labs(title = "Age of Population by District from 2010-2019", color = "Age Categories", size = "Percent of Population") +
+  xlab("Years") +
+  ylab("Total Population") +
+  scale_color_viridis_d(
+    labels = c("under18" = "Under 18", 
+               "age18_29" = "18 to 29", 
+               "age30_64" = "30 to 64", 
+               "age65_older" = "65 and Older")) +
+  facet_wrap(~NAME) +
+  plot_theme
+
+
 
 # 
 # tm_shape(agetimeseries) +
