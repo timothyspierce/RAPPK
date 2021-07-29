@@ -1,0 +1,13 @@
+name: Rappahannock
+title: Rappahannock
+username:
+account: ecsusan-vt-2020-shiny
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4434403
+bundleId: 4866283
+url: https://ecsusan-vt-2020-shiny.shinyapps.io/Rappahannock/
+when: 1627511678.83397
+lastSyncTime: 1627511678.83399
+asMultiple: FALSE
+asStatic: FALSE
