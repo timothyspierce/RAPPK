@@ -64,6 +64,8 @@ race_district <- readRDS("data/race_district.Rds")
 #housing
 housing2010_2019 <- readRDS("data/housing_over_time.Rda")
 housing2010_2019_by_district <- readRDS("data/housing2010_2019_by_district.Rds")
+#population
+population2010_2019 <- readRDS("data/population2010_2019.Rds")
 # Read in Housing Data ----------------------------------------------------------
           
 # Read in Traffic Data ----------------------------------------------------------
@@ -506,6 +508,19 @@ ui <- navbarPage(title = "I'm a title!",
                                    
                                    
                           ),
+                          
+                          tabPanel("Population",
+                                   column(9,
+                                          withSpinner(plotOutput("popplot",  height = "800px")),
+                                          p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                   ),
+                                   column(3,
+                                          h4("Population Description", align = "center"),
+                                          p("........")
+                                          
+                                   )
+                                   
+                          ),
       
                           
                           tabPanel("Household Characteristics",
@@ -557,11 +572,11 @@ ui <- navbarPage(title = "I'm a title!",
                           ),
                           
                           tabPanel("Income",
-                                   column(9,
+                                   column(8,
                                           withSpinner(plotOutput("incomePlot", height = "1000px")),
                                           p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
                                    ),
-                                   column(3,
+                                   column(4,
                                           h4("Income Description", align = "center"),
                                           p("........")
                                           
@@ -628,7 +643,7 @@ ui <- navbarPage(title = "I'm a title!",
                                           p(tags$small("Data Source: Virginia Department of Transportation"))
                                    ),
                                    column(4,
-                                          h4("Average Annual Daily Traffic in Rappahannock County", align = "center"),
+                                          h4(strong("Average Annual Daily Traffic in Rappahannock County", align = "center")),
                                           p("The map displays Average Annual Daily Traffic (AADT) data which is calculated by the traffic volume of a road segement for
                                             a year divided by the number of days in a year. AADT is shown on a map of Rappahannock county divided into distrcits and with the routes 
                                             in the area."),
@@ -1012,6 +1027,25 @@ server <- function(input, output, session) {
     }
   })
   
+  #population--------------------------------------------------------------
+  
+  output$popplot <- renderPlot({
+
+    popplot <- ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
+      geom_line(aes(size = "Percent of Population" <- percent)) +
+      theme_minimal()+
+      ggtitle(label = "Estimated Total Population 2010-2019") +
+      theme(plot.title = element_text(hjust=0.5, size=20),
+            axis.title.x = element_blank(),
+            legend.text = element_text(size=15),
+            legend.title = element_text(size=15),
+            axis.text = element_text(size=15),
+            axis.title.y=element_text(size=15))
+    
+    popplot
+    
+  })
+  
   #housheold characteristics -----------------------------------------------
   hcVar <- reactive({
     input$hcdrop
@@ -1092,7 +1126,7 @@ server <- function(input, output, session) {
       county_veh3$num <- factor(county_veh3$num, levels = c("None", "One", "Two", "Three or more"))
       vehicle_graph <- ggplot(data = county_veh3, aes(x = county, y = estimate)) +
         geom_col(aes(fill = num), width = 0.7)+
-        geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=5, hjust =1.1)+
+        geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=5, hjust =1.35)+
         coord_flip() +
         theme_minimal() +
         ylab("County")+
