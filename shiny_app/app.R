@@ -466,23 +466,23 @@ ui <- navbarPage(title = "I'm a title!",
                                       ),
                                      column(3,
                                             h4("Age Demographic", align = "center"),
-                                            h5("Age Composition"),
-                                            p("The pie charts show the age proportions for Rappahannock and Virginia in 2019. Rappahannock county has a greater percent
-                                            population of seniors than Virginia with an 11% difference. Rappahnnock has a noticeably smaller percent of adolescent and young adult populations
+                                            h5(strong("Age Composition")),
+                                            p("The charts show the age proportions for the population of Rappahannock and Virginia in 2019. Rappahannock has a greater percent
+                                               of seniors than Virginia with an 11% difference. Rappahnnock also has a noticeably smaller percent of adolescent and young adult populations
                                               than Virginia."),
                              
                                      
-                                            h5("Age Composition Over Time"),
-                                            p("description....................................................."),
+                                            h5(strong("Age Composition Over Time")),
+                                            p("The line graph show the age composition of Rappahannock from 2010 to 2019. The color respres"),
 
                                      
                                             
-                                            h5("Median Age"),
+                                            h5(strong("Median Age")),
                                              p("Rappahhannock has a higher median age than its surrounding counties and Virginia.
                                                Rappahannock's districts all show the same trend of a high median age, except the district of Wakefield."),
                                       
                                             
-                                            h5("Age Dependency"),
+                                            h5(strong("Age Dependency")),
                                             p("The age dependency ratio is an age-population ratio for dependents or those who are not in the labor force. There is the
                                               age dependecy ratio that account for all ages of dependents, the child dependecy ratio that accounts for dependents under the age
                                               of 15, and the old-age dependency ratio that accounts for dependents over the age of 64. The ratio is calculated by taking the
@@ -656,9 +656,12 @@ ui <- navbarPage(title = "I'm a title!",
                                             but by checking and unchecking the Positive and Negative boxes in the top right corner, segments with positive and negative percent change can be
                                             displayed separately.The color scale shows the AADT count change from 2010 to 2020. The scale does include negative count change in the lighter color,
                                             but the Positive and Negative boxes could also be used to analyze positive and negative count change separately."),
-                                         p("Hovering over a circle displays the ID of the roads segment, that corresponds to the IDs in the table, count change and percent change of AADT from 2010 to 2020.
+                                         p("Hovering over a circle displays the ID of the road segment, that corresponds to an ID in the table, count change and percent change of AADT from 2010 to 2020.
                                          Clicking on a circle pops up a time graph displaying the AADT counts for each year from 2010 to 2020 for that specific route segment.
                                            "),
+                                         p("A few segments with the larger percent change seem to be clustering near the town of Washington. The map only includes
+                                           three segments that have had a decrease in AADT, all of which are located in the southwest of Rappahannock. Looking at the services
+                                           and where they are located in and outside of Rappahannock could ive us more insight into why we are seeing thes change in AADT in these areas.")
                                    ),
                                    
                                    column(8,
@@ -788,7 +791,7 @@ ui <- navbarPage(title = "I'm a title!",
                             img(src = "team-christina.jpeg", style = "display: inline; border: 1px solid #C0C0C0;", width = "150px"),
                             p(a(href = 'www.linkedin.com/in/timothyspierce', 'Timothy Pierce', target = '_blank'), "(Virginia Tech, Agricultural and Applied Economics);",
                               a(href = 'https://www.linkedin.com/in/reginald-mousa-toure-32b550106/', 'Mousa Toure', target = '_blank'), "(Virginia State University, Computer Science);",
-                              a(href = 'https://www.linkedin.com/in/igomez-3099/', 'Christina Prisbe', target = '_blank'), "(Virginia Tech, Computational Modeling and Data Analytics)."),
+                              a(href = 'https://www.linkedin.com/in/christina-prisbe-60966b218/', 'Christina Prisbe', target = '_blank'), "(Virginia Tech, Computational Modeling and Data Analytics)."),
                             p("", style = "padding-top:10px;")
                             ),
                             column(6, align = "center",
@@ -833,6 +836,10 @@ server <- function(input, output, session) {
       
       cbPalette <- c("#E69F00","#56B4E9","#009E73","#0072B2","#D55E00", "#CC79A7")
       
+      rappk_ageGroups$Key[rappk_ageGroups$Key == "Young Adult: 18 to 30"] <- "Young Adult: 18 to 29"
+      rappk_ageGroups$Key[rappk_ageGroups$Key == "Middle-Aged: 30 to 65"] <- "Middle-Aged: 30 to 64"
+      
+      rappk_ageGroups$Key <- factor(rappk_ageGroups$Key, levels = c("Adolescent: Under 18", "Young Adult: 18 to 29", "Middle-Aged: 30 to 64", "Senior: 65 and Over"))
       age_group_rappk_pie_plot  <- ggplot(rappk_ageGroups, aes(x="", y=`Percent.of.Population`, fill=Key)) +
         geom_bar(stat="identity", width=1, color =1) +
         coord_polar("y", start=0) +
@@ -848,6 +855,9 @@ server <- function(input, output, session) {
         ggtitle("Rappahannock") +
         theme(plot.title = element_text(hjust = 0.5, size = 25))
       
+      va_ageGroups$Key[va_ageGroups$Key == "Young Adult: 18 to 30"] <- "Young Adult: 18 to 29"
+      va_ageGroups$Key[va_ageGroups$Key == "Middle-Aged: 30 to 65"] <- "Middle-Aged: 30 to 64"
+      va_ageGroups$Key <- factor(va_ageGroups$Key, levels = c("Adolescent: Under 18", "Young Adult: 18 to 29", "Middle-Aged: 30 to 64", "Senior: 65 and Over"))
        age_group_va_pie_plot <- ggplot(va_ageGroups, aes(x="", y=`Percent.of.Population`, fill=Key)) +
          geom_bar(stat="identity", width=1, color=1) +
          coord_polar("y", start=0) +
@@ -860,7 +870,7 @@ server <- function(input, output, session) {
          scale_fill_manual(values=cbPalette) + 
          ggtitle("Virginia") +
          theme(plot.title = element_text(hjust = 0.5, size =20), legend.title = element_blank(),
-               legend.text = element_text(size =12))
+               legend.text = element_text(size =15))
       
        ageplot <- grid.arrange(age_group_rappk_pie_plot,age_group_va_pie_plot, ncol =1,
                                bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table B01001",
@@ -941,7 +951,7 @@ server <- function(input, output, session) {
     else if (ageVar() == "ageTime") {
       ageplot <- ggplot(rappage_timeseries, aes(x = year, y = percent, group = ages, color = ages)) +
         geom_line(aes(size = estimate)) +
-        labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
+        labs(title = "Rappahannock Age of Population from 2010 to 2019", color = "Age Categories") +
         ylab("Percent of the population") +
         theme_minimal()+
         scale_color_viridis_d(
