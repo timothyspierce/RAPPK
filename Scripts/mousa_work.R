@@ -90,3 +90,17 @@ ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race))
   ylab("Percent of Population") +
   scale_fill_viridis_d() +
   plot_theme 
+
+
+#Education Levels by District
+
+readRDS("shiny_app/data/edu2019.Rds")
+ggplot(edu2019, aes(x = NAME, y = Percent, group = EduLevel, fill = EduLevel)) + 
+  geom_col() + scale_fill_viridis_d() +
+  ggtitle("Education Levels by District")  + xlab("District")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text=element_text(size=12),
+        legend.text = element_text(size=12),
+        axis.title.x=element_text(size =13),
+        axis.title.y=element_text(size =13),
+        panel.background = element_blank()) 

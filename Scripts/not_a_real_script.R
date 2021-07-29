@@ -92,8 +92,8 @@ allEd <- grid.arrange(highEd, lowEd, nrow = 2, top = "Education")
 
 belowhs <- "B15003_016E+B15003_015E+B15003_014E+B15003_013E+B15003_012E+B15003_011E+B15003_010E+B15003_009E+B15003_008E+B15003_007E+B15003_006E+B15003_005E+B15003_004E+B15003_003E+B15003_002E"
 
-
-rapp_table("B15003", 2019) -> edu_table
+get_edu <- function(year){
+rapp_table("B15003", year) -> edu_table
 edu_table <- mutate(edu_table, phd_pct = B15003_025E/B15003_001E)
 edu_table <- mutate(edu_table, prof_pct = B15003_024E/B15003_001E)
 edu_table <- mutate(edu_table, ms_pct = B15003_023E/B15003_001E)
@@ -104,8 +104,22 @@ edu_table <- mutate(edu_table, sc1_pctu1 = B15003_019E/B15003_001E)
 edu_table <- mutate(edu_table, ged_pct = B15003_018E/B15003_001E)
 edu_table <- mutate(edu_table, hs_pct = B15003_017E/B15003_001E)
 edu_table <- mutate(edu_table, under_hs_pct = (B15003_016E+B15003_015E+B15003_014E+B15003_013E+B15003_012E+B15003_011E+B15003_010E+B15003_009E+B15003_008E+B15003_007E+B15003_006E+B15003_005E+B15003_004E+B15003_003E+B15003_002E)/B15003_001E)
-edu_table <- mutate(edu_table, year = "2019")
+edu_table <- mutate(edu_table, year = 2019)
+}
 
+edu2019 <- get_edu(2012)
+
+edu_over_time <- rbind(
+  get_edu(2019),
+  get_edu(2018),
+  get_edu(2017),
+  get_edu(2016),
+  get_edu(2015),
+  get_edu(2014),
+  get_edu(2013),
+  get_edu(2012))
+
+View(edu_over_time)
 
 
 saveRDS(edu_table, file = "shiny_app/data/edu_table.Rds")
