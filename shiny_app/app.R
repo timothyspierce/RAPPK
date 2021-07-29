@@ -66,6 +66,9 @@ housing2010_2019 <- readRDS("data/housing_over_time.Rda")
 housing2010_2019_by_district <- readRDS("data/housing2010_2019_by_district.Rds")
 #population
 population2010_2019 <- readRDS("data/population2010_2019.Rds")
+#education
+edu2019 <- readRDS("data/edu2019.Rds")
+
 # Read in Housing Data ----------------------------------------------------------
           
 # Read in Traffic Data ----------------------------------------------------------
@@ -473,7 +476,7 @@ ui <- navbarPage(title = "I'm a title!",
                              
                                      
                                             h5(strong("Age Composition Over Time")),
-                                            p("The line graph show the age composition of Rappahannock from 2010 to 2019. The color respres"),
+                                            p("The line graph show the age composition of Rappahannock from 2010 to 2019. -------------------"),
 
                                      
                                             
@@ -512,7 +515,7 @@ ui <- navbarPage(title = "I'm a title!",
                           tabPanel("Population",
                                    column(9,
                                           withSpinner(plotOutput("popplot",  height = "800px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                          #p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
                                    ),
                                    column(3,
                                           h4("Population Description", align = "center"),
@@ -536,17 +539,14 @@ ui <- navbarPage(title = "I'm a title!",
                                    ),
                                    column(4,
                                           h4("Houshold Characteristics", align = "center"),
-                                          h5("Household Size"),
-                                          p("Rappahannock in 2019 had 68.2% of households were occupied by two or leass people"),
+                                          h5(strong("Household Size")),
+                                          p("Rappahannock in 2019 had 68.2% of households were occupied by two people or less."),
                                           
-                                          h5("Households Occcupied b Owners and Renters"),
+                                          h5(strong("Households Occcupied by Owners and Renters")),
                                           p("These graphs show the number of households in Rappahannock occupied owners and renters 
-                                          from 2010 to 2020. In the early 2010s, households occupied by owners were increasing as households
-                                            occupied by renters were decrasing up until 2014, where they flipped and owner occupation started decreasing,
-                                            and renter occupation statrted decrasing. Towards the end of the 2010's renter occupation fall back into
-                                            a decreasing trend"),
+                                          from 2010 to 2020."),
                                           
-                                          h5("Vehicles per Household"),
+                                          h5(strong("Vehicles per Household")),
                                           p("Rappahhanock follows the same trend as its surrounding counties of having a higher percentage of
                                             households using three or more cars")
                                           
@@ -556,16 +556,13 @@ ui <- navbarPage(title = "I'm a title!",
                           
                           tabPanel("Education",
                                    column(8,
-                                          selectInput("edudrop", "Select Variable:", width = "100%", choices = c(
-                                            "education graph1" = "edu1",
-                                            "education graph2" = "edu2")
-                                          ),
                                           withSpinner(plotOutput("eduplot", height ="800px")),
-                                          #p(tags$small("Data Source: ACS Five Year Estimate Tables ????"))
+                                          p(tags$small("Data Source: ACS Five Year Estimate Tables ????"))
                                           
                                    ),
                                    column(4,
-                                          h4("Education Description......")
+                                          h4("Education", align = "center")
+                                          
                                           
                                    )  
                                    
@@ -597,13 +594,13 @@ ui <- navbarPage(title = "I'm a title!",
                                    ),
                                    column(4,
                                           h4("Broadband", align = "center"),
-                                          h5("Internet Suscription by Income"),
+                                          h5(strong("Internet Suscription by Income")),
                                           p("Rappahannock shows that resident with a higher income or more likely to have an internet
                                             subscription."),
-                                          h5("Internet Subscriptions and Computer Ownership by District"),
+                                          h5(strong("Internet Subscriptions and Computer Ownership by District")),
                                           p("The bar graphs show internet subscriptions and computer ownership broken down into Rappahanock's districts.
                                             For both internet subscirptions and computer ownership, Hampton and Jackson have the highest percent of residents
-                                            with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent internet subcriptions
+                                            with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent of internet subcriptions
                                             and computer ownership")
                                           
                                    )
@@ -1161,27 +1158,18 @@ server <- function(input, output, session) {
   })
   
   #education graphs------------------------------------------------------
-  eduVar <- reactive ({
-    input$edudrop
-  })
-  
   output$eduplot <- renderPlot({
-    if(eduVar() == "edu1") {
-      
-      
-      
-      
-      
-      
-      
-    }
-    else if (eduVar() == "edu2") {
-      
-      
-      
-      
-    }
     
+    eduplot <- ggplot(edu2019, aes(x = NAME, y = pct, group = variable, fill = variable)) + 
+      geom_col() + scale_fill_viridis_d() +
+      ggtitle("Education Levels by District")  + xlab("District")+ ylab("Percent")
+      theme(plot.title = element_text(hjust = 0.5),
+            axis.text=element_text(size=12),
+            legend.text = element_text(size=12),
+            axis.title.x=element_text(size =13),
+            axis.title.y=element_text(size =13),
+            panel.background = element_blank())
+    eduplot
   })
   
   #income plot ----------------------------------------------------------
@@ -1204,7 +1192,7 @@ server <- function(input, output, session) {
   })
   
   
-           #broadband tab -------------------------------------------------------------
+  #broadband tab -------------------------------------------------------------
   bbVar <- reactive({
     input$bbdrop
   })
@@ -1332,11 +1320,7 @@ server <- function(input, output, session) {
   })
   
   
-  
-  
-  
-  
-  
+
   #traffic  leaflet -------------------------------------------------------------
   output$traffic_markers_map <- renderLeaflet({
     #changing 2010-2015 data to have only the same roads that 2016-2020 has (getting rid of one route from 2014,2015)
