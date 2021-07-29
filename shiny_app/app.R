@@ -515,65 +515,6 @@ ui <- navbarPage(title = "I'm a title!",
                 
                 ),
 
-                 # housing market tab -----------------------------------------------------------
-                 tabPanel("Housing Market", value = "older",
-                          fluidRow(style = "margin: 6px;",
-                                   h1(strong("Housing Data Rappahannock County"), align = "center"),
-                                   p("", style = "padding-top:10px;"),
-                                   column(4,
-                                          h4(strong("some descriptor")),
-                                          p("The US population is aging, and in Patrick County, over 30% of residents are older adults aged 65 years and over. This represents more than 5,000
-                                           individuals with varying health conditions that may benefit from locally accessible health care and social services resources. However, access to
-                                           health care resources is limited in rural areas, particularly for older adults in need of assistance with activities of daily life."),
-                                          p("To help Patrick County better understand their older adult population, we used American Community Survey (ACS) data and obtained census tract
-                                           level information for the age group. ACS is an ongoing yearly survey conducted by the U.S Census Bureau that samples households to compile
-                                           1-year and 5-year estimates of population sociodemographic and socioeconomic characteristics. We used the most recently available 5-year data
-                                           from 2014/18 to calculate the percentage of the Patrick County older adults with different types of disability, as well as provided information
-                                           on their living arrangements and socioeconomic status. We provided all information at census tract level and by gender."),
-                                          p("These insights on the health and socioeconomic status of older adults in Patrick County can assist the county in identifying areas of high need
-                                          for health care resources.")
-                                   ),
-                                   column(8,
-                                          h4(strong("Map of Older Adult Characteristics by Census Tract")),
-                                          tabsetPanel(
-                                            tabPanel("Older Adult Characteristics",
-                                                     p(""),
-                                                     column(6,
-                                                            selectInput("olddrop", "1. Select Variable:", width = "100%", choices = c(
-                                                              "Percent with Vision Difficulty" = "visdiff",
-                                                              "Percent with Ambulatory Difficulty" = "ambdiff",
-                                                              "Percent with Self-Care Difficulty" = "carediff",
-                                                              "Percent with Cognitive Difficulty" = "cogdiff",
-                                                              "Percent with Independent Living Difficulty" = "ildiff",
-                                                              "Percent with Any Disability" = "disab",
-                                                              "Percent in Poverty" = "inpov",
-                                                              "Percent in Labor Force" = "labfor")
-                                                            )),
-                                                     column(6,
-                                                            selectInput("oldspecdrop", "2. Select Group:", width = "100%", choices = c(
-                                                              "Total",
-                                                              "Female" = "_f",
-                                                              "Male" = "_m")
-                                                            )),
-                                                     withSpinner(leafletOutput("oldplot")),
-                                                     p(tags$small("Data Source: American Community Survey 2014/18 5-Year Estimates."))
-                                            ),
-                                            tabPanel("Older Adult Household Characteristics",
-                                                     p(""),
-                                                     selectInput("hhdrop", "Select Variable:", width = "100%", choices = c(
-                                                       "Percent Married Couple Households with one or more 60+ Member" = "hhsixty_married",
-                                                       "Percent Households with one or more 60+ Members" = "hhsixty_total",
-                                                       "Percent Single (no partner present) Households with one or more 60+ Member" = "hhsixty_nonfam",
-                                                       "Percent Households with one or more Male 60+ Members" = "hhsixty_mhh",
-                                                       "Households with one or more Female 60+ Members" = "hhsixty_fhh")),
-                                                     withSpinner(leafletOutput("householdplot")),
-                                                     p(tags$small("Data Source: American Community Survey 2014/18 5-Year Estimates."))
-                                            )
-                                          )
-                                   )
-                          )
-                 ),
-
                  # traffic data tab-----------------------------------------------------------
                  tabPanel("Traffic", value = "connectivity",
                           fluidRow(style = "margin: 6px;",
@@ -632,9 +573,9 @@ p(tags$small("Data Source: American Community Survey"))
                           )
                  ),),),),                  
                  # data tab -----------------------------------------------------------
-                 tabPanel("Data and Measures", value = "data",
+                 tabPanel("Data", value = "data",
                           fluidRow(style = "margin: 6px;",
-                                   h1(strong("Data and Measures"), align = "center"),
+                                   h1(strong("Data Sources"), align = "center"),
                                    br()
                           ),
                           tabsetPanel(
@@ -672,21 +613,10 @@ p(tags$small("Data Source: American Community Survey"))
                                             br(""),
                                           
                                      )
-                            ),
-                            tabPanel("Measures",
-                                     h3(strong(""), align = "center"),
-                                     selectInput("topic", "Select Topic:", width = "100%", choices = c(
-                                       "All Measures",
-                                       "Sociodemographic Measures",
-                                       "Older Adult Population Measures",
-                                       "Connectivity Measures",
-                                       "Food Access Measures",
-                                       "Health Care Access Measures")
-                                     ),
-                                     withSpinner(DTOutput("datatable"))
                             )
-                          )
-                 ),
+
+                            )
+                          ) ,
 
                  # team tab -----------------------------------------------------------
                  tabPanel("Meet the Team", value = "contact",
