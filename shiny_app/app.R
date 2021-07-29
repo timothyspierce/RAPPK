@@ -410,7 +410,7 @@ ui <- navbarPage(title = "I'm a title!",
                                           p("Our conclusions based on state-of-the-art techniques of data analysis and visualization allow the stakeholders to better understand the interplay of the county’s current profile with the present and recently evolved characterization of housing market, availability of services, and changing traffic patterns. The combined analysis helps correlate the several challenges in Rappahannock both spatially and how they evolved over the last decade and helps provide directions for policies that could help the county residents in the future. "),
                                           
                                           p(),
-                                          p("This dashboard compiles our findings and allows users to explore the information interactively.")
+                                          p("This dashboard compiles our findings and allows users to explore the information interactively. [There will be more text here soon")
                                    ),
                                    column(4,
                                           h2(strong("Project Outcomes")),
