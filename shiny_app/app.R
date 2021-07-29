@@ -931,7 +931,7 @@ server <- function(input, output, session) {
                panel.background = element_rect(fill = "white")) +
          ggtitle("Rappahannock Household Size") +
          scale_fill_viridis_d()
-       hcplot
+       hcplot <- grid.arrange(hcplot)
     }
     
     
