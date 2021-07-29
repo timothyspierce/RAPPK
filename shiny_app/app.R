@@ -623,7 +623,7 @@ ui <- navbarPage(title = "I'm a title!",
                           )
                  ),
                  
-               # Services data tab-----------------------------------------------------------
+                # Services data tab-----------------------------------------------------------
                 tabPanel("Services", value = "",
                          fluidRow(style = "margin: 6px;",
                                   h1(strong("Services Available Rappahannock County"), align = "center"),
@@ -647,37 +647,32 @@ ui <- navbarPage(title = "I'm a title!",
                                                 p("In many respects, Rappahannock County is uniquely endowed with built amenities and services.
                                           However, most of them are clustered or available outside the county. There is a general limited
                                           Number of services in the county. The primary services we consider include Food and Clothing, Hospitals, Education,
-                                          Recreation, Entertainment, Professional, Transit, Banks, and Adultcare Facilites.
+                                          Recreation, Entertainment, Professional, Transit, Banks, and Adult care Facilities.
                                           The map highlights the key resources that are available and accessed in the county."),
-                                          p("As the map shows, most of the services in Rappahanock County are clustered in and around Washington in Hampton district 
+                                          p("As the map shows, most of the services in Rappahannock County are clustered in and around Washington in Hampton district 
                                           where inhabitants have access to among other supporting infrastructure. Additionally, most services can be
-                                            accessed in neighbouring counties. Similar to the clusters of Services in Washington, neighboring counties
+                                            accessed in neighboring counties. Similar to the clusters of Services in Washington, neighboring counties
                                             have clusters of more services as well."), 
                                           p("Population-wise, the majority of the population in Rappahannock County 
                                             are situated in Hampton District which is home to more services in the entire county. Hovering over each district displays 
-                                            their corresponding population (according to the 2010 census data from the American Community Survey)"),
+                                            their corresponding population (according to the 2010 census data from the American Community Survey)."),
                                                        
                                                 column(12,h4(strong("Travel Distance")),
-                                                       p("We include driving distances (15 and 30 minute) from specific points called the population centroids. First,
-                                          we have services that are in proximity from pouplation centroid for Rappahannock 
-                                          County (white dot around the center) in a 15 and 30 minute
+                                                       p("We include driving distances (15 and 30 minutes) from specific points called the population centroids. First,
+                                          we have services that are in proximity from population centroid for Rappahannock 
+                                          County (white dot around the center) in a 15-and-30 minute
                                           drive. Similarly, we have travel time distance boundaries for each of the five (5) 
                                           district centroids (red dot in each district)."),
-                                          p("From the map we can see two driving boundaries. The inner driving boundary the map 
+                                          p("From the map, we can see two driving boundaries. The inner driving boundary of the map 
                                           surrounding the centroid represents all parts of the region that are within a 15-minute 
                                           drive from the center of the county (the green cloud). The outer driving boundary on the 
                                           map surrounding the centroid represents all parts of the region that are within a 
-                                          30-minute drive from the center of the county (the red cloud).Talk about the Piedmont issue."),),
-                                                       
-                                                       
-                                                                ),),
-                                                       ),
-                                                       
-                                                       
-                                                ),
-                                        
-                         
-                                                 
+                                          30-minute drive from the center of the county (the red cloud). "),
+                                          
+                                          
+                                          column(12,h4(strong("Piedmont")),
+                                          p("Talk about the Piedmont issue.")
+                                          ),),  ),),), ),     
                  # data tab -----------------------------------------------------------
                  tabPanel("Data", value = "data",
                           fluidRow(style = "margin: 6px;",
