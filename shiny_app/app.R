@@ -36,6 +36,7 @@ colors <- c("#232d4b","#2c4f6b","#0e879c","#60999a","#d1e0bf","#d9e12b","#e6ce3a
 
 # data -----------------------------------------------------------
 # Read in Demographic Data ----------------------------------------------------------
+#age
 rappk_ageGroups <- read.csv("data/TableB01001FiveYearEstimates/rappkAgeGroups.csv")
 va_ageGroups <- read.csv("data/TableB01001FiveYearEstimates/vaAgeGroups.csv")
 counties_median_age<- read.csv("data/TableB01001FiveYearEstimates/countyMedianAge.csv")
@@ -45,16 +46,24 @@ sub_dep<- read.csv("data/TableB01001FiveYearEstimates/subdivisionAgeDependency.c
 va_rappk_dep<- read.csv("data/TableB01001FiveYearEstimates/rappkAgeDependency.csv")
 rappage_timeseries <- readRDS("data/rapp_age_time_series.Rda")
 agetimeseries <- readRDS("data/district_age_time_series.Rds")
-intByIncome <- read.csv("data/TableS2801FiveYearEstimates/internetIncome.csv")
+#income
 income2010_2019 <- readRDS("data/income2010_2019.Rda")
+#household characteristics
 householdSize <- read.csv("data/TableS2501FiveYearEstimates/householdSize.csv")
 own <- read.csv("data/TableS2501FiveYearEstimates/ownerOccupied.csv")
 rent <- read.csv("data/TableS2501FiveYearEstimates/renterOccupied.csv")
 rappk_veh <- read.csv("data/TableS2501FiveYearEstimates/vehiclesHousehold.csv")
 county_veh <- read.csv("data/TableS2501FiveYearEstimates/vehiclesHouseholdCounty.csv")
-
+#Broadband
+intByIncome <- read.csv("data/TableS2801FiveYearEstimates/internetIncome.csv")
 compDist <- read.csv("data/TableS2801FiveYearEstimates/districtComputers.csv")
 intDist <- read.csv("data/TableS2801FiveYearEstimates/districtInternet.csv")
+#race
+race_time_series <- readRDS("data/race_time_series.Rds")
+race_district <- readRDS("data/race_district.Rds")
+#housing
+housing2010_2019 <- readRDS("data/housing_over_time.Rda")
+housing2010_2019_by_district <- readRDS("data/housing2010_2019_by_district.Rds")
 # Read in Housing Data ----------------------------------------------------------
           
 # Read in Traffic Data ----------------------------------------------------------
@@ -485,8 +494,8 @@ ui <- navbarPage(title = "I'm a title!",
                                    
                                    column(9, 
                                           selectInput("racedrop", "Select Variable:", width = "100%", choices = c(
-                                            "race graph1" = "race1",
-                                            "race graoh 2" = "race2")),
+                                            "Race Composition" = "race1",
+                                            "Race Composition by District" = "race2")),
                                           withSpinner(plotOutput("raceplot", height = "800px")),
                                           #p(tags$small("Data Source: ACS Five Year Estimate Table ????"))
                                           
@@ -553,7 +562,8 @@ ui <- navbarPage(title = "I'm a title!",
                                           p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
                                    ),
                                    column(3,
-                                          h4("Income Description....")
+                                          h4("Income Description", align = "center"),
+                                          p("........")
                                           
                                    )
                                    
@@ -588,15 +598,16 @@ ui <- navbarPage(title = "I'm a title!",
                                    
                                    column(8,
                                           selectInput("hmdrop", "Select Variable:", width = "100%", choices = c(
-                                            "housing market graph1" = "housing1",
-                                            "housing market graph2" = "housing2")
+                                            "Housing Prices" = "housing1",
+                                            "Housing Prices by District" = "housing2")
                                           ),
                                           withSpinner(plotOutput("hmplot", height ="800px")),
                                           #p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
                                           
                                    ),
                                    column(4,
-                                          h4("Housing Market Description......")
+                                          h4("Housing Market Description", align = "center"),
+                                          p(".........")
                                           
                                    )
                                    
@@ -917,6 +928,7 @@ server <- function(input, output, session) {
         geom_line(aes(size = estimate)) +
         labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
         ylab("Percent of the population") +
+        theme_minimal()+
         scale_color_viridis_d(
           labels = c("under18" = "Under 18", 
                      "age18_29" = "18 to 29", 
@@ -943,12 +955,14 @@ server <- function(input, output, session) {
                      "age30_64" = "30 to 64", 
                      "age65_older" = "65 and Older")) +
         facet_wrap(~NAME) +
+        theme_minimal()+
         theme(plot.title = element_text(hjust=0.5, size=20),
               axis.text = element_text(size=15),
               legend.title = element_text(size=15),
               legend.text = element_text(size=15),
               axis.title.x = element_blank(),
-              axis.title.y = element_text(size=15)
+              axis.title.y = element_text(size=15),
+              axis.text.x = element_text(angle = 40)
          )
        ageplot
     }
@@ -962,18 +976,38 @@ server <- function(input, output, session) {
   output$raceplot <- renderPlot({
     if (raceVar() == "race1") {
       
-      
-      
-      
-      
-      
+     raceplot <- ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race)) +
+        geom_col(position = "fill") +
+        labs(title = "Racial Demographics 2010-2019", fill = "Race") +
+        xlab("Years") +
+        ylab("Percent of Population") +
+        scale_fill_viridis_d() +
+        theme_minimal()+
+        theme(plot.title = element_text(hjust=0.5, size =20),
+              axis.title.x = element_blank(),
+              legend.text = element_text(size=15),
+              legend.title = element_text(size=15),
+              axis.text = element_text(size=15),
+              axis.title.y=element_text(size=15))
+     raceplot
     }
     else if (raceVar() == "race2"){
-      
-      
-      
-      
-      
+      raceplot <- ggplot(race_district, aes(x = year, y = Percent, fill = race, group = race)) +
+        geom_col(position = "fill") +
+        labs(title = "Racial Demographics 2010-2019", fill = "Race") +
+        xlab("Years") +
+        ylab("Percent of Population") +
+        scale_fill_viridis_d() +
+        theme_minimal()+
+        theme(plot.title = element_text(hjust=0.5, size =20),
+        axis.title.x = element_blank(),
+        legend.text = element_text(size=15),
+        legend.title = element_text(size=15),
+        axis.text = element_text(size=15),
+        axis.title.y=element_text(size=15),
+        axis.text.x = element_text(angle = 40))+
+        facet_wrap(~NAME)
+      raceplot
       
     }
   })
@@ -1113,6 +1147,7 @@ server <- function(input, output, session) {
       scale_fill_viridis_d(name="District") +
       ylab("Median Income")+
       ggtitle("Median Income from 2010 to 2019") +
+      theme_minimal()+
       theme(plot.title = element_text(hjust=0.5, size=20),
             legend.text = element_text(size=15),
             axis.text = element_text(size=15),
@@ -1213,21 +1248,39 @@ server <- function(input, output, session) {
   
   output$hmplot <- renderPlot({
     if(hmVar() == "housing1") {
-      
-      
-      
-      
-      
+      hmplot <- ggplot(housing2010_2019, aes(x = year, y = pop_per_home, group = homevalues, color = homevalues)) +
+        geom_line(aes(size = estimated_total)) +
+        theme_minimal()+
+        ylab("Percentage of Homes") +
+        theme(plot.title = element_text(hjust=0.5, size =20),
+              legend.text = element_text(size=15),
+              legend.title =element_text(size=15),
+              axis.title.x = element_blank(),
+              axis.title.y = element_text(size=15),
+              axis.text = element_text(size=15))
+      hmplot
       
       
     }
     else if (hmVar() == "housing2") {
       
-      
-      
-      
-      
-      
+     hmplot <- ggplot(housing2010_2019_by_district, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
+        geom_line(aes(size = estimated_total)) +
+        ylab("Percentage of Homes") +
+       theme_minimal()+
+        facet_wrap(~NAME) +
+        labs(size = "Number of Homes") +
+        ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
+        scale_color_viridis_d(name = "Home Value Brackets") + 
+       theme(plot.title = element_text(hjust=0.5, size=20),
+             axis.text.x = element_text(angle = 40),
+             legend.text = element_text(size=15),
+             legend.title =element_text(size=15),
+             axis.title.x = element_blank(),
+             axis.title.y = element_text(size=15),
+             axis.text = element_text(size=15))
+      hmplot
+
     }
     
   })
