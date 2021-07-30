@@ -94,7 +94,7 @@ race_var <- c(white = "B02001_002",
                mixed_total = "B02001_008")
 pop_total <- c(poptotal = "B02001_001")
 
-rapp_table <- function(varcode, year){
+rapp_table_district <- function(varcode, year){
   get_acs(geography = "county subdivision",
           state = 51,
           county = 157,
@@ -103,7 +103,7 @@ rapp_table <- function(varcode, year){
           year = year)}
 
 get_race <- function(year){
-  rapp_table("B02001", 2019) -> race_table
+  rapp_table_district("B02001", 2019) -> race_table
   race_table <- mutate(race_table, 'White' = (B02001_002E / B02001_001E))
   race_table <- mutate(race_table, 'non-White' = (B02001_003E + B02001_004E +B02001_005E+B02001_006E+B02001_007E+B02001_008E)/B02001_001E)  %>%  
   select(NAME, White, 'non-White') %>% 
@@ -115,7 +115,7 @@ get_race <- function(year){
   mutate(NAME = str_sub(NAME, end = -32))
 }
 
-race <- rbind(
+race_district <- rbind(
   get_race(2019),
   get_race(2018),
   get_race(2017),
@@ -127,11 +127,12 @@ race <- rbind(
   get_race(2011),
   get_race(2010))
 
-View(race)
+View(race_district)
+race <- race %>% mutate(PercentTotal = Percent /5)
 
 saveRDS(race, file = "shiny_app/data/race_bydistrict.Rds")
 race <- readRDS("shiny_app/data/race_bydistrict.Rds")
-race %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col() +facet_wrap(~NAME)  +  theme(plot.title = element_text(hjust = 0.5),
+race_district %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col() +facet_wrap(~NAME)  +  theme(plot.title = element_text(hjust = 0.5),
                                                                                                axis.text=element_text(size=12),
                                                                                                legend.text = element_text(size=12),
                                                                                                axis.title.x=element_text(size =13),
@@ -171,9 +172,11 @@ race1 <- rbind(
   get_race1(2011),
   get_race1(2010))
 
+race1 <- race1 %>% mutate(PercentTotal = Percent /5)
+
 saveRDS(race1, file = "shiny_app/data/race.Rds")
 readRDS("shiny_app/data/race.Rds")
-race_all <- readRDS("shiny_app/data/race_bydistrict.Rds")
+race_by_district <- readRDS("shiny_app/data/race_bydistrict.Rds")
 
 race_all %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col()   +  theme(plot.title = element_text(hjust = 0.5),
                                                                                                    axis.text=element_text(size=12),
@@ -181,6 +184,10 @@ race_all %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col()   +  t
                                                                                                    axis.title.x=element_text(size =13),
                                                                                                    axis.title.y=element_text(size =13),
                                                                                                    panel.background = element_blank())  + scale_fill_viridis_d()
+
+
+
+
 
 edu2019 <- edu2019 %>% mutate(NAME = str_sub(NAME, end = -32 ))
 edu2019$EduLevel <- factor(edu2019$EduLevel, c("Above Bachelors", "Bachelors Degree", "Some College", "HS Diploma or GED", "Less Than High School"))

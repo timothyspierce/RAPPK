@@ -69,44 +69,16 @@ ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y =
   ggtitle(label = "Estimated Total Population 2010-2019")
 
 
-#Race by district
-readRDS("shiny_app/data/race_district.Rds")
-ggplot(race_district, aes(x = year, y = Percent, fill = race, group = race)) +
-  geom_col(position = "fill") +
-  labs(title = "Racial Demographics 2010-2019", fill = "Race") +
-  xlab("Years") +
-  ylab("Percent of Population") +
-  scale_fill_viridis_d() +
-  plot_theme +
-  facet_wrap(~NAME)
+#Race Map
+race_district <- readRDS("shiny_app/data/race_disitrct.Rds")
 
-#Race for all of Rappahanock
+race_district %>% filter(Race != "White") %>% ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + geom_col() + theme(plot.title = element_text(hjust = 0.5),
+                                                                                                                                 axis.text=element_text(size=12),
+                                                                                                                                 legend.text = element_text(size=12),
+                                                                                                                                 axis.title.x=element_text(size =13),
+                                                                                                                                 axis.title.y=element_text(size =13),
+                                                                                                                                 panel.background = element_blank())  + scale_fill_viridis_d()
 
-readRDS("shiny_app/data/race_time_series.Rds")
-ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race)) +
-  geom_col(position = "fill") +
-  labs(title = "Racial Demographics 2010-2019", fill = "Race") +
-  xlab("Years") +
-  ylab("Percent of Population") +
-  scale_fill_viridis_d() +
-  plot_theme 
-
-race_all <- readRDS("shiny_app/data/race_bydistrict.Rds")
-race_all %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col()   +  theme(plot.title = element_text(hjust = 0.5),
-                                                                                     axis.text=element_text(size=12),
-                                                                                     legend.text = element_text(size=12),
-                                                                                     axis.title.x=element_text(size =13),
-                                                                                     axis.title.y=element_text(size =13),
-                                                                                     panel.background = element_blank())  + scale_fill_viridis_d()
-
-
-race <- readRDS("shiny_app/data/race_bydistrict.Rds")
-race %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col() +facet_wrap(~NAME)  +  theme(plot.title = element_text(hjust = 0.5),
-                                                                                                   axis.text=element_text(size=12),
-                                                                                                   legend.text = element_text(size=12),
-                                                                                                   axis.title.x=element_text(size =13),
-                                                                                                   axis.title.y=element_text(size =13),
-                                                                                                   panel.background = element_blank())  + scale_fill_viridis_d()
 
 #Education Levels by District
 
