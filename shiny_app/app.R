@@ -599,7 +599,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                           h5(strong("Internet Subscription by Income")),
                                           p("Rappahannock shows that resident with a higher income or more likely to have an internet
                                             subscription."),
-                                          h5(strong("Internet Subscription and Computer Ownership by District")),
+                                          h5(strong("Internet Subscriptions and Computer Ownership by District")),
                                           p("The bar graphs show internet subscriptions and computer ownership broken down into Rappahanock's districts.
                                             For both internet subscriptions and computer ownership, Hampton and Jackson have the highest percent of residents
                                             with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent of internet subscriptions
@@ -687,16 +687,9 @@ ui <- navbarPage(title = "Rappahannock!",
                                   column(8,
                                          withSpinner(leafletOutput("map_with_all_point", height ="700px")),
                                          p(tags$small("Data Source: American Community Survey")),
-                                         p(tags$small("Services Sources:", a(href= 'https://www.rappahannock.com/business-directory', 'Rappahannock.com Business Directory|'), 
-                                                      a(href='https://www.rappnews.com/news/the---guide-to-rappahannock-county/article_e48512f0-dca2-11e9-9561-0fe7b17a73b9.html',
-                                                        'The 2020-2021 Guide to Rappahannock County|'),
-                                                      a(href='https://www.agingtogether.org/uploads/1/3/0/9/130908318/aging_together_resource_guide_2021.pdf',
-                                                        'Aging Together Resource Guide 2021'),)), 
-                                         p(tags$small(strong("Side Note on Piedmont District travel time map:"), "Concerning the driving distances for Piedmont District we notice an 
-                                         unsusually small 15-minute travel time boundary.
-                                          After conducting several sensitivity checks we are careful to conclude a possible reason for this is that there is a network of roads near
-                                          the town of Washington and Sperryville that is causing the boundary to be so small which is not the case for other district centers.")),
-                                        
+                                         p(tags$small("Services Source: https://www.rappahannock.com/business-directory")), 
+                                         p(tags$small("Services Source: rappk_news_guide pdf")),
+                                         p(tags$small("Services Source: rappk_resourcec_guide pdf")),
                                   ),
                                   
                                          column(4,h4(strong("Services")),
@@ -726,7 +719,11 @@ ui <- navbarPage(title = "Rappahannock!",
                                           30-minute drive from the center of the county (the red cloud). "),
                                           
                                           
-                                          ),  ),),), ),     
+                                          column(12,h4(strong("Side Note on Piedmont District Travel time Map")),
+                                          p("NB: Concerning the driving distances for Piedmont District we notice an unsusually small 15-minute travel time boundary.
+                                          After conducting several sensitivity checks we conclude a possible reason for this is that there is a network of roads near
+                                          the town of Washington and Sperryville that is causing thte boundary to be so small which is not the case for other district centers.")
+                                          ),),  ),),), ),     
                  # data tab -----------------------------------------------------------
                  tabPanel("Data", value = "data",
                           fluidRow(style = "margin: 6px;",
