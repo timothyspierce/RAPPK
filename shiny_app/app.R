@@ -1340,33 +1340,35 @@ server <- function(input, output, session) {
         geom_line(aes(size = estimated_total)) +
         theme_minimal() + scale_fill_viridis_d()+
         ylab("Percentage of Homes") +
+        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
         theme(plot.title = element_text(hjust=0.5, size =20),
               legend.text = element_text(size=15),
               legend.title =element_text(size=15),
               axis.title.x = element_blank(),
               axis.title.y = element_text(size=15),
-              axis.text = element_text(size=15))
+              axis.text = element_text(size=15),
+              plot.caption = element_text(size=13))
       hmplot
       
       
     }
     else if (hmVar() == "housing2") {
       
-     hmplot <- ggplot(housing2010_2019_by_district, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
+     hmplot <- ggplot(housing2010_2019_by_district, aes(x = year, y = percent_of_houses, group = homevalues, color =homevalues)) +
         geom_line(aes(size = estimated_total)) +
         ylab("Percentage of Homes") +
-       theme_minimal()+ scale_fill_viridis_d()+
+       theme_minimal()+
         facet_wrap(~NAME) +
-        labs(size = "Number of Homes") +
+        labs(size = "Number of Homes",caption = "Data Source: ACS 2019 Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
         ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
-        scale_color_viridis_d(name = "Home Value Brackets") + 
+        scale_color_viridis_d(name = "Home Values") + 
        theme(plot.title = element_text(hjust=0.5, size=20),
              axis.text.x = element_text(angle = 40),
              legend.text = element_text(size=15),
              legend.title =element_text(size=15),
              axis.title.x = element_blank(),
              axis.title.y = element_text(size=15),
-             axis.text = element_text(size=15))
+             axis.text = element_text(size=15), plot.caption = element_text(size=13))
       hmplot
 
     }
