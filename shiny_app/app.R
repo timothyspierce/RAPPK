@@ -1239,9 +1239,14 @@ server <- function(input, output, session) {
   
   #income plot ----------------------------------------------------------
   output$incomePlot <- renderPlot({
-    incomePlot <- ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
+    
+    income2010_2019 <- mutate(income2010_2019, incomebracket = rep(c("Under $25,000", "$25,000 to $50,000", "$50,000 to $100,000","Over $100,000"),50))
+    income2010_2019$incomebracket <- factor(income2010_2019$incomebracket, levels = c("Under $25,000", "$25,000 to $50,000", "$50,000 to $100,000","Over $100,000"))
+    colnames(income2010_2019) <- c("GEOID", "NAME.x", "summary_est", "summary_moe", "year", "geometry",
+                                   "Median Income (US Dollars)", "percent")
+    
+    incomePlot <- ggplot(income2010_2019, aes(x = `Median Income (US Dollars)`, y = percent, fill = NAME.x, group = NAME.x)) +
       geom_col(position = "dodge") +
-      ylab("Median Inocme") +
       facet_wrap(~year) +
       coord_flip() +
       scale_fill_viridis_d(name="District") +
@@ -1255,6 +1260,7 @@ server <- function(input, output, session) {
             axis.title.y = element_text(size=15),
             legend.title=element_text(size=15), 
             plot.caption = element_text(size=13))
+    
     incomePlot
   })
   
