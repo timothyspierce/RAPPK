@@ -474,7 +474,9 @@ ui <- navbarPage(title = "Rappahannock!",
                                      column(9, 
                                             selectInput("racedrop", "Select Variable:", width = "100%", choices = c(
                                               "Non-White Population by District" = "race1",
-                                              "Black Population by District" = "race2")),
+                                              "Black Population by District" = "race2",
+                                              "Asian Population by District"= "race3",
+                                              "Other Population by District"= "race4")),
                                             withSpinner(plotOutput("raceplot", height = "800px")),
                                             #p(tags$small("Data Source: ACS Five Year Estimate Table ????"))
                                             
@@ -482,7 +484,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                      column(3,
                                             h4("Race Demographic", align = "center"),
                                             h5(strong("Race Composition")),
-                                            p("Around ####### percent of the total population in Rappahannock is White. The graph shows the distribution of non-white races in Rappahannock over the last decade. The Black population is the second highest in terms of racial composition in the county, which has slowly decreased over the last decade. Other races include Asian, First Nations, and Mixed"),
+                                            p("Around ## percent of the total population in Rappahannock is White. The graph shows the distribution of non-white races in Rappahannock over the last decade. The Black population is the second highest in terms of racial composition in the county, which has slowly decreased over the last decade. Other races include Asian, First Nations, and Mixed"),
                                             
                                             h5(strong("Race Composition by District")),
                                             p("We present the racial distribution of Non-White races in the five districts of Rappahannock over time. Among the non-whites, the percentage of Black population seems evenly distributed among other races in all the districts except for Jackson, which shows a decline in the Black population.")
@@ -575,9 +577,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                    ),
                                    column(4,
                                           h4("Income Description", align = "center"),
-                                          h5(strong("Median Income")),
-                                          p("The 10-panel graph presents the income distribution of Rappahannock districts over the period 2010 to 2019. The horizontal axes give the percentage of population in each annual income bracket, which is presented in the vertical axes as categories. We classified median annual household incomes into four bins: under $25,000, $25,000 to $50,000, $50,000 to $100,000, and above $100,000.
-                                            ---------------------------------------------")
+                                          p("........")
                                           
                                    )
                                    
@@ -597,9 +597,13 @@ ui <- navbarPage(title = "Rappahannock!",
                                    column(4,
                                           h4("Broadband", align = "center"),
                                           h5(strong("Internet Subscription by Income")),
-                                          p("The graph presents the distribution of internet subscription based on income distribution. Residents with a higher income are more likely to have an internet subscription. About two-thirds households with less than annual income of $20,000, one-fourth households with annual income between $20,000 and $75,000, respectively, do not have internet subscription. For households with annual income greater than $75,000, only 8 percent do not have internet subscription."),
-                                          h5(strong("Internet Subscriptions and Computer Ownership by District")),
-                                          p("The bar graphs show internet subscriptions and computer ownership by Rappahannock's districts. For both internet subscriptions and computer ownership, Hampton and Jackson districts have the higher percentage of residents with internet and computers, while Stonewall-Hawthorne has the lowest percentage of internet subscriptions and computer ownership. Over 80 percent of households in Jackson and Hampton have internet and more than 90 percent own at least one computer, respectively.")
+                                          p("Rappahannock shows that resident with a higher income or more likely to have an internet
+                                            subscription."),
+                                          h5(strong("Internet Subscription and Computer Ownership by District")),
+                                          p("The bar graphs show internet subscriptions and computer ownership broken down into Rappahanock's districts.
+                                            For both internet subscriptions and computer ownership, Hampton and Jackson have the highest percent of residents
+                                            with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent of internet subscriptions
+                                            and computer ownership")
                                           
                                    )
                                    
@@ -617,13 +621,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                    ),
                                    column(4,
                                           h4("Housing Market Description", align = "center"),
-                                          h5(strong("Housing Prices")),
-                                          p("The graph presents the distribution of homes by housing prices in the last decade. The bins are classified in five housing-price categories: less than $100,000, between $100,000 and $300,000, between $300,000 and half million, between half- and one- million, and over one- million. 
-                                            --------------------------------------------"),
-                                          
-                                          h5(strong("Housing Prices by District")),
-                                          p("In this graph, we present a similar distribution of housing prices as in the previous tab, but by districts. This graph also presents the relative composition of houses in terms of their prices in each of the Rappahannock districts, and how that has changed in the last 10 years."),
-                                          p("During the last decade, all Rappahannock districts had less than 10 percent houses whose prices were less than $100,000. The number of houses between $100,000 and $300,000 has increased to almost 60 percent of the total houses in Wakefield. Wakefield has the highest proportion of houses in this price range (100-300k) followed by Piedmont. Jackson is the district with highest proportion (about 50 percent) of houses between the price range of $300,000 to $500,000.")
+                                          p(".........")
                                           
                                    )
                                    
@@ -689,9 +687,16 @@ ui <- navbarPage(title = "Rappahannock!",
                                   column(8,
                                          withSpinner(leafletOutput("map_with_all_point", height ="700px")),
                                          p(tags$small("Data Source: American Community Survey")),
-                                         p(tags$small("Services Source: https://www.rappahannock.com/business-directory")), 
-                                         p(tags$small("Services Source: rappk_news_guide pdf")),
-                                         p(tags$small("Services Source: rappk_resourcec_guide pdf")),
+                                         p(tags$small("Services Sources:", a(href= 'https://www.rappahannock.com/business-directory', 'Rappahannock.com Business Directory|'), 
+                                                      a(href='https://www.rappnews.com/news/the---guide-to-rappahannock-county/article_e48512f0-dca2-11e9-9561-0fe7b17a73b9.html',
+                                                        'The 2020-2021 Guide to Rappahannock County|'),
+                                                      a(href='https://www.agingtogether.org/uploads/1/3/0/9/130908318/aging_together_resource_guide_2021.pdf',
+                                                        'Aging Together Resource Guide 2021'),)), 
+                                         p(tags$small(strong("Side Note on Piedmont District travel time map:"), "Concerning the driving distances for Piedmont District we notice an 
+                                         unsusually small 15-minute travel time boundary.
+                                          After conducting several sensitivity checks we are careful to conclude a possible reason for this is that there is a network of roads near
+                                          the town of Washington and Sperryville that is causing the boundary to be so small which is not the case for other district centers.")),
+                                        
                                   ),
                                   
                                          column(4,h4(strong("Services")),
@@ -721,11 +726,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                           30-minute drive from the center of the county (the red cloud). "),
                                           
                                           
-                                          column(12,h4(strong("Side Note on Piedmont District Travel time Map")),
-                                          p("NB: Concerning the driving distances for Piedmont District we notice an unsusually small 15-minute travel time boundary.
-                                          After conducting several sensitivity checks we conclude a possible reason for this is that there is a network of roads near
-                                          the town of Washington and Sperryville that is causing thte boundary to be so small which is not the case for other district centers.")
-                                          ),),  ),),), ),     
+                                          ),  ),),), ),     
                  # data tab -----------------------------------------------------------
                  tabPanel("Data", value = "data",
                           fluidRow(style = "margin: 6px;",
@@ -1013,10 +1014,10 @@ server <- function(input, output, session) {
     if (raceVar() == "race1") {
       
       race_district$Year <- as.character(race_district$Year)
-      racegraph <- race_district %>% filter(Race != "White") %>% 
+      racegraph <- race_district %>% filter(Race == "non-White") %>% 
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
-        labs(title = "Non-White Racial Breakdown 2010-2019", fill = "District") +
+        labs(title = "Non-White Population by 2010-2019", fill = "District") +
         xlab("Years") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
@@ -1049,47 +1050,56 @@ server <- function(input, output, session) {
               axis.title.y=element_text(size=15),
               axis.text.x = element_text(angle = 40))
       
-      
-      # plot1 <- ggplot(race_district, aes(x = year, y = Percent, fill = race, group = race)) +
-      #   geom_col() +
-      #   labs(title = "Non-White Racial Breakdown 2010-2019", fill = "Race") +
-      #   xlab("Years") +
-      #   ylab("Percent of Population") +
-      #   scale_fill_viridis_d() +
-      #   theme_minimal()+
-      #   theme(plot.title = element_text(hjust=0.5, size =20),
-      #   axis.title.x = element_blank(),
-      #   legend.text = element_text(size=15),
-      #   legend.title = element_text(size=15),
-      #   axis.text = element_text(size=15),
-      #   axis.title.y=element_text(size=15),
-      #   axis.text.x = element_text(angle = 40))+
-      #   facet_wrap(~NAME)
-     #  
-     #  race$Year <- as.character(race$Year)
-     # plot2 <- race %>% ggplot(aes(x = Year, y = Percent, fill = Race, group = Race)) + 
-     #    geom_col() +
-     #    ggtitle("Racial Breakdown 2010-2019")+
-     #    facet_wrap(~NAME)  +  
-     #    ylab("Percent of Population") +
-     #    theme_minimal()+
-     #    theme(plot.title = element_text(hjust=0.5, size =20),
-     #          axis.title.x = element_blank(),
-     #          legend.text = element_text(size=15),
-     #          legend.title = element_text(size=15),
-     #          axis.text = element_text(size=15),
-     #          axis.title.y=element_text(size=15),
-     #          axis.text.x = element_text(angle = 40)) +
-     #    scale_fill_viridis_d()
-     #  
-     #  raceplot <- grid.arrange(plot1, plot2, ncol=1,
-     #                           bottom = textGrob("Data Source: ACS Five Year Estimate Table B02001",
-     #                                             just= "left", gp = gpar(fontsize = 13)))
       blackgraph
       
       
     }
-  
+    else if (raceVar() == "race3"){
+      race_district$Year <- as.character(race_district$Year)
+      asiangraph <- race_district %>% filter(Race == "Asian") %>% 
+        ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
+        geom_col() +   
+        labs(title = "Asian Population by District 2010-2019", fill = "District") +
+        xlab("Years") +
+        ylab("Percent of Population") +
+        scale_fill_viridis_d() +
+        theme_minimal()+
+        theme(plot.title = element_text(hjust=0.5, size =20),
+              axis.title.x = element_blank(),
+              legend.text = element_text(size=15),
+              legend.title = element_text(size=15),
+              axis.text = element_text(size=15),
+              axis.title.y=element_text(size=15),
+              axis.text.x = element_text(angle = 40))
+      
+      asiangraph
+      
+      
+    }
+    else if (raceVar() == "race4"){
+      race_district$Year <- as.character(race_district$Year)
+      othergraph <- race_district %>% filter(Race == "Other") %>% 
+        ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
+        geom_col() +   
+        labs(title = "Other Population by District 2010-2019", fill = "District") +
+        xlab("Years") +
+        ylab("Percent of Population") +
+        scale_fill_viridis_d() +
+        theme_minimal()+
+        theme(plot.title = element_text(hjust=0.5, size =20),
+              axis.title.x = element_blank(),
+              legend.text = element_text(size=15),
+              legend.title = element_text(size=15),
+              axis.text = element_text(size=15),
+              axis.title.y=element_text(size=15),
+              axis.text.x = element_text(angle = 40))
+      
+      othergraph
+      
+      
+    }
+    
+    
   })
   
   #population--------------------------------------------------------------
@@ -1243,14 +1253,9 @@ server <- function(input, output, session) {
   
   #income plot ----------------------------------------------------------
   output$incomePlot <- renderPlot({
-    
-    income2010_2019 <- mutate(income2010_2019, incomebracket = rep(c("Under $25,000", "$25,000 to $50,000", "$50,000 to $100,000","Over $100,000"),50))
-    income2010_2019$incomebracket <- factor(income2010_2019$incomebracket, levels = c("Under $25,000", "$25,000 to $50,000", "$50,000 to $100,000","Over $100,000"))
-    colnames(income2010_2019) <- c("GEOID", "NAME.x", "summary_est", "summary_moe", "year", "geometry",
-                                   "Median Income (US Dollars)", "percent")
-    
-    incomePlot <- ggplot(income2010_2019, aes(x = `Median Income (US Dollars)`, y = percent, fill = NAME.x, group = NAME.x)) +
+    incomePlot <- ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
       geom_col(position = "dodge") +
+      ylab("Median Inocme") +
       facet_wrap(~year) +
       coord_flip() +
       scale_fill_viridis_d(name="District") +
@@ -1264,7 +1269,6 @@ server <- function(input, output, session) {
             axis.title.y = element_text(size=15),
             legend.title=element_text(size=15), 
             plot.caption = element_text(size=13))
-    
     incomePlot
   })
   
@@ -1362,7 +1366,6 @@ server <- function(input, output, session) {
       hmplot <- ggplot(housing2010_2019, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
         geom_line(aes(size = estimated_total)) +
         theme_minimal() + scale_fill_viridis_d()+
-        ggtitle("Rappahannock Housing Prices (US Dollars) from 2010 to 2019")+
         ylab("Percentage of Homes") +
         labs(caption = "Data Source: ACS Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
         theme(plot.title = element_text(hjust=0.5, size =20),
@@ -1384,7 +1387,7 @@ server <- function(input, output, session) {
        theme_minimal()+
         facet_wrap(~NAME) +
         labs(size = "Number of Homes",caption = "Data Source: ACS Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
-        ggtitle("Housing Prices (US Dollars) from 2010 to 2019") +
+        ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
         scale_color_viridis_d(name = "Home Values") + 
        theme(plot.title = element_text(hjust=0.5, size=20),
              axis.text.x = element_text(angle = 40),

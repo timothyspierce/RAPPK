@@ -104,16 +104,32 @@ rapp_table_district <- function(varcode, year){
 
 get_race_district <- function(year){
   rapp_table_district("B02001", year) -> race_table
-  race_table <- mutate(race_table, 'White' = (B02001_002E / B02001_001E))
-  race_table <- mutate(race_table, 'non-White' = (B02001_003E + B02001_004E +B02001_005E+B02001_006E+B02001_007E+B02001_008E)/B02001_001E)  %>%  
-  select(NAME, White, 'non-White') %>% 
-  pivot_longer(cols = c("White", "non-White"),
+  race_table <- mutate(race_table, 'White' = (B02001_002E / B02001_001E)) %>% 
+    mutate(race_table, 'non-White' = (B02001_003E + B02001_004E +B02001_005E+B02001_006E+B02001_007E+B02001_008E)/B02001_001E)  %>% 
+    mutate(race_table, "Black" = B02001_003E/B02001_001E) %>% 
+    mutate(race_table, "Asian" = B02001_005E/B02001_001E) %>% 
+    mutate(race_table, "Other" = (B02001_004E + B02001_006E + B02001_007E + B02001_008E)/B02001_001E) %>% 
+  select(NAME, White, 'non-White', Black, Asian, Other) %>% 
+  pivot_longer(cols = c("White", "non-White", "Black", "Asian", "Other"),
                names_to = "Race",
                values_to = "Percent") %>% 
     mutate("Year" = year) %>% 
-    mutate(Percent = Percent * 100) %>% 
+    mutate(Percent = Percent * 100/5) %>% 
   mutate(NAME = str_sub(NAME, end = -32))
 }
+
+
+
+race_var <- c(white = "B02001_002",
+              black = "B02001_003",
+              first_nations = "B02001_004",
+              asian = "B02001_005",
+              oceania = "B02001_006",
+              other = "B02001_007",
+              mixed_total = "B02001_008")
+
+
+
 
 race_district <- rbind(
   get_race_district(2019),
@@ -127,13 +143,11 @@ race_district <- rbind(
   get_race_district(2011),
   get_race_district(2010))
 
-race_district <- mutate(race_district, Percent = Percent/5)
-
 saveRDS(race_district, file = "shiny_app/data/race_district.Rds")
 
 race_district <- readRDS("shiny_app/data/race_disitrct.Rds")
 
-race_district %>% filter(Race != "White") %>% ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + geom_col() + theme(plot.title = element_text(hjust = 0.5),
+race_district %>% filter(Race == "non-White") %>% ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + geom_col() + theme(plot.title = element_text(hjust = 0.5),
                                                                                                                                      axis.text=element_text(size=12),
                                                                                                                                      legend.text = element_text(size=12),
                                                                                                                                      axis.title.x=element_text(size =13),
@@ -153,7 +167,7 @@ rapp_table_rappk <- function(varcode, year){
           output = "wide",
           year = year)}
 
-get_race_rappk  <- function(year){
+get_race_rappk+black  <- function(year){
   rapp_table_rappk("B02001", year) -> race_table
   race_table <- mutate(race_table, 'White' = (B02001_002E / B02001_001E))
   race_table <- mutate(race_table, 'non-White' = (B02001_003E + B02001_004E +B02001_005E+B02001_006E+B02001_007E+B02001_008E)/B02001_001E)  %>%  
@@ -180,7 +194,7 @@ race_rappk <- rbind(
 
 
 saveRDS(race_district, file = "shiny_app/data/race_district.Rds")
-race_district <- readRDS("shiny_app/data/race_disitrct.Rds")
+race_district <- readRDS("shiny_app/data/race_district.Rds")
 
 race_rappk %>% filter(Race != "White") %>% ggplot(aes(x = Year, y = Percent)) + geom_col() + theme(plot.title = element_text(hjust = 0.5),
                                                                                                                                  axis.text=element_text(size=12),
