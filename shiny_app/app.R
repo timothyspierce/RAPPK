@@ -59,10 +59,8 @@ intByIncome <- read.csv("data/TableS2801FiveYearEstimates/internetIncome.csv")
 compDist <- read.csv("data/TableS2801FiveYearEstimates/districtComputers.csv")
 intDist <- read.csv("data/TableS2801FiveYearEstimates/districtInternet.csv")
 #race
-race_all <- readRDS("data/race_bydistrict.Rds")
-race_time_series <- readRDS("data/race_time_series.Rds")
 race_district <- readRDS("data/race_district.Rds")
-race <- readRDS("data/race_bydistrict.Rds")
+
 #housing
 housing2010_2019 <- readRDS("data/housing_over_time.Rda")
 housing2010_2019_by_district <- readRDS("data/housing2010_2019_by_district.Rds")
@@ -475,8 +473,8 @@ ui <- navbarPage(title = "Rappahannock!",
                                      
                                      column(9, 
                                             selectInput("racedrop", "Select Variable:", width = "100%", choices = c(
-                                              "Race Composition" = "race1",
-                                              "Race Composition by District" = "race2")),
+                                              "Non-White Population by District" = "race1",
+                                              "Black Population by District" = "race2")),
                                             withSpinner(plotOutput("raceplot", height = "800px")),
                                             #p(tags$small("Data Source: ACS Five Year Estimate Table ????"))
                                             
@@ -1013,62 +1011,34 @@ server <- function(input, output, session) {
   output$raceplot <- renderPlot({
     if (raceVar() == "race1") {
       
-      race_all$Year <- as.character(race_all$Year)
-     plot1 <- race_all %>% ggplot(aes(x = Year, y = Percent, fill = Race, group = Race)) + geom_col(position = "fill") + 
-        theme_minimal() +
-       ylab("Percent of Population") +
-        ggtitle("Racial Breakdown 2010-2019")+
-        theme(plot.title = element_text(hjust=0.5, size =20),
-              axis.title.x = element_blank(),
-              legend.text = element_text(size=15),
-              legend.title = element_text(size=15),
-              axis.text = element_text(size=15),
-              axis.title.y=element_text(size=15),
-              panel.background = element_blank())  + scale_fill_viridis_d()
-      
-
-     plot2 <- ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race)) +
-        geom_col(position = "fill") +
-        labs(title = "Non-White Racial Breakdown 2010-2019", fill = "Race") +
+      race_district$Year <- as.character(race_district$Year)
+      racegraph <- race_district %>% filter(Race != "White") %>% 
+        ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
+        geom_col() +   
+        labs(title = "Non-White Racial Breakdown 2010-2019", fill = "District") +
         xlab("Years") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
         theme_minimal()+
         theme(plot.title = element_text(hjust=0.5, size =20),
               axis.title.x = element_blank(),
-              axis.title.y=element_text(size=15),
               legend.text = element_text(size=15),
               legend.title = element_text(size=15),
-              axis.text = element_text(size=15))
-     
-     raceplot <- grid.arrange(plot1, plot2, ncol=1,
-                              bottom = textGrob("Data Source: ACS Five Year Estimate Table B02001",
-                                                just= "left", gp = gpar(fontsize = 13)))
-     raceplot
+              axis.text = element_text(size=15),
+              axis.title.y=element_text(size=15),
+              axis.text.x = element_text(angle = 40))
+    
+     racegraph
     }
     else if (raceVar() == "race2"){
-      plot1 <- ggplot(race_district, aes(x = year, y = Percent, fill = race, group = race)) +
-        geom_col(position = "fill") +
-        labs(title = "Non-White Racial Breakdown 2010-2019", fill = "Race") +
+      race_district$Year <- as.character(race_district$Year)
+      blackgraph <- race_district %>% filter(Race == "Black") %>% 
+        ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
+        geom_col() +   
+        labs(title = "Black Population by District 2010-2019", fill = "District") +
         xlab("Years") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
-        theme_minimal()+
-        theme(plot.title = element_text(hjust=0.5, size =20),
-        axis.title.x = element_blank(),
-        legend.text = element_text(size=15),
-        legend.title = element_text(size=15),
-        axis.text = element_text(size=15),
-        axis.title.y=element_text(size=15),
-        axis.text.x = element_text(angle = 40))+
-        facet_wrap(~NAME)
-      
-      race$Year <- as.character(race$Year)
-     plot2 <- race %>% ggplot(aes(x = Year, y = Percent, fill = Race, group = Race)) + 
-        geom_col(position = "fill") +
-        ggtitle("Racial Breakdown 2010-2019")+
-        facet_wrap(~NAME)  +  
-        ylab("Percent of Population") +
         theme_minimal()+
         theme(plot.title = element_text(hjust=0.5, size =20),
               axis.title.x = element_blank(),
@@ -1076,16 +1046,49 @@ server <- function(input, output, session) {
               legend.title = element_text(size=15),
               axis.text = element_text(size=15),
               axis.title.y=element_text(size=15),
-              axis.text.x = element_text(angle = 40)) +
-        scale_fill_viridis_d()
+              axis.text.x = element_text(angle = 40))
       
-      raceplot <- grid.arrange(plot1, plot2, ncol=1,
-                               bottom = textGrob("Data Source: ACS Five Year Estimate Table B02001",
-                                                 just= "left", gp = gpar(fontsize = 13)))
-      raceplot
+      
+      # plot1 <- ggplot(race_district, aes(x = year, y = Percent, fill = race, group = race)) +
+      #   geom_col() +
+      #   labs(title = "Non-White Racial Breakdown 2010-2019", fill = "Race") +
+      #   xlab("Years") +
+      #   ylab("Percent of Population") +
+      #   scale_fill_viridis_d() +
+      #   theme_minimal()+
+      #   theme(plot.title = element_text(hjust=0.5, size =20),
+      #   axis.title.x = element_blank(),
+      #   legend.text = element_text(size=15),
+      #   legend.title = element_text(size=15),
+      #   axis.text = element_text(size=15),
+      #   axis.title.y=element_text(size=15),
+      #   axis.text.x = element_text(angle = 40))+
+      #   facet_wrap(~NAME)
+     #  
+     #  race$Year <- as.character(race$Year)
+     # plot2 <- race %>% ggplot(aes(x = Year, y = Percent, fill = Race, group = Race)) + 
+     #    geom_col() +
+     #    ggtitle("Racial Breakdown 2010-2019")+
+     #    facet_wrap(~NAME)  +  
+     #    ylab("Percent of Population") +
+     #    theme_minimal()+
+     #    theme(plot.title = element_text(hjust=0.5, size =20),
+     #          axis.title.x = element_blank(),
+     #          legend.text = element_text(size=15),
+     #          legend.title = element_text(size=15),
+     #          axis.text = element_text(size=15),
+     #          axis.title.y=element_text(size=15),
+     #          axis.text.x = element_text(angle = 40)) +
+     #    scale_fill_viridis_d()
+     #  
+     #  raceplot <- grid.arrange(plot1, plot2, ncol=1,
+     #                           bottom = textGrob("Data Source: ACS Five Year Estimate Table B02001",
+     #                                             just= "left", gp = gpar(fontsize = 13)))
+      blackgraph
       
       
     }
+  
   })
   
   #population--------------------------------------------------------------

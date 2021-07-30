@@ -102,8 +102,8 @@ rapp_table_district <- function(varcode, year){
           output = "wide",
           year = year)}
 
-get_race <- function(year){
-  rapp_table_district("B02001", 2019) -> race_table
+get_race_district <- function(year){
+  rapp_table_district("B02001", year) -> race_table
   race_table <- mutate(race_table, 'White' = (B02001_002E / B02001_001E))
   race_table <- mutate(race_table, 'non-White' = (B02001_003E + B02001_004E +B02001_005E+B02001_006E+B02001_007E+B02001_008E)/B02001_001E)  %>%  
   select(NAME, White, 'non-White') %>% 
@@ -116,40 +116,45 @@ get_race <- function(year){
 }
 
 race_district <- rbind(
-  get_race(2019),
-  get_race(2018),
-  get_race(2017),
-  get_race(2016),
-  get_race(2015),
-  get_race(2014),
-  get_race(2013),
-  get_race(2012),
-  get_race(2011),
-  get_race(2010))
+  get_race_district(2019),
+  get_race_district(2018),
+  get_race_district(2017),
+  get_race_district(2016),
+  get_race_district(2015),
+  get_race_district(2014),
+  get_race_district(2013),
+  get_race_district(2012),
+  get_race_district(2011),
+  get_race_district(2010))
 
-View(race_district)
-race <- race %>% mutate(PercentTotal = Percent /5)
+race_district <- mutate(race_district, Percent = Percent/5)
 
-saveRDS(race, file = "shiny_app/data/race_bydistrict.Rds")
-race <- readRDS("shiny_app/data/race_bydistrict.Rds")
-race_district %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col() +facet_wrap(~NAME)  +  theme(plot.title = element_text(hjust = 0.5),
-                                                                                               axis.text=element_text(size=12),
-                                                                                               legend.text = element_text(size=12),
-                                                                                               axis.title.x=element_text(size =13),
-                                                                                               axis.title.y=element_text(size =13),
-                                                                                               panel.background = element_blank())  + scale_fill_viridis_d()
+saveRDS(race_district, file = "shiny_app/data/race_district.Rds")
+
+race_district <- readRDS("shiny_app/data/race_disitrct.Rds")
+
+race_district %>% filter(Race != "White") %>% ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + geom_col() + theme(plot.title = element_text(hjust = 0.5),
+                                                                                                                                     axis.text=element_text(size=12),
+                                                                                                                                     legend.text = element_text(size=12),
+                                                                                                                                     axis.title.x=element_text(size =13),
+                                                                                                                                     axis.title.y=element_text(size =13),
+                                                                                                                                     panel.background = element_blank())  + scale_fill_viridis_d()
 
 
-rapp_table1 <- function(varcode, year){
-  get_acs(geography = "county",
+
+
+
+
+rapp_table_rappk <- function(varcode, year){
+  get_acs(geography = "county subdivision",
           state = 51,
           county = 157,
           table = varcode,
           output = "wide",
           year = year)}
 
-get_race1 <- function(year){
-  rapp_table1("B02001", 2019) -> race_table
+get_race_rappk  <- function(year){
+  rapp_table_rappk("B02001", year) -> race_table
   race_table <- mutate(race_table, 'White' = (B02001_002E / B02001_001E))
   race_table <- mutate(race_table, 'non-White' = (B02001_003E + B02001_004E +B02001_005E+B02001_006E+B02001_007E+B02001_008E)/B02001_001E)  %>%  
     select(NAME, White, 'non-White') %>% 
@@ -157,34 +162,32 @@ get_race1 <- function(year){
                  names_to = "Race",
                  values_to = "Percent") %>% 
     mutate("Year" = year) %>% 
-    mutate(Percent = Percent * 100)
+    mutate(Percent = Percent * 100) %>% 
+    mutate(NAME = str_sub(NAME, end = -32))
 }
 
-race1 <- rbind(
-  get_race1(2019),
-  get_race1(2018),
-  get_race1(2017),
-  get_race1(2016),
-  get_race1(2015),
-  get_race1(2014),
-  get_race1(2013),
-  get_race1(2012),
-  get_race1(2011),
-  get_race1(2010))
+race_rappk <- rbind(
+  get_race_district(2019),
+  get_race_district(2018),
+  get_race_district(2017),
+  get_race_district(2016),
+  get_race_district(2015),
+  get_race_district(2014),
+  get_race_district(2013),
+  get_race_district(2012),
+  get_race_district(2011),
+  get_race_district(2010))
 
-race1 <- race1 %>% mutate(PercentTotal = Percent /5)
 
-saveRDS(race1, file = "shiny_app/data/race.Rds")
-readRDS("shiny_app/data/race.Rds")
-race_by_district <- readRDS("shiny_app/data/race_bydistrict.Rds")
+saveRDS(race_district, file = "shiny_app/data/race_district.Rds")
+race_district <- readRDS("shiny_app/data/race_disitrct.Rds")
 
-race_all %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col()   +  theme(plot.title = element_text(hjust = 0.5),
-                                                                                                   axis.text=element_text(size=12),
-                                                                                                   legend.text = element_text(size=12),
-                                                                                                   axis.title.x=element_text(size =13),
-                                                                                                   axis.title.y=element_text(size =13),
-                                                                                                   panel.background = element_blank())  + scale_fill_viridis_d()
-
+race_rappk %>% filter(Race != "White") %>% ggplot(aes(x = Year, y = Percent)) + geom_col() + theme(plot.title = element_text(hjust = 0.5),
+                                                                                                                                 axis.text=element_text(size=12),
+                                                                                                                                 legend.text = element_text(size=12),
+                                                                                                                                 axis.title.x=element_text(size =13),
+                                                                                                                                 axis.title.y=element_text(size =13),
+                                                                                                                                 panel.background = element_blank())  + scale_fill_viridis_d()
 
 
 

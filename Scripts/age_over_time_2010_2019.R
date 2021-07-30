@@ -190,7 +190,7 @@ rappage_timeseries <- rappageage2017_2019 %>% rbind(rappageage2010_2016)
 
 rappage_timeseries$ages <- factor(rappage_timeseries$ages, levels = age_vector)
 
-
+saveRDS(rappage_timeseries, "shiny_app/data/rapp_age_time_series.Rda")
 
 ggplot(rappage_timeseries, aes(x = year, y = percent, group = ages, color = ages)) +
   geom_line(aes(size = estimate)) +
