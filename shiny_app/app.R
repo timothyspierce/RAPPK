@@ -59,8 +59,10 @@ intByIncome <- read.csv("data/TableS2801FiveYearEstimates/internetIncome.csv")
 compDist <- read.csv("data/TableS2801FiveYearEstimates/districtComputers.csv")
 intDist <- read.csv("data/TableS2801FiveYearEstimates/districtInternet.csv")
 #race
+race_all <- readRDS("data/race_bydistrict.Rds")
 race_time_series <- readRDS("data/race_time_series.Rds")
 race_district <- readRDS("data/race_district.Rds")
+race <- readRDS("data/race_bydistrict.Rds")
 #housing
 housing2010_2019 <- readRDS("data/housing_over_time.Rda")
 housing2010_2019_by_district <- readRDS("data/housing2010_2019_by_district.Rds")
@@ -1008,7 +1010,21 @@ server <- function(input, output, session) {
   output$raceplot <- renderPlot({
     if (raceVar() == "race1") {
       
-     raceplot <- ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race)) +
+      race_all$Year <- as.character(race_all$Year)
+     plot1 <- race_all %>% ggplot(aes(x = Year, y = Percent, fill = Race, group = Race)) + geom_col(position = "fill") + 
+        theme_minimal() +
+       ylab("Percent of Population") +
+        ggtitle("Racial Breakdown 2010-2019")+
+        theme(plot.title = element_text(hjust=0.5, size =20),
+              axis.title.x = element_blank(),
+              legend.text = element_text(size=15),
+              legend.title = element_text(size=15),
+              axis.text = element_text(size=15),
+              axis.title.y=element_text(size=15),
+              panel.background = element_blank())  + scale_fill_viridis_d()
+      
+      
+     plot2 <- ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race)) +
         geom_col(position = "fill") +
         labs(title = "Non-White Racial Breakdown 2010-2019", fill = "Race") +
         xlab("Years") +
@@ -1019,12 +1035,13 @@ server <- function(input, output, session) {
               axis.title.x = element_blank(),
               legend.text = element_text(size=15),
               legend.title = element_text(size=15),
-              axis.text = element_text(size=15),
-              axis.title.y=element_text(size=15))
+              axis.text = element_text(size=15))
+     
+     raceplot <- grid.arrange(plot1, plot2, ncol=1)
      raceplot
     }
     else if (raceVar() == "race2"){
-      raceplot <- ggplot(race_district, aes(x = year, y = Percent, fill = race, group = race)) +
+      plot1 <- ggplot(race_district, aes(x = year, y = Percent, fill = race, group = race)) +
         geom_col(position = "fill") +
         labs(title = "Non-White Racial Breakdown 2010-2019", fill = "Race") +
         xlab("Years") +
@@ -1039,7 +1056,26 @@ server <- function(input, output, session) {
         axis.title.y=element_text(size=15),
         axis.text.x = element_text(angle = 40))+
         facet_wrap(~NAME)
+      
+      race$Year <- as.character(race$Year)
+     plot2 <- race %>% ggplot(aes(x = Year, y = Percent, fill = Race, group = Race)) + 
+        geom_col(position = "fill") +
+        ggtitle("Racial Breakdown 2010-2019")+
+        facet_wrap(~NAME)  +  
+        ylab("Percent of Population") +
+        theme_minimal()+
+        theme(plot.title = element_text(hjust=0.5, size =20),
+              axis.title.x = element_blank(),
+              legend.text = element_text(size=15),
+              legend.title = element_text(size=15),
+              axis.text = element_text(size=15),
+              axis.title.y=element_text(size=15),
+              axis.text.x = element_text(angle = 40)) +
+        scale_fill_viridis_d()
+      
+      raceplot <- grid.arrange(plot1, plot2, ncol=1)
       raceplot
+      
       
     }
   })
