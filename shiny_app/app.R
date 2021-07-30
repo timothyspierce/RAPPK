@@ -69,6 +69,7 @@ population2010_2019 <- readRDS("data/population2010_2019.Rds")
 #education
 edu2019 <- readRDS("data/edu2019.Rds")
 
+
 # Read in Housing Data ----------------------------------------------------------
           
 # Read in Traffic Data ----------------------------------------------------------
@@ -1173,10 +1174,10 @@ server <- function(input, output, session) {
   
   #education graphs------------------------------------------------------
   output$eduplot <- renderPlot({
-    
-    eduplot <- ggplot(edu2019, aes(x = NAME, y = pct, group = variable, fill = variable)) + 
+  
+    eduplot <- ggplot(edu2019, aes(x = NAME, y = Percent, group = EduLevel, fill = EduLevel)) + 
       geom_col() + scale_fill_viridis_d() +
-      ggtitle("Education Levels by District")  + xlab("District")+ ylab("Percent")
+      ggtitle("Education Levels by District")  + xlab("District")+ ylab("Percent") +
       theme(plot.title = element_text(hjust = 0.5),
             axis.text=element_text(size=12),
             legend.text = element_text(size=12),
