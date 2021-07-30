@@ -558,8 +558,8 @@ ui <- navbarPage(title = "Rappahannock!",
                           
                           tabPanel("Education",
                                    column(8,
-                                          withSpinner(plotOutput("eduplot", height ="800px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Tables ????"))
+                                          withSpinner(plotOutput("eduplot", height ="800px"))
+                                          
                                           
                                    ),
                                    column(4,
@@ -1038,7 +1038,9 @@ server <- function(input, output, session) {
               legend.title = element_text(size=15),
               axis.text = element_text(size=15))
      
-     raceplot <- grid.arrange(plot1, plot2, ncol=1)
+     raceplot <- grid.arrange(plot1, plot2, ncol=1,
+                              bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table B02001",
+                                                just= "left", gp = gpar(fontsize = 13)))
      raceplot
     }
     else if (raceVar() == "race2"){
@@ -1074,7 +1076,9 @@ server <- function(input, output, session) {
               axis.text.x = element_text(angle = 40)) +
         scale_fill_viridis_d()
       
-      raceplot <- grid.arrange(plot1, plot2, ncol=1)
+      raceplot <- grid.arrange(plot1, plot2, ncol=1,
+                               bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table B02001",
+                                                 just= "left", gp = gpar(fontsize = 13)))
       raceplot
       
       
@@ -1212,15 +1216,21 @@ server <- function(input, output, session) {
   #education graphs------------------------------------------------------
   output$eduplot <- renderPlot({
   
+    edu2019 <- mutate(edu2019, NAME = str_remove(NAME, "district"))
+    
     eduplot <- ggplot(edu2019, aes(x = NAME, y = Percent, group = EduLevel, fill = EduLevel)) + 
       geom_col() + scale_fill_viridis_d() +
+      theme_minimal()+
       ggtitle("Education Levels by District")  + xlab("District")+ ylab("Percent") +
-      theme(plot.title = element_text(hjust = 0.5),
-            axis.text=element_text(size=12),
-            legend.text = element_text(size=12),
-            axis.title.x=element_text(size =13),
-            axis.title.y=element_text(size =13),
-            panel.background = element_blank())
+      labs(fill = "Education Level", caption ="Data Source: ACS 2019 Five Year Estimate Table ???")+
+      theme(plot.title = element_text(hjust = 0.5, size=20),
+            axis.text.y=element_text(size=15),
+            axis.text.x = element_text(size=14),
+            legend.text = element_text(size=15),
+            legend.title = element_text(size=15),
+            axis.title.x=element_text(size =15),
+            axis.title.y=element_text(size =15),
+            plot.caption = element_text(size=13))
     eduplot
   })
   
