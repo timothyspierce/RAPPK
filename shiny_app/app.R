@@ -960,7 +960,7 @@ server <- function(input, output, session) {
         labs(title = "Rappahannock Age of Population from 2010 to 2019", color = "Age Categories") +
         ylab("Percent of the population") +
         theme_minimal()+
-        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table B02001", size = "Number of Residents") +
+        labs(caption = "Data Source: ACS Five Year Estimate Table B02001", size = "Number of Residents") +
         scale_color_viridis_d(
           labels = c("under18" = "Under 18", 
                      "age18_29" = "18 to 29", 
@@ -980,7 +980,7 @@ server <- function(input, output, session) {
         geom_line(aes(size = estimate)) +
         labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
         xlab("Years") +
-        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table B02001", size = "Number of Residents") +
+        labs(caption = "Data Source: ACS Five Year Estimate Table B02001", size = "Number of Residents") +
         ylab("Percent of the population") +
         scale_color_viridis_d(
           labels = c("under18" = "Under 18", 
@@ -1023,7 +1023,7 @@ server <- function(input, output, session) {
               axis.title.y=element_text(size=15),
               panel.background = element_blank())  + scale_fill_viridis_d()
       
-      
+
      plot2 <- ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race)) +
         geom_col(position = "fill") +
         labs(title = "Non-White Racial Breakdown 2010-2019", fill = "Race") +
@@ -1039,7 +1039,7 @@ server <- function(input, output, session) {
               axis.text = element_text(size=15))
      
      raceplot <- grid.arrange(plot1, plot2, ncol=1,
-                              bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table B02001",
+                              bottom = textGrob("Data Source: ACS Five Year Estimate Table B02001",
                                                 just= "left", gp = gpar(fontsize = 13)))
      raceplot
     }
@@ -1077,7 +1077,7 @@ server <- function(input, output, session) {
         scale_fill_viridis_d()
       
       raceplot <- grid.arrange(plot1, plot2, ncol=1,
-                               bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table B02001",
+                               bottom = textGrob("Data Source: ACS Five Year Estimate Table B02001",
                                                  just= "left", gp = gpar(fontsize = 13)))
       raceplot
       
@@ -1094,7 +1094,7 @@ server <- function(input, output, session) {
       geom_line(aes(size = "Percent of Population" <- percent)) +
       theme_minimal()+ scale_fill_viridis_d() +
       ylab("Number of Residents")+
-      labs(size = "Percent of Population", color = "District", caption = "Data Source: ACS 2019 Five Year Estimate Table B02001") +
+      labs(size = "Percent of Population", color = "District", caption = "Data Source: ACS Five Year Estimate Table B02001") +
       ggtitle(label = "Estimated Total Population 2010-2019") +
       theme(plot.title = element_text(hjust=0.5, size=20),
             axis.title.x = element_blank(),
@@ -1162,7 +1162,7 @@ server <- function(input, output, session) {
         scale_x_continuous(breaks=seq(2010,2019,by=1))+ scale_fill_viridis_d()
       #putting the graphs together
       hcplot <- grid.arrange(own_graph, rent_graph, ncol=1,
-                             bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table S2504",
+                             bottom = textGrob("Data Source: ACS Five Year Estimate Table S2504",
                                                just= "left", gp = gpar(fontsize = 13)))
     }
    else if(hcVar() == "vehicles"){
@@ -1222,7 +1222,7 @@ server <- function(input, output, session) {
       geom_col() + scale_fill_viridis_d() +
       theme_minimal()+
       ggtitle("Education Levels by District")  + xlab("District")+ ylab("Percent") +
-      labs(fill = "Education Level", caption ="Data Source: ACS 2019 Five Year Estimate Table ???")+
+      labs(fill = "Education Level", caption ="Data Source: ACS 2019 Five Year Estimate Table B15003")+
       theme(plot.title = element_text(hjust = 0.5, size=20),
             axis.text.y=element_text(size=15),
             axis.text.x = element_text(size=14),
@@ -1244,7 +1244,7 @@ server <- function(input, output, session) {
       ylab("Median Income")+
       ggtitle("Median Income from 2010 to 2019") +
       theme_minimal()+
-      labs(caption  = "Data Source: ACS 2019 Five Year Estimate Table B19001")+
+      labs(caption  = "Data Source: ACS Five Year Estimate Table B19001")+
       theme(plot.title = element_text(hjust=0.5, size=20),
             legend.text = element_text(size=15),
             axis.text = element_text(size=15),
@@ -1346,11 +1346,11 @@ server <- function(input, output, session) {
   
   output$hmplot <- renderPlot({
     if(hmVar() == "housing1") {
-      hmplot <- ggplot(housing2010_2019, aes(x = year, y = pop_per_home, group = homevalues, color = homevalues)) +
+      hmplot <- ggplot(housing2010_2019, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
         geom_line(aes(size = estimated_total)) +
         theme_minimal() + scale_fill_viridis_d()+
         ylab("Percentage of Homes") +
-        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
+        labs(caption = "Data Source: ACS Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
         theme(plot.title = element_text(hjust=0.5, size =20),
               legend.text = element_text(size=15),
               legend.title =element_text(size=15),
@@ -1369,7 +1369,7 @@ server <- function(input, output, session) {
         ylab("Percentage of Homes") +
        theme_minimal()+
         facet_wrap(~NAME) +
-        labs(size = "Number of Homes",caption = "Data Source: ACS 2019 Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
+        labs(size = "Number of Homes",caption = "Data Source: ACS Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
         ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
         scale_color_viridis_d(name = "Home Values") + 
        theme(plot.title = element_text(hjust=0.5, size=20),
