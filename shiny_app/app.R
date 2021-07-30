@@ -1352,13 +1352,16 @@ server <- function(input, output, session) {
     
   })
   
-  #Housing Market --------------------------------------------------------------
+  #Housing Market -------------------------------------------------------------
   hmVar <- reactive({
     input$hmdrop
   })
   
   output$hmplot <- renderPlot({
     if(hmVar() == "housing1") {
+      housing2010_2019 <- mutate(housing2010_2019, homevalues = rep(c("Under $100,000", "$100,000 to $300,000", "$300,000 to $500,000", "$500,000 to $1,000,000", "Over $1,000,000"), 10))
+      housing2010_2019$homevalues <- factor(housing2010_2019$homevalues, levels = c("Under $100,000", "$100,000 to $300,000", "$300,000 to $500,000", "$500,000 to $1,000,000", "Over $1,000,000"))
+      
       hmplot <- ggplot(housing2010_2019, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
         geom_line(aes(size = estimated_total)) +
         theme_minimal() + scale_fill_viridis_d()+
@@ -1377,6 +1380,10 @@ server <- function(input, output, session) {
       
     }
     else if (hmVar() == "housing2") {
+      
+      housing2010_2019_by_district <- mutate(housing2010_2019_by_district, homevalues = rep(c("Under $100,000", "$100,000 to $300,000", "$300,000 to $500,000", "$500,000 to $1,000,000", "Over $1,000,000"), 50))
+      housing2010_2019_by_district$homevalues <- factor(housing2010_2019_by_district$homevalues, levels = c("Under $100,000", "$100,000 to $300,000", "$300,000 to $500,000", "$500,000 to $1,000,000", "Over $1,000,000"))
+      
       
      hmplot <- ggplot(housing2010_2019_by_district, aes(x = year, y = percent_of_houses, group = homevalues, color =homevalues)) +
         geom_line(aes(size = estimated_total)) +
