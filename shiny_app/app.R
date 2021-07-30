@@ -1033,6 +1033,7 @@ server <- function(input, output, session) {
         theme_minimal()+
         theme(plot.title = element_text(hjust=0.5, size =20),
               axis.title.x = element_blank(),
+              axis.title.y=element_text(size=15),
               legend.text = element_text(size=15),
               legend.title = element_text(size=15),
               axis.text = element_text(size=15))
