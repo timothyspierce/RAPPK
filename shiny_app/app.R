@@ -458,7 +458,7 @@ ui <- navbarPage(title = "Rappahannock!",
                             tabPanel("Population",
                                      column(9,
                                             withSpinner(plotOutput("popplot",  height = "800px")),
-                                            #p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                            
                                      ),
                                      column(3,
                                             h4("Population Demographic", align = "center"),
@@ -569,8 +569,8 @@ ui <- navbarPage(title = "Rappahannock!",
                           
                           tabPanel("Income",
                                    column(8,
-                                          withSpinner(plotOutput("incomePlot", height = "1000px")),
-                                          p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                          withSpinner(plotOutput("incomePlot", height = "1000px"))
+                                         
                                    ),
                                    column(4,
                                           h4("Income Description", align = "center"),
@@ -1052,14 +1052,15 @@ server <- function(input, output, session) {
       geom_line(aes(size = "Percent of Population" <- percent)) +
       theme_minimal()+ scale_fill_viridis_d() +
       ylab("Number of Residents")+
-      labs(size = "Percent of Population", color = "District") +
+      labs(size = "Percent of Population", color = "District", caption = "Data Source: ACS 2019 Five Year Estimate Table B02001") +
       ggtitle(label = "Estimated Total Population 2010-2019") +
       theme(plot.title = element_text(hjust=0.5, size=20),
             axis.title.x = element_blank(),
             legend.text = element_text(size=15),
             legend.title = element_text(size=15),
             axis.text = element_text(size=15),
-            axis.title.y=element_text(size=15))
+            axis.title.y=element_text(size=15),
+            plot.caption = element_text(size=13))
     
     popplot
     
@@ -1086,7 +1087,7 @@ server <- function(input, output, session) {
                axis.text = element_blank(), 
                legend.text = element_text(size=15),
                legend.title = element_text(size=15),
-               plot.caption = element_text(size=12),
+               plot.caption = element_text(size=13),
                panel.background = element_rect(fill = "white")) +
          ggtitle("Rappahannock Household Size") +
          scale_fill_viridis_d()
@@ -1118,7 +1119,9 @@ server <- function(input, output, session) {
               axis.line = element_line(color = "black", size=0.5)) +
         scale_x_continuous(breaks=seq(2010,2019,by=1))+ scale_fill_viridis_d()
       #putting the graphs together
-      hcplot <- grid.arrange(own_graph, rent_graph, ncol=1)
+      hcplot <- grid.arrange(own_graph, rent_graph, ncol=1,
+                             bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table S2504",
+                                               just= "left", gp = gpar(fontsize = 13)))
     }
    else if(hcVar() == "vehicles"){
      rappk_veh <- mutate(rappk_veh, type = c("None", "One", "Two", "Three or more"))
@@ -1200,7 +1203,7 @@ server <- function(input, output, session) {
             axis.title.x = element_blank(),
             axis.title.y = element_text(size=15),
             legend.title=element_text(size=15), 
-            plot.caption = element_text(size=12))
+            plot.caption = element_text(size=13))
     incomePlot
   })
   
