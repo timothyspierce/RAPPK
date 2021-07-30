@@ -91,6 +91,22 @@ ggplot(race_time_series, aes(x = year, y = estimate, fill = race, group = race))
   scale_fill_viridis_d() +
   plot_theme 
 
+race_all <- readRDS("shiny_app/data/race_bydistrict.Rds")
+race_all %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col()   +  theme(plot.title = element_text(hjust = 0.5),
+                                                                                     axis.text=element_text(size=12),
+                                                                                     legend.text = element_text(size=12),
+                                                                                     axis.title.x=element_text(size =13),
+                                                                                     axis.title.y=element_text(size =13),
+                                                                                     panel.background = element_blank())  + scale_fill_viridis_d()
+
+
+race <- readRDS("shiny_app/data/race_bydistrict.Rds")
+race %>% ggplot(aes(x = Year, y = Percent, fill = Race)) + geom_col() +facet_wrap(~NAME)  +  theme(plot.title = element_text(hjust = 0.5),
+                                                                                                   axis.text=element_text(size=12),
+                                                                                                   legend.text = element_text(size=12),
+                                                                                                   axis.title.x=element_text(size =13),
+                                                                                                   axis.title.y=element_text(size =13),
+                                                                                                   panel.background = element_blank())  + scale_fill_viridis_d()
 
 #Education Levels by District
 
