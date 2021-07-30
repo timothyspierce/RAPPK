@@ -596,13 +596,13 @@ ui <- navbarPage(title = "Rappahannock!",
                                    ),
                                    column(4,
                                           h4("Broadband", align = "center"),
-                                          h5(strong("Internet Suscription by Income")),
+                                          h5(strong("Internet Subscription by Income")),
                                           p("Rappahannock shows that resident with a higher income or more likely to have an internet
                                             subscription."),
-                                          h5(strong("Internet Subscriptions and Computer Ownership by District")),
+                                          h5(strong("Internet Subscription and Computer Ownership by District")),
                                           p("The bar graphs show internet subscriptions and computer ownership broken down into Rappahanock's districts.
                                             For both internet subscriptions and computer ownership, Hampton and Jackson have the highest percent of residents
-                                            with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent of internet subcriptions
+                                            with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent of internet subscriptions
                                             and computer ownership")
                                           
                                    )
