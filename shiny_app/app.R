@@ -482,7 +482,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                      column(3,
                                             h4("Race Demographic", align = "center"),
                                             h5(strong("Race Composition")),
-                                            p("Around ## percent of the total population in Rappahannock is White. The graph shows the distribution of non-white races in Rappahannock over the last decade. The Black population is the second highest in terms of racial composition in the county, which has slowly decreased over the last decade. Other races include Asian, First Nations, and Mixed"),
+                                            p("Around ####### percent of the total population in Rappahannock is White. The graph shows the distribution of non-white races in Rappahannock over the last decade. The Black population is the second highest in terms of racial composition in the county, which has slowly decreased over the last decade. Other races include Asian, First Nations, and Mixed"),
                                             
                                             h5(strong("Race Composition by District")),
                                             p("We present the racial distribution of Non-White races in the five districts of Rappahannock over time. Among the non-whites, the percentage of Black population seems evenly distributed among other races in all the districts except for Jackson, which shows a decline in the Black population.")
@@ -575,7 +575,9 @@ ui <- navbarPage(title = "Rappahannock!",
                                    ),
                                    column(4,
                                           h4("Income Description", align = "center"),
-                                          p("........")
+                                          h5(strong("Median Income")),
+                                          p("The 10-panel graph presents the income distribution of Rappahannock districts over the period 2010 to 2019. The horizontal axes give the percentage of population in each annual income bracket, which is presented in the vertical axes as categories. We classified median annual household incomes into four bins: under $25,000, $25,000 to $50,000, $50,000 to $100,000, and above $100,000.
+                                            ---------------------------------------------")
                                           
                                    )
                                    
@@ -595,13 +597,9 @@ ui <- navbarPage(title = "Rappahannock!",
                                    column(4,
                                           h4("Broadband", align = "center"),
                                           h5(strong("Internet Subscription by Income")),
-                                          p("Rappahannock shows that resident with a higher income or more likely to have an internet
-                                            subscription."),
+                                          p("The graph presents the distribution of internet subscription based on income distribution. Residents with a higher income are more likely to have an internet subscription. About two-thirds households with less than annual income of $20,000, one-fourth households with annual income between $20,000 and $75,000, respectively, do not have internet subscription. For households with annual income greater than $75,000, only 8 percent do not have internet subscription."),
                                           h5(strong("Internet Subscriptions and Computer Ownership by District")),
-                                          p("The bar graphs show internet subscriptions and computer ownership broken down into Rappahanock's districts.
-                                            For both internet subscriptions and computer ownership, Hampton and Jackson have the highest percent of residents
-                                            with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent of internet subscriptions
-                                            and computer ownership")
+                                          p("The bar graphs show internet subscriptions and computer ownership by Rappahannock's districts. For both internet subscriptions and computer ownership, Hampton and Jackson districts have the higher percentage of residents with internet and computers, while Stonewall-Hawthorne has the lowest percentage of internet subscriptions and computer ownership. Over 80 percent of households in Jackson and Hampton have internet and more than 90 percent own at least one computer, respectively.")
                                           
                                    )
                                    
@@ -619,7 +617,13 @@ ui <- navbarPage(title = "Rappahannock!",
                                    ),
                                    column(4,
                                           h4("Housing Market Description", align = "center"),
-                                          p(".........")
+                                          h5(strong("Housing Prices")),
+                                          p("The graph presents the distribution of homes by housing prices in the last decade. The bins are classified in five housing-price categories: less than $100,000, between $100,000 and $300,000, between $300,000 and half million, between half- and one- million, and over one- million. 
+                                            --------------------------------------------"),
+                                          
+                                          h5(strong("Housing Prices by District")),
+                                          p("In this graph, we present a similar distribution of housing prices as in the previous tab, but by districts. This graph also presents the relative composition of houses in terms of their prices in each of the Rappahannock districts, and how that has changed in the last 10 years."),
+                                          p("During the last decade, all Rappahannock districts had less than 10 percent houses whose prices were less than $100,000. The number of houses between $100,000 and $300,000 has increased to almost 60 percent of the total houses in Wakefield. Wakefield has the highest proportion of houses in this price range (100-300k) followed by Piedmont. Jackson is the district with highest proportion (about 50 percent) of houses between the price range of $300,000 to $500,000.")
                                           
                                    )
                                    
