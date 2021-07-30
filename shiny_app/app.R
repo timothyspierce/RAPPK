@@ -591,7 +591,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                             "Internet Subscription and Computer Ownership by District" = "compDist")
                                           ),
                                           withSpinner(plotOutput("bbplot", height ="800px")),
-                                          #p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
+                                          
                                           
                                    ),
                                    column(4,
@@ -601,7 +601,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                             subscription."),
                                           h5(strong("Internet Subscriptions and Computer Ownership by District")),
                                           p("The bar graphs show internet subscriptions and computer ownership broken down into Rappahanock's districts.
-                                            For both internet subscirptions and computer ownership, Hampton and Jackson have the highest percent of residents
+                                            For both internet subscriptions and computer ownership, Hampton and Jackson have the highest percent of residents
                                             with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent of internet subcriptions
                                             and computer ownership")
                                           
@@ -616,7 +616,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                             "Housing Prices by District" = "housing2")
                                           ),
                                           withSpinner(plotOutput("hmplot", height ="800px")),
-                                          #p(tags$small("Data Source: ACS Five Year Estimate Table S2801"))
+                                          
                                           
                                    ),
                                    column(4,
@@ -1238,10 +1238,10 @@ server <- function(input, output, session) {
   output$incomePlot <- renderPlot({
     incomePlot <- ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
       geom_col(position = "dodge") +
+      ylab("Median Inocme") +
       facet_wrap(~year) +
       coord_flip() +
       scale_fill_viridis_d(name="District") +
-      ylab("Median Income")+
       ggtitle("Median Income from 2010 to 2019") +
       theme_minimal()+
       labs(caption  = "Data Source: ACS Five Year Estimate Table B19001")+
