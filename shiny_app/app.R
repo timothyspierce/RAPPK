@@ -693,21 +693,21 @@ ui <- navbarPage(title = "I'm a title!",
                                          column(4,h4(strong("Services")),
                                                 p("In many respects, Rappahannock County is uniquely endowed with built amenities and services.
                                           However, most of them are clustered or available outside the county. There is a general limited
-                                          Number of services in the county. The primary services we consider include Food and Clothing, Hospitals, Education,
+                                          number of services in the county. The primary services we consider include Food and Clothing, Hospitals, Education,
                                           Recreation, Entertainment, Professional, Transit, Banks, and Adult care Facilities.
                                           The map highlights the key resources that are available and accessed in the county."),
-                                          p("As the map shows, most of the services in Rappahannock County are clustered in and around Washington in Hampton district 
+                                          p("As the map shows, most of the services in Rappahannock county are clustered in and around Washington (Hampton district) 
                                           where inhabitants have access to among other supporting infrastructure. Additionally, most services can be
-                                            accessed in neighboring counties. Similar to the clusters of Services in Washington, neighboring counties
-                                            have clusters of more services as well."), 
-                                          p("Population-wise, the majority of the population in Rappahannock County 
-                                            are situated in Hampton District which is home to more services in the entire county. Hovering over each district displays 
+                                            accessed in the neighboring counties. Similar to the clusters of Services in Washington, the neighboring counties
+                                            have clusters of many services as well."), 
+                                          p("Population-wise, the majority of the population in Rappahannock county 
+                                            is situated in Hampton District which is home to a lot more services in the entire county. Hovering over each district displays 
                                             their corresponding population (according to the 2010 census data from the American Community Survey)."),
                                                        
                                                 column(12,h4(strong("Travel Distance")),
                                                        p("We include driving distances (15 and 30 minutes) from specific points called the population centroids. First,
-                                          we have services that are in proximity from population centroid for Rappahannock 
-                                          County (white dot around the center) in a 15-and-30 minute
+                                          we have travel time distance boundaries which show the services that are in  a certain proximity from the population 
+                                          centroid of Rappahannock county (white dot around the center) in a 15-and-30 minute
                                           drive. Similarly, we have travel time distance boundaries for each of the five (5) 
                                           district centroids (red dot in each district)."),
                                           p("From the map, we can see two driving boundaries. The inner driving boundary of the map 
@@ -717,8 +717,10 @@ ui <- navbarPage(title = "I'm a title!",
                                           30-minute drive from the center of the county (the red cloud). "),
                                           
                                           
-                                          column(12,h4(strong("Piedmont")),
-                                          p("Talk about the Piedmont issue.")
+                                          column(12,h4(strong("Side Note on Piedmont District Travel time Map")),
+                                          p("NB: Concerning the driving distances for Piedmont District we notice an unsusually small 15-minute travel time boundary.
+                                          After conducting several sensitivity checks we conclude a possible reason for this is that there is a network of roads near
+                                          the town of Washington and Sperryville that is causing thte boundary to be so small which is not the case for other district centers.")
                                           ),),  ),),), ),     
                  # data tab -----------------------------------------------------------
                  tabPanel("Data", value = "data",
