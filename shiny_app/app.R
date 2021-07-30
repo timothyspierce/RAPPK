@@ -371,7 +371,7 @@ jscode <- "function getUrlVars() {
            "
 
 # user -------------------------------------------------------------
-ui <- navbarPage(title = "I'm a title!",
+ui <- navbarPage(title = "Rappahannock!",
                  selected = "overview",
                  theme = shinytheme("lumen"),
                  tags$head(tags$style('.selectize-dropdown {z-index: 10000}')),
@@ -384,12 +384,12 @@ ui <- navbarPage(title = "I'm a title!",
                                    # br("", style = "padding-top:2px;"),
                                    # img(src = "uva-dspg-logo.jpg", class = "topimage", width = "20%", style = "display: block; margin-left: auto; margin-right: auto;"),
                                    br(""),
-                                   h1(strong("Availability of Services;"),
+                                   h1(strong("Availability of Services:"),
                                       h2(strong("Evolving Demographics, Housing, and Traffic in Rappahannock")),
                                       br(""),
                                       h4("Data Science for the Public Good Program"),
                                       h4("Virginia Polytechnic Institute and State University"),
-                                      h4("[updat this]"),
+                                      #h4("[updat this]"),
                                       br()
                                    )
                           ),
@@ -440,7 +440,7 @@ ui <- navbarPage(title = "I'm a title!",
                                    )
                           ),
                           fluidRow(align = "center",
-                                   p(tags$small(em('Last updated: August 2020'))))
+                                   p(tags$small(em('Last updated: August 2021'))))
                  ),
 
                  # county profile tab -----------------------------------------------------------
@@ -448,13 +448,44 @@ ui <- navbarPage(title = "I'm a title!",
                           fluidRow(style = "margin: 6px;",
                                    h1(strong("Rappahannock County Sociodemographic Profile"), align = "center"),
                                    p("", style = "padding-top:10px;"),
-                                   column(4,
+                                   column(12,
                                           h4(strong("Who lives in Rappahannock County?")),
-                                          p("Some words"),
-                                          p("More words"),
-                                          p("final words"))
+                                          p("With a little over 7,000 residents, around 80 percent of every district's population is White, followed by around Black, Asian, and the remaining from other races, respectively. As compared to other counties in the Commonwealth of Virginia with 15 percent seniors (65 and above), Rappahannock's population is relatively elderly with about 26 percent over 65 years old. Age dependency, defined as the proportion of the sum of children (under 18 years) and seniors (65 years and over) to the working-age adult (18-64 years) is significantly higher in Rappahannock when compared to other counties in Virginia."),
+                                          p("The median age of Rappahannock is 50 as compared to Virginia's median age of 38. The average age of Rappahannock has continuously risen in the last decade. Hampton district has the highest (around 32 percent) and Wakefield district has the lowest (around 18 percent) of proportion of senior population, respectively. In terms of age dependency, Hampton has around 95 percent age dependent population, the highest in the county, whereas Piedmont has about 50 percent, the lowest. "))
                           ),
                           tabsetPanel(
+                            
+                            tabPanel("Population",
+                                     column(9,
+                                            withSpinner(plotOutput("popplot",  height = "800px")),
+                                            #p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                     ),
+                                     column(3,
+                                            h4("Population Description", align = "center"),
+                                            p("........")
+                                            
+                                     )
+                                     
+                            ),
+                            
+                            tabPanel("Race",
+                                     
+                                     column(9, 
+                                            selectInput("racedrop", "Select Variable:", width = "100%", choices = c(
+                                              "Race Composition" = "race1",
+                                              "Race Composition by District" = "race2")),
+                                            withSpinner(plotOutput("raceplot", height = "800px")),
+                                            #p(tags$small("Data Source: ACS Five Year Estimate Table ????"))
+                                            
+                                     ),
+                                     column(3,
+                                            h4("Race Description.....")
+                                     )
+                                     
+                                     
+                            ),
+                            
+                            
                             tabPanel("Age",
                                      
                                      column(9, 
@@ -470,62 +501,27 @@ ui <- navbarPage(title = "I'm a title!",
                                      column(3,
                                             h4("Age Demographic", align = "center"),
                                             h5(strong("Age Composition")),
-                                            p("The charts show the age proportions for the population of Rappahannock and Virginia in 2019. Rappahannock has a greater percent
-                                               of seniors than Virginia with an 11% difference. Rappahnnock also has a noticeably smaller percent of adolescent and young adult populations
-                                              than Virginia."),
+                                            p("The pie charts show the age proportions for Rappahannock and Virginia in 2019. Rappahannock county has 11 percent greater proportion of senior population as compared to that of Virginia. Rappahannock has a noticeably smaller percent of adolescent and young adult populations than the rest of Virginia."),
                              
                                      
                                             h5(strong("Age Composition Over Time")),
-                                            p("The line graph show the age composition of Rappahannock from 2010 to 2019. -------------------"),
+                                            p("The pie charts show the age proportions for Rappahannock and Virginia in 2019. Rappahannock county has 11 percent greater proportion of senior population as compared to that of Virginia. Rappahannock has a noticeably smaller percent of adolescent and young adult populations than the rest of Virginia."),
 
-                                     
+                                            h5(strong("Age Composition Over Time by District")),
+                                            p("The districts of Hampton and Jackson have witnessed an increase in the percentage of senior population than the three other districts (Piedmont, Stonewall-Hawthorne, and Wakefield). There is also a significant reduction in the 30-65 year age category for Hampton, Jackson, and Stonewall-Hawthorne."),
+                                            
                                             
                                             h5(strong("Median Age")),
-                                             p("Rappahhannock has a higher median age than its surrounding counties and Virginia.
-                                               Rappahannock's districts all show the same trend of a high median age, except the district of Wakefield."),
+                                             p("Rappahannock has a higher median age than its surrounding counties. The median age for the state of Virginia is 38 years whereas that of Rappahannock is 50 years. Rappahannock's districts all show the same trend of a high median age, except the district of Wakefield, which is almost the same as the state median age."),
                                       
                                             
                                             h5(strong("Age Dependency")),
-                                            p("The age dependency ratio is an age-population ratio for dependents or those who are not in the labor force. There is the
-                                              age dependecy ratio that account for all ages of dependents, the child dependecy ratio that accounts for dependents under the age
-                                              of 15, and the old-age dependency ratio that accounts for dependents over the age of 64. The ratio is calculated by taking the
-                                              number of people ages 14 and under and 65 and over and dividing it by the number of people ages 15 to 64.
-                                              The charts show that Rappahannock has the highest age depedency ratios for the overall age and old-age, but has the lowest 
-                                              ratio for child compared to Virginia and the surrounding counties.")
+                                            p("The age dependency ratio is an age-population ratio for dependents i.e., those who are not in the labor force. An overall age dependency ratio accounts for all ages of dependents, the child dependents as well as the old-age dependents. The child dependency ratio accounts for dependents under the age of 18, and the old-age dependency ratio accounts for dependents the age 65 and over. The dependency ratio is calculated by taking ratio of the number of people with ages below 18 and 65 and over to the number of people with ages between 18 and 64. The charts show that Rappahannock has the highest age dependency ratios for the overall age and old-age but has the lowest ratio for child when compared to Virginia and the surrounding counties.")
                             ),
 
                           ),
-                          tabPanel("Race",
-                                   
-                                   column(9, 
-                                          selectInput("racedrop", "Select Variable:", width = "100%", choices = c(
-                                            "Race Composition" = "race1",
-                                            "Race Composition by District" = "race2")),
-                                          withSpinner(plotOutput("raceplot", height = "800px")),
-                                          #p(tags$small("Data Source: ACS Five Year Estimate Table ????"))
-                                          
-                                   ),
-                                   column(3,
-                                          h4("Race Description.....")
-                                   )
-                                   
-                                   
-                          ),
                           
-                          tabPanel("Population",
-                                   column(9,
-                                          withSpinner(plotOutput("popplot",  height = "800px")),
-                                          #p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
-                                   ),
-                                   column(3,
-                                          h4("Population Description", align = "center"),
-                                          p("........")
-                                          
-                                   )
-                                   
-                          ),
-      
-                          
+     
                           tabPanel("Household Characteristics",
                                    column(8,
                                           selectInput("hcdrop", "Select Variable:", width = "100%", choices = c(
