@@ -357,7 +357,7 @@ jscode <- "function getUrlVars() {
            var x = document.getElementsByClassName('navbar-brand');
 
            if (mytype != 'economic') {
-             x[0].innerHTML = '<div style=\"margin-top:-14px\"><a href=\"https://datascienceforthepublicgood.org/events/symposium2020/poster-sessions\">' +
+             x[0].innerHTML = '<div style=\"margin-top:-14px\"><a href=\"https://datascienceforthepublicgood.org/node/451\">' +
                               '<img src=\"DSPG_black-01.png\", alt=\"DSPG 2020 Symposium Proceedings\", style=\"height:42px;\">' +
                               '</a></div>';
 
@@ -372,7 +372,7 @@ jscode <- "function getUrlVars() {
            "
 
 # user -------------------------------------------------------------
-ui <- navbarPage(title = "I'm a title!",
+ui <- navbarPage(title = "Rappahannock!",
                  selected = "overview",
                  theme = shinytheme("lumen"),
                  tags$head(tags$style('.selectize-dropdown {z-index: 10000}')),
@@ -385,12 +385,12 @@ ui <- navbarPage(title = "I'm a title!",
                                    # br("", style = "padding-top:2px;"),
                                    # img(src = "uva-dspg-logo.jpg", class = "topimage", width = "20%", style = "display: block; margin-left: auto; margin-right: auto;"),
                                    br(""),
-                                   h1(strong("Availability of Services;"),
+                                   h1(strong("Availability of Services:"),
                                       h2(strong("Evolving Demographics, Housing, and Traffic in Rappahannock")),
                                       br(""),
                                       h4("Data Science for the Public Good Program"),
                                       h4("Virginia Polytechnic Institute and State University"),
-                                      h4("[updat this]"),
+                                      #h4("[updat this]"),
                                       br()
                                    )
                           ),
@@ -441,7 +441,7 @@ ui <- navbarPage(title = "I'm a title!",
                                    )
                           ),
                           fluidRow(align = "center",
-                                   p(tags$small(em('Last updated: August 2020'))))
+                                   p(tags$small(em('Last updated: August 2021'))))
                  ),
 
                  # county profile tab -----------------------------------------------------------
@@ -449,13 +449,49 @@ ui <- navbarPage(title = "I'm a title!",
                           fluidRow(style = "margin: 6px;",
                                    h1(strong("Rappahannock County Sociodemographic Profile"), align = "center"),
                                    p("", style = "padding-top:10px;"),
-                                   column(4,
+                                   column(12,
                                           h4(strong("Who lives in Rappahannock County?")),
-                                          p("Some words"),
-                                          p("More words"),
-                                          p("final words"))
+                                          p("With a little over 7,000 residents, around 80 percent of every district's population is White, followed by around Black, Asian, and the remaining from other races, respectively. As compared to other counties in the Commonwealth of Virginia with 15 percent seniors (65 and above), Rappahannock's population is relatively elderly with about 26 percent over 65 years old. Age dependency, defined as the proportion of the sum of children (under 18 years) and seniors (65 years and over) to the working-age adult (18-64 years) is significantly higher in Rappahannock when compared to other counties in Virginia."),
+                                          p("The median age of Rappahannock is 50 as compared to Virginia's median age of 38. The average age of Rappahannock has continuously risen in the last decade. Hampton district has the highest (around 32 percent) and Wakefield district has the lowest (around 18 percent) of proportion of senior population, respectively. In terms of age dependency, Hampton has around 95 percent age dependent population, the highest in the county, whereas Piedmont has about 50 percent, the lowest. "))
                           ),
                           tabsetPanel(
+                            
+                            tabPanel("Population",
+                                     column(9,
+                                            withSpinner(plotOutput("popplot",  height = "800px")),
+                                            #p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
+                                     ),
+                                     column(3,
+                                            h4("Population Demographic", align = "center"),
+                                            p("The graph presents linear trends of population over time (2010-2019) by districts. The relative thickness of each trend represents the relative size of population living in each district. Wakefield district had its population plummet from 2012 to 2014, but the population has increased ever since for the district to be the mostly populated in Rappahannock. The population in Hampton district has decreased considerably since 2010.")
+                                            
+                                     )
+                                     
+                            ),
+                            
+                            tabPanel("Race",
+                                     
+                                     column(9, 
+                                            selectInput("racedrop", "Select Variable:", width = "100%", choices = c(
+                                              "Race Composition" = "race1",
+                                              "Race Composition by District" = "race2")),
+                                            withSpinner(plotOutput("raceplot", height = "800px")),
+                                            #p(tags$small("Data Source: ACS Five Year Estimate Table ????"))
+                                            
+                                     ),
+                                     column(3,
+                                            h4("Race Demographic", align = "center"),
+                                            h5(strong("Race Composition")),
+                                            p("Around ## percent of the total population in Rappahannock is White. The graph shows the distribution of non-white races in Rappahannock over the last decade. The Black population is the second highest in terms of racial composition in the county, which has slowly decreased over the last decade. Other races include Asian, First Nations, and Mixed"),
+                                            
+                                            h5(strong("Race Composition by District")),
+                                            p("We present the racial distribution of Non-White races in the five districts of Rappahannock over time. Among the non-whites, the percentage of Black population seems evenly distributed among other races in all the districts except for Jackson, which shows a decline in the Black population.")
+                                     )
+                                     
+                                     
+                            ),
+                            
+                            
                             tabPanel("Age",
                                      
                                      column(9, 
@@ -471,67 +507,32 @@ ui <- navbarPage(title = "I'm a title!",
                                      column(3,
                                             h4("Age Demographic", align = "center"),
                                             h5(strong("Age Composition")),
-                                            p("The charts show the age proportions for the population of Rappahannock and Virginia in 2019. Rappahannock has a greater percent
-                                               of seniors than Virginia with an 11% difference. Rappahnnock also has a noticeably smaller percent of adolescent and young adult populations
-                                              than Virginia."),
+                                            p("The pie charts show the age proportions for Rappahannock and Virginia in 2019. Rappahannock county has 11 percent greater proportion of senior population as compared to that of Virginia. Rappahannock has a noticeably smaller percent of adolescent and young adult populations than the rest of Virginia."),
                              
                                      
                                             h5(strong("Age Composition Over Time")),
-                                            p("The line graph show the age composition of Rappahannock from 2010 to 2019. -------------------"),
+                                            p("The pie charts show the age proportions for Rappahannock and Virginia in 2019. Rappahannock county has 11 percent greater proportion of senior population as compared to that of Virginia. Rappahannock has a noticeably smaller percent of adolescent and young adult populations than the rest of Virginia."),
 
-                                     
+                                            h5(strong("Age Composition Over Time by District")),
+                                            p("The districts of Hampton and Jackson have witnessed an increase in the percentage of senior population than the three other districts (Piedmont, Stonewall-Hawthorne, and Wakefield). There is also a significant reduction in the 30-65 year age category for Hampton, Jackson, and Stonewall-Hawthorne."),
+                                            
                                             
                                             h5(strong("Median Age")),
-                                             p("Rappahhannock has a higher median age than its surrounding counties and Virginia.
-                                               Rappahannock's districts all show the same trend of a high median age, except the district of Wakefield."),
+                                             p("Rappahannock has a higher median age than its surrounding counties. The median age for the state of Virginia is 38 years whereas that of Rappahannock is 50 years. Rappahannock's districts all show the same trend of a high median age, except the district of Wakefield, which is almost the same as the state median age."),
                                       
                                             
                                             h5(strong("Age Dependency")),
-                                            p("The age dependency ratio is an age-population ratio for dependents or those who are not in the labor force. There is the
-                                              age dependecy ratio that account for all ages of dependents, the child dependecy ratio that accounts for dependents under the age
-                                              of 15, and the old-age dependency ratio that accounts for dependents over the age of 64. The ratio is calculated by taking the
-                                              number of people ages 14 and under and 65 and over and dividing it by the number of people ages 15 to 64.
-                                              The charts show that Rappahannock has the highest age depedency ratios for the overall age and old-age, but has the lowest 
-                                              ratio for child compared to Virginia and the surrounding counties.")
+                                            p("The age dependency ratio is an age-population ratio for dependents i.e., those who are not in the labor force. An overall age dependency ratio accounts for all ages of dependents, the child dependents as well as the old-age dependents. The child dependency ratio accounts for dependents under the age of 18, and the old-age dependency ratio accounts for dependents the age 65 and over. The dependency ratio is calculated by taking ratio of the number of people with ages below 18 and 65 and over to the number of people with ages between 18 and 64. The charts show that Rappahannock has the highest age dependency ratios for the overall age and old-age but has the lowest ratio for child when compared to Virginia and the surrounding counties.")
                             ),
 
                           ),
-                          tabPanel("Race",
-                                   
-                                   column(9, 
-                                          selectInput("racedrop", "Select Variable:", width = "100%", choices = c(
-                                            "Race Composition" = "race1",
-                                            "Race Composition by District" = "race2")),
-                                          withSpinner(plotOutput("raceplot", height = "800px")),
-                                          #p(tags$small("Data Source: ACS Five Year Estimate Table ????"))
-                                          
-                                   ),
-                                   column(3,
-                                          h4("Race Description.....")
-                                   )
-                                   
-                                   
-                          ),
                           
-                          tabPanel("Population",
-                                   column(9,
-                                          withSpinner(plotOutput("popplot",  height = "800px")),
-                                          #p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
-                                   ),
-                                   column(3,
-                                          h4("Population Description", align = "center"),
-                                          p("........")
-                                          
-                                   )
-                                   
-                          ),
-      
-                          
+     
                           tabPanel("Household Characteristics",
                                    column(8,
                                           selectInput("hcdrop", "Select Variable:", width = "100%", choices = c(
                                             "Household Size" = "houseSize",
-                                            "Households Occupied by Owners and Renters" = "rentOwn",
+                                            "Housing Units Occupied by Owners and Renters" = "rentOwn",
                                             "Vehicles per Household" = "vehicles")
                                           ),
                                           withSpinner(plotOutput("hcplot", height ="800px")),
@@ -541,15 +542,13 @@ ui <- navbarPage(title = "I'm a title!",
                                    column(4,
                                           h4("Houshold Characteristics", align = "center"),
                                           h5(strong("Household Size")),
-                                          p("Rappahannock in 2019 had 68.2% of households were occupied by two people or less."),
+                                          p("The pie chart shows the distribution of household sizes in Rappahannock for 2019. 68.2 percent of Rappahannock families had a household size of two or less. About 18 percent of the households had three members, with around 14 percent households having more than four members, respectively."),
                                           
-                                          h5(strong("Households Occcupied by Owners and Renters")),
-                                          p("These graphs show the number of households in Rappahannock occupied owners and renters 
-                                          from 2010 to 2020."),
+                                          h5(strong("Housing Units Occcupied by Owners and Renters")),
+                                          p("The graphs plot the housing units (owner- or renter- occupied) on the vertical axis and time on the horizontal axis. Note that the scales in the two plots are different to capture the temporal changes visually. In 2010, more than 70 percent of the housing units were owner occupied and a little less than 30 percent were renter occupied. In 2014, more than 80 percent of the housing units were owner occupied, the highest proportion in the last decade. However, in 2019, less than 2200 units are owner occupied and 750 units are renter occupied, which are 67 percent and 23 percent, respectively, of the total housing units."),
                                           
                                           h5(strong("Vehicles per Household")),
-                                          p("Rappahhanock follows the same trend as its surrounding counties of having a higher percentage of
-                                            households using three or more cars")
+                                          p("To visualize the vehicles owned per household, we present a pie-chart of the number of vehicles (categories: none to three), and the distribution for Rappahannock inhabitants as compared to neighboring districts. About 40 percent of Rappahannock households have three vehicles, and less than 3 percent have no vehicles. The distribution of vehicle ownership (by number of vehicles) in Rappahannock seems quite comparable to neighboring districts.")
                                           
                                    )  
                             
@@ -901,17 +900,19 @@ server <- function(input, output, session) {
         geom_hline(aes(yintercept= 50.1, linetype = "Rappahannock Median Age: 50"), color= "black", size = 1.5, alpha = 0.7) +
         ggtitle("Rappahannock by Districts") +
         ylab("Median Age")+
-        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101") +
+        #labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101") +
         theme_minimal() +
         theme(plot.title = element_text(hjust = 0.5, size =20),legend.title = element_blank(),
               axis.title.x=element_blank(),
               axis.text = element_text(size=15),
               legend.text = element_text(size =15),
-              axis.title.y =element_text(size=15),
-              plot.caption = element_text(size=12)) +
+              axis.title.y =element_text(size=15)) +
+              #plot.caption = element_text(size=12)) +
         scale_fill_viridis_d()
       
-      ageplot <- grid.arrange(counties_median_age_plot, district_median_age)
+      ageplot <- grid.arrange(counties_median_age_plot, district_median_age,
+                              bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table S0101",
+                                                just= "left", gp = gpar(fontsize = 13)))
       ageplot
     }
     else if (ageVar() == "ageDep") {
@@ -930,11 +931,11 @@ server <- function(input, output, session) {
         ggtitle("Age Dependency Ratios in Rappahannock by Districts") +
         ylab("Dependecy Ratio")+
         theme_minimal() +
-        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101")+
+        #labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101")+
         theme(plot.title = element_text(hjust = 0.5, size=20)) +
         theme(axis.text = element_text(size = 15), legend.title = element_blank(),
-              axis.title.x = element_blank(), legend.text = element_text(size=15), axis.title.y = element_text(size=15),
-              plot.caption = element_text(size=12)) +
+              axis.title.x = element_blank(), legend.text = element_text(size=15), axis.title.y = element_text(size=15))+
+             # plot.caption = element_text(size=12)) +
         scale_fill_viridis_d()
       
       va_dep_plot <- ggplot(va_rappk_dep, aes(x=`Location`, y=`Dependency.Ratio`, fill=Key)) +
@@ -947,7 +948,8 @@ server <- function(input, output, session) {
               legend.text = element_text(size =15),axis.title.y = element_text(size=15)) +
         scale_fill_viridis_d()
       
-      ageplot <- grid.arrange(va_dep_plot, counties_dep_plot,district_dep_plot)
+      ageplot <- grid.arrange(va_dep_plot, counties_dep_plot,district_dep_plot, bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table S0101",
+                                                                                                  just= "left", gp = gpar(fontsize = 13)))
       ageplot
     }
     else if (ageVar() == "ageTime") {
@@ -956,6 +958,7 @@ server <- function(input, output, session) {
         labs(title = "Rappahannock Age of Population from 2010 to 2019", color = "Age Categories") +
         ylab("Percent of the population") +
         theme_minimal()+
+        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table B02001", size = "Number of Residents") +
         scale_color_viridis_d(
           labels = c("under18" = "Under 18", 
                      "age18_29" = "18 to 29", 
@@ -966,7 +969,7 @@ server <- function(input, output, session) {
               legend.title =element_text(size=15),
               axis.title.x = element_blank(),
               axis.title.y = element_text(size=15),
-              axis.text = element_text(size=15)) 
+              axis.text = element_text(size=15),plot.caption = element_text(size=13)) 
       ageplot
       
     }
@@ -975,6 +978,7 @@ server <- function(input, output, session) {
         geom_line(aes(size = estimate)) +
         labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
         xlab("Years") +
+        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table B02001", size = "Number of Residents") +
         ylab("Percent of the population") +
         scale_color_viridis_d(
           labels = c("under18" = "Under 18", 
@@ -989,7 +993,8 @@ server <- function(input, output, session) {
               legend.text = element_text(size=15),
               axis.title.x = element_blank(),
               axis.title.y = element_text(size=15),
-              axis.text.x = element_text(angle = 40)
+              axis.text.x = element_text(angle = 40),
+              plot.caption = element_text(size=13)
          )
        ageplot
     }
@@ -1043,9 +1048,12 @@ server <- function(input, output, session) {
   
   output$popplot <- renderPlot({
 
+    
     popplot <- ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
       geom_line(aes(size = "Percent of Population" <- percent)) +
       theme_minimal()+ scale_fill_viridis_d() +
+      ylab("Number of Residents")+
+      labs(size = "Percent of Population", color = "District") +
       ggtitle(label = "Estimated Total Population 2010-2019") +
       theme(plot.title = element_text(hjust=0.5, size=20),
             axis.title.x = element_blank(),
@@ -1114,6 +1122,7 @@ server <- function(input, output, session) {
       hcplot <- grid.arrange(own_graph, rent_graph, ncol=1)
     }
    else if(hcVar() == "vehicles"){
+     rappk_veh <- mutate(rappk_veh, type = c("None", "One", "Two", "Three or more"))
       rappk_veh_plot <- ggplot(rappk_veh, aes(x = "", y = estimate, fill = fct_inorder(type))) +
         geom_col(width = 1, color = 1) +
         geom_text(aes(label = paste0(estimate, "%")),
@@ -1130,12 +1139,12 @@ server <- function(input, output, session) {
         ggtitle("Vehicles Available per Household") +
         scale_fill_viridis_d()
       
+      county_veh$num <- factor(county_veh$num, levels = c("None", "One", "Two", "Three or more"))
       county_veh3 <- county_veh %>%
         group_by(county) %>%
         arrange(county, desc(num)) %>%
         mutate(lab_ypos = cumsum(estimate) - 0.20 * estimate) 
       #Graph
-      county_veh3$num <- factor(county_veh3$num, levels = c("None", "One", "Two", "Three or more"))
       vehicle_graph <- ggplot(data = county_veh3, aes(x = county, y = estimate)) +
         geom_col(aes(fill = num), width = 0.7)+
         geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=5, hjust =1.35)+
@@ -1185,12 +1194,14 @@ server <- function(input, output, session) {
       ylab("Median Income")+
       ggtitle("Median Income from 2010 to 2019") +
       theme_minimal()+
+      labs(caption  = "Data Source: ACS 2019 Five Year Estimate Table B19001")+
       theme(plot.title = element_text(hjust=0.5, size=20),
             legend.text = element_text(size=15),
             axis.text = element_text(size=15),
             axis.title.x = element_blank(),
             axis.title.y = element_text(size=15),
-            legend.title=element_text(size=15))
+            legend.title=element_text(size=15), 
+            plot.caption = element_text(size=12))
     incomePlot
   })
   
