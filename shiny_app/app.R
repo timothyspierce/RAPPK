@@ -1362,6 +1362,7 @@ server <- function(input, output, session) {
       hmplot <- ggplot(housing2010_2019, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
         geom_line(aes(size = estimated_total)) +
         theme_minimal() + scale_fill_viridis_d()+
+        ggtitle("Rappahannock Housing Prices (US Dollars) from 2010 to 2019")+
         ylab("Percentage of Homes") +
         labs(caption = "Data Source: ACS Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
         theme(plot.title = element_text(hjust=0.5, size =20),
@@ -1383,7 +1384,7 @@ server <- function(input, output, session) {
        theme_minimal()+
         facet_wrap(~NAME) +
         labs(size = "Number of Homes",caption = "Data Source: ACS Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
-        ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
+        ggtitle("Housing Prices (US Dollars) from 2010 to 2019") +
         scale_color_viridis_d(name = "Home Values") + 
        theme(plot.title = element_text(hjust=0.5, size=20),
              axis.text.x = element_text(angle = 40),
