@@ -356,7 +356,7 @@ jscode <- "function getUrlVars() {
            var x = document.getElementsByClassName('navbar-brand');
 
            if (mytype != 'economic') {
-             x[0].innerHTML = '<div style=\"margin-top:-14px\"><a href=\"https://datascienceforthepublicgood.org/events/symposium2020/poster-sessions\">' +
+             x[0].innerHTML = '<div style=\"margin-top:-14px\"><a href=\"https://datascienceforthepublicgood.org/node/451\">' +
                               '<img src=\"DSPG_black-01.png\", alt=\"DSPG 2020 Symposium Proceedings\", style=\"height:42px;\">' +
                               '</a></div>';
 
@@ -531,7 +531,7 @@ ui <- navbarPage(title = "Rappahannock!",
                                    column(8,
                                           selectInput("hcdrop", "Select Variable:", width = "100%", choices = c(
                                             "Household Size" = "houseSize",
-                                            "Households Occupied by Owners and Renters" = "rentOwn",
+                                            "Housing Units Occupied by Owners and Renters" = "rentOwn",
                                             "Vehicles per Household" = "vehicles")
                                           ),
                                           withSpinner(plotOutput("hcplot", height ="800px")),
@@ -899,17 +899,19 @@ server <- function(input, output, session) {
         geom_hline(aes(yintercept= 50.1, linetype = "Rappahannock Median Age: 50"), color= "black", size = 1.5, alpha = 0.7) +
         ggtitle("Rappahannock by Districts") +
         ylab("Median Age")+
-        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101") +
+        #labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101") +
         theme_minimal() +
         theme(plot.title = element_text(hjust = 0.5, size =20),legend.title = element_blank(),
               axis.title.x=element_blank(),
               axis.text = element_text(size=15),
               legend.text = element_text(size =15),
-              axis.title.y =element_text(size=15),
-              plot.caption = element_text(size=12)) +
+              axis.title.y =element_text(size=15)) +
+              #plot.caption = element_text(size=12)) +
         scale_fill_viridis_d()
       
-      ageplot <- grid.arrange(counties_median_age_plot, district_median_age)
+      ageplot <- grid.arrange(counties_median_age_plot, district_median_age,
+                              bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table S0101",
+                                                just= "left", gp = gpar(fontsize = 13)))
       ageplot
     }
     else if (ageVar() == "ageDep") {
@@ -928,11 +930,11 @@ server <- function(input, output, session) {
         ggtitle("Age Dependency Ratios in Rappahannock by Districts") +
         ylab("Dependecy Ratio")+
         theme_minimal() +
-        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101")+
+        #labs(caption = "Data Source: ACS 2019 Five Year Estimate Table S0101")+
         theme(plot.title = element_text(hjust = 0.5, size=20)) +
         theme(axis.text = element_text(size = 15), legend.title = element_blank(),
-              axis.title.x = element_blank(), legend.text = element_text(size=15), axis.title.y = element_text(size=15),
-              plot.caption = element_text(size=12)) +
+              axis.title.x = element_blank(), legend.text = element_text(size=15), axis.title.y = element_text(size=15))+
+             # plot.caption = element_text(size=12)) +
         scale_fill_viridis_d()
       
       va_dep_plot <- ggplot(va_rappk_dep, aes(x=`Location`, y=`Dependency.Ratio`, fill=Key)) +
@@ -945,7 +947,8 @@ server <- function(input, output, session) {
               legend.text = element_text(size =15),axis.title.y = element_text(size=15)) +
         scale_fill_viridis_d()
       
-      ageplot <- grid.arrange(va_dep_plot, counties_dep_plot,district_dep_plot)
+      ageplot <- grid.arrange(va_dep_plot, counties_dep_plot,district_dep_plot, bottom = textGrob("Data Source: ACS 2019 Five Year Estimate Table S0101",
+                                                                                                  just= "left", gp = gpar(fontsize = 13)))
       ageplot
     }
     else if (ageVar() == "ageTime") {
@@ -954,6 +957,7 @@ server <- function(input, output, session) {
         labs(title = "Rappahannock Age of Population from 2010 to 2019", color = "Age Categories") +
         ylab("Percent of the population") +
         theme_minimal()+
+        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table B02001", size = "Number of Residents") +
         scale_color_viridis_d(
           labels = c("under18" = "Under 18", 
                      "age18_29" = "18 to 29", 
@@ -964,7 +968,7 @@ server <- function(input, output, session) {
               legend.title =element_text(size=15),
               axis.title.x = element_blank(),
               axis.title.y = element_text(size=15),
-              axis.text = element_text(size=15)) 
+              axis.text = element_text(size=15),plot.caption = element_text(size=13)) 
       ageplot
       
     }
@@ -973,6 +977,7 @@ server <- function(input, output, session) {
         geom_line(aes(size = estimate)) +
         labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
         xlab("Years") +
+        labs(caption = "Data Source: ACS 2019 Five Year Estimate Table B02001", size = "Number of Residents") +
         ylab("Percent of the population") +
         scale_color_viridis_d(
           labels = c("under18" = "Under 18", 
@@ -987,7 +992,8 @@ server <- function(input, output, session) {
               legend.text = element_text(size=15),
               axis.title.x = element_blank(),
               axis.title.y = element_text(size=15),
-              axis.text.x = element_text(angle = 40)
+              axis.text.x = element_text(angle = 40),
+              plot.caption = element_text(size=13)
          )
        ageplot
     }
@@ -1041,9 +1047,12 @@ server <- function(input, output, session) {
   
   output$popplot <- renderPlot({
 
+    
     popplot <- ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
       geom_line(aes(size = "Percent of Population" <- percent)) +
       theme_minimal()+ scale_fill_viridis_d() +
+      ylab("Number of Residents")+
+      labs(size = "Percent of Population", color = "District") +
       ggtitle(label = "Estimated Total Population 2010-2019") +
       theme(plot.title = element_text(hjust=0.5, size=20),
             axis.title.x = element_blank(),
@@ -1184,12 +1193,14 @@ server <- function(input, output, session) {
       ylab("Median Income")+
       ggtitle("Median Income from 2010 to 2019") +
       theme_minimal()+
+      labs(caption  = "Data Source: ACS 2019 Five Year Estimate Table B19001")+
       theme(plot.title = element_text(hjust=0.5, size=20),
             legend.text = element_text(size=15),
             axis.text = element_text(size=15),
             axis.title.x = element_blank(),
             axis.title.y = element_text(size=15),
-            legend.title=element_text(size=15))
+            legend.title=element_text(size=15), 
+            plot.caption = element_text(size=12))
     incomePlot
   })
   
