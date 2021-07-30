@@ -461,8 +461,8 @@ ui <- navbarPage(title = "Rappahannock!",
                                             #p(tags$small("Data Source: ACS Five Year Estimate Table ???"))
                                      ),
                                      column(3,
-                                            h4("Population Description", align = "center"),
-                                            p("........")
+                                            h4("Population Demographic", align = "center"),
+                                            p("The graph presents linear trends of population over time (2010-2019) by districts. The relative thickness of each trend represents the relative size of population living in each district. Wakefield district had its population plummet from 2012 to 2014, but the population has increased ever since for the district to be the mostly populated in Rappahannock. The population in Hampton district has decreased considerably since 2010.")
                                             
                                      )
                                      
@@ -479,7 +479,12 @@ ui <- navbarPage(title = "Rappahannock!",
                                             
                                      ),
                                      column(3,
-                                            h4("Race Description.....")
+                                            h4("Race Demographic", align = "center"),
+                                            h5(strong("Race Composition")),
+                                            p("Around ## percent of the total population in Rappahannock is White. The graph shows the distribution of non-white races in Rappahannock over the last decade. The Black population is the second highest in terms of racial composition in the county, which has slowly decreased over the last decade. Other races include Asian, First Nations, and Mixed"),
+                                            
+                                            h5(strong("Race Composition by District")),
+                                            p("We present the racial distribution of Non-White races in the five districts of Rappahannock over time. Among the non-whites, the percentage of Black population seems evenly distributed among other races in all the districts except for Jackson, which shows a decline in the Black population.")
                                      )
                                      
                                      
@@ -536,15 +541,13 @@ ui <- navbarPage(title = "Rappahannock!",
                                    column(4,
                                           h4("Houshold Characteristics", align = "center"),
                                           h5(strong("Household Size")),
-                                          p("Rappahannock in 2019 had 68.2% of households were occupied by two people or less."),
+                                          p("The pie chart shows the distribution of household sizes in Rappahannock for 2019. 68.2 percent of Rappahannock families had a household size of two or less. About 18 percent of the households had three members, with around 14 percent households having more than four members, respectively."),
                                           
-                                          h5(strong("Households Occcupied by Owners and Renters")),
-                                          p("These graphs show the number of households in Rappahannock occupied owners and renters 
-                                          from 2010 to 2020."),
+                                          h5(strong("Housing Units Occcupied by Owners and Renters")),
+                                          p("The graphs plot the housing units (owner- or renter- occupied) on the vertical axis and time on the horizontal axis. Note that the scales in the two plots are different to capture the temporal changes visually. In 2010, more than 70 percent of the housing units were owner occupied and a little less than 30 percent were renter occupied. In 2014, more than 80 percent of the housing units were owner occupied, the highest proportion in the last decade. However, in 2019, less than 2200 units are owner occupied and 750 units are renter occupied, which are 67 percent and 23 percent, respectively, of the total housing units."),
                                           
                                           h5(strong("Vehicles per Household")),
-                                          p("Rappahhanock follows the same trend as its surrounding counties of having a higher percentage of
-                                            households using three or more cars")
+                                          p("To visualize the vehicles owned per household, we present a pie-chart of the number of vehicles (categories: none to three), and the distribution for Rappahannock inhabitants as compared to neighboring districts. About 40 percent of Rappahannock households have three vehicles, and less than 3 percent have no vehicles. The distribution of vehicle ownership (by number of vehicles) in Rappahannock seems quite comparable to neighboring districts.")
                                           
                                    )  
                             
@@ -1109,6 +1112,7 @@ server <- function(input, output, session) {
       hcplot <- grid.arrange(own_graph, rent_graph, ncol=1)
     }
    else if(hcVar() == "vehicles"){
+     rappk_veh <- mutate(rappk_veh, type = c("None", "One", "Two", "Three or more"))
       rappk_veh_plot <- ggplot(rappk_veh, aes(x = "", y = estimate, fill = fct_inorder(type))) +
         geom_col(width = 1, color = 1) +
         geom_text(aes(label = paste0(estimate, "%")),
@@ -1125,12 +1129,12 @@ server <- function(input, output, session) {
         ggtitle("Vehicles Available per Household") +
         scale_fill_viridis_d()
       
+      county_veh$num <- factor(county_veh$num, levels = c("None", "One", "Two", "Three or more"))
       county_veh3 <- county_veh %>%
         group_by(county) %>%
         arrange(county, desc(num)) %>%
         mutate(lab_ypos = cumsum(estimate) - 0.20 * estimate) 
       #Graph
-      county_veh3$num <- factor(county_veh3$num, levels = c("None", "One", "Two", "Three or more"))
       vehicle_graph <- ggplot(data = county_veh3, aes(x = county, y = estimate)) +
         geom_col(aes(fill = num), width = 0.7)+
         geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=5, hjust =1.35)+
