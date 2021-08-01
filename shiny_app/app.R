@@ -27,6 +27,7 @@ library(dplyr)
 library(ggplotify)
 library(grid)
 library(gridExtra)
+library(ggpubr)
 
 
 prettyblue <- "#232D4B"
@@ -818,8 +819,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                             ),
                           fluidRow(style = "margin-left: 300px; margin-right: 300px;",
                             h4(strong("Project Stakeholders")),
-                            p(a(href = 'https://www.linkedin.com/in/nancy-bell-aa293810/', 'Nancy Bell', target = '_blank'), "(Virginia Department of Health);",
-                              a(href = 'https://www.linkedin.com/in/terri-alt-3138b4101/', 'Terri Alt', target = '_blank'), "(Virginia Cooperative Extension, Patrick County at Virginia Tech)."),
+                            p("VPI-SU Extension Professionals, Board of Supervisions, local government organizations, local field offices, and County Planning Commission in Rappahannock county"),
                             p("", style = "padding-top:10px;"),
                             h4(strong("Acknowledgments")),
                             p("We would like to thank Healthy Patrick County, an association of concerned Patrick County residents, and Brandon Kramer for their input to this project.")
