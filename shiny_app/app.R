@@ -1023,7 +1023,7 @@ server <- function(input, output, session) {
       racegraph <- race_district %>% filter(Race == "non-White") %>% 
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
-        labs(title = "Non-White Population by 2010-2019", fill = "District") +
+        labs(title = "Non-White Population by 2010-2019", fill = "") +
         xlab("Years") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
@@ -1043,7 +1043,7 @@ server <- function(input, output, session) {
       blackgraph <- race_district %>% filter(Race == "Black") %>% 
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
-        labs(title = "Black Population by District 2010-2019", fill = "District") +
+        labs(title = "Black Population by District 2010-2019", fill = "") +
         xlab("Years") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
@@ -1065,7 +1065,7 @@ server <- function(input, output, session) {
       asiangraph <- race_district %>% filter(Race == "Asian") %>% 
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
-        labs(title = "Asian Population by District 2010-2019", fill = "District") +
+        labs(title = "Asian Population by District 2010-2019", fill = "") +
         xlab("Years") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
@@ -1087,7 +1087,7 @@ server <- function(input, output, session) {
       othergraph <- race_district %>% filter(Race == "Other") %>% 
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
-        labs(title = "Other Population by District 2010-2019", fill = "District") +
+        labs(title = "Other Population by District 2010-2019", fill = "") +
         xlab("Years") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
