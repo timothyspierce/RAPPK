@@ -462,7 +462,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             
                                      ),
                                      column(3,
-                                            h4("Population Demographic", align = "center"),
+                                            h4(strong("Population Demographic"), align = "center"),
                                             p("The graph presents linear trends of population over time (2010-2019) by districts. The relative thickness of each trend represents the relative size of population living in each district. Wakefield district had its population plummet from 2012 to 2014, but the population has increased ever since for the district to be the mostly populated in Rappahannock. The population in Hampton district has decreased considerably since 2010.")
                                             
                                      )
@@ -482,7 +482,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             
                                      ),
                                      column(3,
-                                            h4("Race Demographic", align = "center"),
+                                            h4(strong("Race Demographic"), align = "center"),
                                             p("Rappahannock has a predominantly White population that has consistently remained over 85 percent. The analysis presented here considers and graphically represents the evolution of races other than White in this county. "),
                                             h5(strong("Non-White Population by District")),
                                             p("The graph shows the composition of non-white races by district in Rappahannock over the last decade. The total length of the bars in each year in the graph shows the percentage of non-white population, which has remained consistently between 9 and 12 percent. Over the last decade, non-white population in Stonewall-Hawthorne has decreased substantially as compared to other districts, while that in Piedmont and Hampton have increased fractionally."),
@@ -511,7 +511,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             
                                       ),
                                      column(3,
-                                            h4("Age Demographic", align = "center"),
+                                            h4(strong("Age Demographic"), align = "center"),
                                             h5(strong("Age Composition")),
                                             p("The pie charts show the age proportions for Rappahannock and Virginia in 2019. Rappahannock county has 11 percent greater proportion of senior population as compared to that of Virginia. Rappahannock has a noticeably smaller percent of adolescent and young adult populations than the rest of Virginia."),
                              
@@ -546,7 +546,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                           
                                    ),
                                    column(4,
-                                          h4("Houshold Characteristics", align = "center"),
+                                          h4(strong("Houshold Characteristics"), align = "center"),
                                           h5(strong("Household Size")),
                                           p("The pie chart shows the distribution of household sizes in Rappahannock for 2019. 68.2 percent of Rappahannock families had a household size of two or less. About 18 percent of the households had three members, with around 14 percent households having more than four members, respectively."),
                                           
@@ -567,7 +567,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                           
                                    ),
                                    column(4,
-                                          h4("Education", align = "center"),
+                                          h4(strong("Education"), align = "center"),
                                           h5(strong("Educational Attainment")),
                                           p("The bars in the graph show the composition of educational qualification across districts with the heights of the bars adjusted by the respective population proportions. Hampton, Piedmont, and Stonewall-Hawthorne districts have the highest proportion of adults with bachelor’s degree and/or above. While almost an eight of Piedmont and Wakefield’s population have education less than a high school degree, Hampton, Stonewall-Hawthorne, and Jackson have relatively lower (less than 10 percent) of their population who have less than high-school education.  ")
                                           
@@ -602,7 +602,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                           
                                    ),
                                    column(4,
-                                          h4("Broadband", align = "center"),
+                                          h4(strong("Broadband"), align = "center"),
                                           h5(strong("Internet Subscription by Income")),
                                           p("The graph presents the distribution of internet subscription based on income distribution. We use the three ACS income categories for classification of internet subscription. Residents with a higher income are more likely to have an internet subscription. About two-thirds households with less than annual income of $20,000, one-fourth households with annual income between $20,000 and $75,000, respectively, do not have internet subscription. For households with annual income greater than $75,000, only 8 percent do not have internet subscription."),
                                           h5(strong("Internet Subscription and Computer Ownership by District")),
@@ -624,7 +624,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                           
                                    ),
                                    column(4,
-                                          h4("Housing Market Description", align = "center"),
+                                          h4(strong("Housing Market Description"), align = "center"),
                                           h5(strong("Housing Prices")),
                                           p("The graph presents the distribution of homes by housing prices in the last decade. The bins are classified in five housing-price categories: less than $100,000, between $100,000 and $300,000, between $300,000 and half million, between half- and one- million, and over one- million. Less than 5 percent homes are below $100,000 in Rappahannock. Houses in the price range of $100,000 to $300,000 comprise of more than 30 percent of all available houses. The proportion of households in the price range from half- to a million dollars has decreased from more than 30 percent in 2010 to little below 25 percent in 2019. On the other hand, proportion of houses with prices in the range of $300,000 to $500,000 has increased in the last decade. "),
                                           h5(strong("Housing Prices (in US dollars) from 2010 to 2019")),
@@ -1131,7 +1131,7 @@ server <- function(input, output, session) {
     
   })
   
-  #housheold characteristics -----------------------------------------------
+  #household characteristics -----------------------------------------------
   hcVar <- reactive({
     input$hcdrop
   })
