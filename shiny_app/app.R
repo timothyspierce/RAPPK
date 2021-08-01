@@ -967,7 +967,7 @@ server <- function(input, output, session) {
       ageplot <- ggplot(rappage_timeseries, aes(x = year, y = percent, group = ages, color = ages)) +
         geom_line(aes(size = estimate)) +
         labs(title = "Rappahannock Age of Population from 2010 to 2019", color = "Age Categories") +
-        ylab("Percent of the population") +
+        ylab("Percent of the population") + xlab("Years") +
         theme_minimal()+
         labs(caption = "Data Source: ACS Five Year Estimate Table B02001", size = "Number of Residents") +
         scale_color_viridis_d(
@@ -978,7 +978,7 @@ server <- function(input, output, session) {
         theme(plot.title = element_text(hjust=0.5, size =20),
               legend.text = element_text(size=15),
               legend.title =element_text(size=15),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               axis.title.y = element_text(size=15),
               axis.text = element_text(size=15),plot.caption = element_text(size=13)) 
       ageplot
@@ -1002,7 +1002,7 @@ server <- function(input, output, session) {
               axis.text = element_text(size=15),
               legend.title = element_text(size=15),
               legend.text = element_text(size=15),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               axis.title.y = element_text(size=15),
               axis.text.x = element_text(angle = 40),
               plot.caption = element_text(size=13)
