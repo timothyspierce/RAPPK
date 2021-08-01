@@ -1116,11 +1116,11 @@ server <- function(input, output, session) {
     popplot <- ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
       geom_line(aes(size = "Percent of Population" <- percent)) +
       theme_minimal()+ scale_fill_viridis_d() +
-      ylab("Number of Residents")+
+      ylab("Number of Residents")+xlab("Year")+
       labs(size = "Percent of Population", color = "District", caption = "Data Source: ACS Five Year Estimate Table B02001") +
       ggtitle(label = "Estimated Total Population 2010-2019") +
       theme(plot.title = element_text(hjust=0.5, size=20),
-            axis.title.x = element_blank(),
+            axis.title.x = element_text(size=15),
             legend.text = element_text(size=15),
             legend.title = element_text(size=15),
             axis.text = element_text(size=15),
