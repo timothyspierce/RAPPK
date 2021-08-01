@@ -462,7 +462,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             
                                      ),
                                      column(3,
-                                            h4("Population Demographic", align = "center"),
+                                            h4(strong("Population Demographic"), align = "center"),
                                             p("The graph presents linear trends of population over time (2010-2019) by districts. The relative thickness of each trend represents the relative size of population living in each district. Wakefield district had its population plummet from 2012 to 2014, but the population has increased ever since for the district to be the mostly populated in Rappahannock. The population in Hampton district has decreased considerably since 2010.")
                                             
                                      )
@@ -482,7 +482,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             
                                      ),
                                      column(3,
-                                            h4("Race Demographic", align = "center"),
+                                            h4(strong("Race Demographic"), align = "center"),
                                             p("Rappahannock has a predominantly White population that has consistently remained over 85 percent. The analysis presented here considers and graphically represents the evolution of races other than White in this county. "),
                                             h5(strong("Non-White Population by District")),
                                             p("The graph shows the composition of non-white races by district in Rappahannock over the last decade. The total length of the bars in each year in the graph shows the percentage of non-white population, which has remained consistently between 9 and 12 percent. Over the last decade, non-white population in Stonewall-Hawthorne has decreased substantially as compared to other districts, while that in Piedmont and Hampton have increased fractionally."),
@@ -511,7 +511,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             
                                       ),
                                      column(3,
-                                            h4("Age Demographic", align = "center"),
+                                            h4(strong("Age Demographic"), align = "center"),
                                             h5(strong("Age Composition")),
                                             p("The pie charts show the age proportions for Rappahannock and Virginia in 2019. Rappahannock county has 11 percent greater proportion of senior population as compared to that of Virginia. Rappahannock has a noticeably smaller percent of adolescent and young adult populations than the rest of Virginia."),
                              
@@ -546,7 +546,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                           
                                    ),
                                    column(4,
-                                          h4("Houshold Characteristics", align = "center"),
+                                          h4(strong("Houshold Characteristics"), align = "center"),
                                           h5(strong("Household Size")),
                                           p("The pie chart shows the distribution of household sizes in Rappahannock for 2019. 68.2 percent of Rappahannock families had a household size of two or less. About 18 percent of the households had three members, with around 14 percent households having more than four members, respectively."),
                                           
@@ -567,7 +567,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                           
                                    ),
                                    column(4,
-                                          h4("Education", align = "center"),
+                                          h4(strong("Education"), align = "center"),
                                           h5(strong("Educational Attainment")),
                                           p("The bars in the graph show the composition of educational qualification across districts with the heights of the bars adjusted by the respective population proportions. Hampton, Piedmont, and Stonewall-Hawthorne districts have the highest proportion of adults with bachelor’s degree and/or above. While almost an eight of Piedmont and Wakefield’s population have education less than a high school degree, Hampton, Stonewall-Hawthorne, and Jackson have relatively lower (less than 10 percent) of their population who have less than high-school education.  ")
                                           
@@ -582,7 +582,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                          
                                    ),
                                    column(4,
-                                          h4("Income Description", align = "center"),
+                                          h4(strong("Income Description"), align = "center"),
                                           h5(strong("Income")),
                                           p("The 10-panel graph presents the annual household income distribution of Rappahannock districts over the period 2010 to 2019. We classified median annual household incomes into four bins: under $25,000, $25,000 to $50,000, $50,000 to $100,000, and above $100,000. The length of each bar captures the relative proportion of the district’s population in Rappahannock. All the five bars add up to a 100 percent for every year.  "),
                                           p("In 2019, Jackson and Wakefield have the highest proportion of households with annual incomes over $100,000. The proportion of households with less than an annual income of $25,000 has decreased over time in Stonewall-Hawthorne district while that in Wakefield has increased in the last decade.  ")
@@ -602,7 +602,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                           
                                    ),
                                    column(4,
-                                          h4("Broadband", align = "center"),
+                                          h4(strong("Broadband"), align = "center"),
                                           h5(strong("Internet Subscription by Income")),
                                           p("The graph presents the distribution of internet subscription based on income distribution. We use the three ACS income categories for classification of internet subscription. Residents with a higher income are more likely to have an internet subscription. About two-thirds households with less than annual income of $20,000, one-fourth households with annual income between $20,000 and $75,000, respectively, do not have internet subscription. For households with annual income greater than $75,000, only 8 percent do not have internet subscription."),
                                           h5(strong("Internet Subscription and Computer Ownership by District")),
@@ -624,7 +624,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                           
                                    ),
                                    column(4,
-                                          h4("Housing Market Description", align = "center"),
+                                          h4(strong("Housing Market Description"), align = "center"),
                                           h5(strong("Housing Prices")),
                                           p("The graph presents the distribution of homes by housing prices in the last decade. The bins are classified in five housing-price categories: less than $100,000, between $100,000 and $300,000, between $300,000 and half million, between half- and one- million, and over one- million. Less than 5 percent homes are below $100,000 in Rappahannock. Houses in the price range of $100,000 to $300,000 comprise of more than 30 percent of all available houses. The proportion of households in the price range from half- to a million dollars has decreased from more than 30 percent in 2010 to little below 25 percent in 2019. On the other hand, proportion of houses with prices in the range of $300,000 to $500,000 has increased in the last decade. "),
                                           h5(strong("Housing Prices (in US dollars) from 2010 to 2019")),
@@ -751,8 +751,8 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             p(strong("Google Maps."), "Google Maps is a comprehensive web mapping service created by Google. Its goal is to provide an interactive map
                                               of all the geographical contents of the world. This resource has a variety of uses, ranging from examining all service locations within
                                               a city to finding the quickest route between locations. It provides data at latitude and longitude level. We used Google Maps to locate
-                                              all supermarkets, convenience stores, and farmers’ markets in Rappahannock County, and subsequently employed the information in calculating
-                                              grocery access and coverage isochrones."),
+                                              all services in Rappahannock County, and subsequently employed the information in calculating
+                                              service access and coverage isochrones."),
                                             br(""),
                                      ),
                                      column(4,
@@ -770,9 +770,8 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             img(src = "data-traveltime.png", style = "display: inline; float: left;", width = "140px"),
                                             p(strong("TravelTime."), "TravelTime Application Programming Interface (API) aggregates data from OpenStreetMap, transport timetables and
                                            speed profiles to generate isochrones. An isochrone is a shape covering all locations that can be reached within the same timeframe
-                                           given a start location, departure time, and a mode of transportation. We used the TravelTime API to produce isochrones of 10- and
-                                           15-minute drive time interval from supermarkets, farmers' markets, and free wi-fi hotspots, and of 8-, 10-, and 12-minute drive
-                                           time intervals from all emergency medical service stations in Rappahannock County."),
+                                           given a start location, departure time, and a mode of transportation. We used the TravelTime API to produce isochrones of 15- and
+                                           30-minute drive times interval from the county population centroids and district population centroids and in Rappahannock County."),
                                             br(""),
                                           
                                      )
@@ -968,7 +967,7 @@ server <- function(input, output, session) {
       ageplot <- ggplot(rappage_timeseries, aes(x = year, y = percent, group = ages, color = ages)) +
         geom_line(aes(size = estimate)) +
         labs(title = "Rappahannock Age of Population from 2010 to 2019", color = "Age Categories") +
-        ylab("Percent of the population") +
+        ylab("Percent of the population") + xlab("Year") +
         theme_minimal()+
         labs(caption = "Data Source: ACS Five Year Estimate Table B02001", size = "Number of Residents") +
         scale_color_viridis_d(
@@ -979,7 +978,7 @@ server <- function(input, output, session) {
         theme(plot.title = element_text(hjust=0.5, size =20),
               legend.text = element_text(size=15),
               legend.title =element_text(size=15),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               axis.title.y = element_text(size=15),
               axis.text = element_text(size=15),plot.caption = element_text(size=13)) 
       ageplot
@@ -989,7 +988,7 @@ server <- function(input, output, session) {
       ageplot <- ggplot(agetimeseries, aes(x = year, y = percent, color = ages, group = ages)) +
         geom_line(aes(size = estimate)) +
         labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
-        xlab("Years") +
+        xlab("Year") +
         labs(caption = "Data Source: ACS Five Year Estimate Table B02001", size = "Number of Residents") +
         ylab("Percent of the population") +
         scale_color_viridis_d(
@@ -1003,7 +1002,7 @@ server <- function(input, output, session) {
               axis.text = element_text(size=15),
               legend.title = element_text(size=15),
               legend.text = element_text(size=15),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               axis.title.y = element_text(size=15),
               axis.text.x = element_text(angle = 40),
               plot.caption = element_text(size=13)
@@ -1024,13 +1023,13 @@ server <- function(input, output, session) {
       racegraph <- race_district %>% filter(Race == "non-White") %>% 
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
-        labs(title = "Non-White Population by 2010-2019", fill = "District") +
-        xlab("Years") +
+        labs(title = "Non-White Population by 2010-2019", fill = "") +
+        xlab("Year") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
         theme_minimal()+
         theme(plot.title = element_text(hjust=0.5, size =20),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               legend.text = element_text(size=15),
               legend.title = element_text(size=15),
               axis.text = element_text(size=15),
@@ -1044,8 +1043,8 @@ server <- function(input, output, session) {
       blackgraph <- race_district %>% filter(Race == "Black") %>% 
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
-        labs(title = "Black Population by District 2010-2019", fill = "District") +
-        xlab("Years") +
+        labs(title = "Black Population by District 2010-2019", fill = "") +
+        xlab("Year") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
         theme_minimal()+
@@ -1066,13 +1065,13 @@ server <- function(input, output, session) {
       asiangraph <- race_district %>% filter(Race == "Asian") %>% 
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
-        labs(title = "Asian Population by District 2010-2019", fill = "District") +
-        xlab("Years") +
+        labs(title = "Asian Population by District 2010-2019", fill = "") +
+        xlab("Year") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
         theme_minimal()+
         theme(plot.title = element_text(hjust=0.5, size =20),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               legend.text = element_text(size=15),
               legend.title = element_text(size=15),
               axis.text = element_text(size=15),
@@ -1088,13 +1087,13 @@ server <- function(input, output, session) {
       othergraph <- race_district %>% filter(Race == "Other") %>% 
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
-        labs(title = "Other Population by District 2010-2019", fill = "District") +
-        xlab("Years") +
+        labs(title = "Other Population by District 2010-2019", fill = "") +
+        xlab("Year") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
         theme_minimal()+
         theme(plot.title = element_text(hjust=0.5, size =20),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               legend.text = element_text(size=15),
               legend.title = element_text(size=15),
               axis.text = element_text(size=15),
@@ -1117,11 +1116,11 @@ server <- function(input, output, session) {
     popplot <- ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y = estimate, group = NAME, color = NAME)) +
       geom_line(aes(size = "Percent of Population" <- percent)) +
       theme_minimal()+ scale_fill_viridis_d() +
-      ylab("Number of Residents")+
+      ylab("Number of Residents")+xlab("Year")+
       labs(size = "Percent of Population", color = "District", caption = "Data Source: ACS Five Year Estimate Table B02001") +
       ggtitle(label = "Estimated Total Population 2010-2019") +
       theme(plot.title = element_text(hjust=0.5, size=20),
-            axis.title.x = element_blank(),
+            axis.title.x = element_text(size=15),
             legend.text = element_text(size=15),
             legend.title = element_text(size=15),
             axis.text = element_text(size=15),
@@ -1132,7 +1131,7 @@ server <- function(input, output, session) {
     
   })
   
-  #housheold characteristics -----------------------------------------------
+  #household characteristics -----------------------------------------------
   hcVar <- reactive({
     input$hcdrop
   })
@@ -1263,17 +1262,17 @@ server <- function(input, output, session) {
   output$incomePlot <- renderPlot({
     incomePlot <- ggplot(income2010_2019, aes(x = NAME.x, y = percent, fill =incomebracket, group = incomebracket)) +
       geom_col() +
-      ylab("Household Income") +
+      ylab("Percent") +xlab("District") +
       facet_wrap(~year) +
       coord_flip() +
-      scale_fill_viridis_d(name="District") +
+      scale_fill_viridis_d(name="Income Group") +
       ggtitle("Household Income from 2010 to 2019") +
       theme_minimal()+
       labs(caption  = "Data Source: ACS Five Year Estimate Table B19001")+
       theme(plot.title = element_text(hjust=0.5, size=20),
             legend.text = element_text(size=15),
             axis.text = element_text(size=15),
-            axis.title.x = element_blank(),
+            axis.title.x = element_text(size=15),
             axis.title.y = element_text(size=15),
             legend.title=element_text(size=15), 
             plot.caption = element_text(size=13))
