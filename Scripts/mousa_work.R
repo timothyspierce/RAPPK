@@ -71,7 +71,7 @@ ggplot(population2010_2019 %>% filter(NAME != "Rappahannock"), aes(x = year, y =
 
 #Race Map
 race_district <- readRDS("shiny_app/data/race_district.Rds")
-
+View(race_district)
 race_district %>% filter(Race != "White") %>% ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + geom_col() + theme(plot.title = element_text(hjust = 0.5),
                                                                                                                                  axis.text=element_text(size=12),
                                                                                                                                  legend.text = element_text(size=12),

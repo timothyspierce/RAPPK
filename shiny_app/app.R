@@ -28,6 +28,7 @@ library(ggplotify)
 library(grid)
 library(gridExtra)
 
+
 prettyblue <- "#232D4B"
 navBarBlue <- '#427EDC'
 options(spinner.color = prettyblue, spinner.color.background = '#ffffff', spinner.size = 3, spinner.type = 7)
@@ -372,7 +373,7 @@ jscode <- "function getUrlVars() {
            "
 
 # user -------------------------------------------------------------
-ui <- navbarPage(title = "Rappahannock!",
+ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                  selected = "overview",
                  theme = shinytheme("lumen"),
                  tags$head(tags$style('.selectize-dropdown {z-index: 10000}')),
@@ -425,17 +426,15 @@ ui <- navbarPage(title = "Rappahannock!",
                                           p("Our conclusions based on state-of-the-art techniques of data analysis and visualization allow the stakeholders to better understand the interplay of the county’s current profile with the present and recently evolved characterization of housing market, availability of services, and changing traffic patterns. The combined analysis helps correlate the several challenges in Rappahannock both spatially and how they evolved over the last decade and helps provide directions for policies that could help the county residents in the future. "),
                                           
                                           p(),
-                                          p("This dashboard compiles our findings and allows users to explore the information interactively. [There will be more text here soon")
+                                          p("This dashboard compiles our findings and allows users to explore the information interactively. We hope that the analysis presented here will be useful for VPI-SU Extension Professionals, Board of Supervisions, local government organizations, local field offices, and County Planning Commission in Rappahannock county.")
                                    ),
                                    column(4,
                                           h2(strong("Project Outcomes")),
-                                          p(" The four priority areas are analysis of: "),
+                                          p(" The three priority areas of analysis are: "),
                                           tags$li(strong("County Profile:"), "A characterization by the five Rappahannock districts and over time of age composition and prevalence of dependency, income distribution, 
-                                                  household description and ownership of housing and vehicles, and access to computer and internet.
-                                                  A basic understanding of the county profile and its evolution over time enables us to associate the demographic characteristics with the current challenges in the county."),
-                                          tags$li(strong("Housing Market:"), "Included in the County Profile, an overview of the distribution of housing prices in the five districts and how that has changed over time. This district-by-district analysis of the housing market displays where more expensive houses (over $500,000) were built over the last decade. It also shows the total number of houses in each housing price bracket, by district. "),
-                                          tags$li(strong("Traffic:"), "Using last 10 years AADT data from Virginia Department of Transportation, we analyze and provide a visualization of volume and percentage change of traffic in major route segments with Rappahannock. The interactive map shows the routes where traffic volume has expanded as well as segments where traffic volume shrunk. Additionally, we also display the annual change in traffic volume for each year in the last decade for all the chosen segments.  ."),
-                                          tags$li(strong("Services:"), " To explore the availability of services, we sourced publicly available online data from the ACS, The Guide by Rappahannock News, the Aging Together’s Regional Resource Guide, and various undigitized pamphlets gathered from the Rappahannock County Library. We georeferenced this list of services and overlayed them on a map of population distribution by district. We then create driving distance isochrones that show which services can reached within 15 or 30 minutes of the district population-centroid. Population centroid data is provided by the ACS. Since some services are only available outside of Rappahannock, we include clusters of services in Culpeper and Warrenton. Our interactive map displays the pattern of driving distance isochrones, population densities, and available services within and outside of Rappahannock.")
+                                                  household description and ownership of housing and vehicles, and access to computer and internet. Included in the County Profile, an overview of the distribution of housing prices in the five districts and how that has changed over time. This district-by-district analysis of the housing market displays where more expensive houses (over $500,000) were built over the last decade. It also shows the total number of houses in each housing price bracket, by district. "),
+                                          tags$li(strong("Traffic:"), "Using last 10 years AADT data from Virginia Department of Transportation, we analyze and provide a visualization of volume and percentage change of traffic in major route segments within Rappahannock. The interactive map shows the routes where traffic volume has expanded as well as segments where traffic volume shrunk. Additionally, we also display the annual change in traffic volume for each year in the last decade for all the chosen segments.  ."),
+                                          tags$li(strong("Services:"), " To explore the availability of services, we sourced publicly available online data from the ACS, The Guide by Rappahannock News, the Aging Together’s Regional Resource Guide, and various undigitized pamphlets gathered from the Rappahannock County Library. We georeferenced this list of services and overlayed them on a map of population distribution by district. We then create driving distance isochrones that show which services can reached within 15 or 30 minutes of the district population-centroid. Population centroid data are provided by the ACS. Since some services are only available outside of Rappahannock, we included clusters of services in Culpeper and Warrenton. Our interactive map displays the pattern of driving distance isochrones, population densities, and available services within and outside of Rappahannock.")
                                           
                               
                                    )
@@ -483,12 +482,16 @@ ui <- navbarPage(title = "Rappahannock!",
                                      ),
                                      column(3,
                                             h4("Race Demographic", align = "center"),
-                                            h5(strong("Race Composition")),
-                                            p("Around ## percent of the total population in Rappahannock is White. The graph shows the distribution of non-white races in Rappahannock over the last decade. The Black population is the second highest in terms of racial composition in the county, which has slowly decreased over the last decade. Other races include Asian, First Nations, and Mixed"),
-                                            
-                                            h5(strong("Race Composition by District")),
-                                            p("We present the racial distribution of Non-White races in the five districts of Rappahannock over time. Among the non-whites, the percentage of Black population seems evenly distributed among other races in all the districts except for Jackson, which shows a decline in the Black population.")
-                                     )
+                                            p("Rappahannock has a predominantly White population that has consistently remained over 85 percent. The analysis presented here considers and graphically represents the evolution of races other than White in this county. "),
+                                            h5(strong("Non-White Population by District")),
+                                            p("The graph shows the composition of non-white races by district in Rappahannock over the last decade. The total length of the bars in each year in the graph shows the percentage of non-white population, which has remained consistently between 9 and 12 percent. Over the last decade, non-white population in Stonewall-Hawthorne has decreased substantially as compared to other districts, while that in Piedmont and Hampton have increased fractionally."),
+                                            h5(strong("Black Population by District")),
+                                            p("The Black community is the second most populous among other races in the county, which has slowly decreased over the last decade from little over 6 percent to less than five percent. Relatively, over the last ten years, the proportions of Black households have reduced considerably in Jackson and Stonewall-Hawthorne districts, while those in Hampton and Piedmont have increased substantially.  "), 
+                                            h5(strong("Asian Population by District")),
+                                            p("The Asian population has doubled in the last decade, but it’s contribution to the county’s population is still less than half a percent. The Asian population have been distributed around Hampton, Jackson, and Stonewall-Hawthorne districts."),
+                                            h5(strong("Other Population by District")),
+                                            p("Other races comprise of First Natioins, Mixed, and Oceania who add up to a little over 4 percent of Rappahannock population. They seem to be evenly distributed across the districts except for Stonewall-Hawthorne, which has the lowest population proportion of other races."), 
+                                            )
                                      
                                      
                             ),
@@ -563,7 +566,9 @@ ui <- navbarPage(title = "Rappahannock!",
                                           
                                    ),
                                    column(4,
-                                          h4("Education", align = "center")
+                                          h4("Education", align = "center"),
+                                          h5(strong("Educational Attainment")),
+                                          p("The bars in the graph show the composition of educational qualification across districts with the heights of the bars adjusted by the respective population proportions. Hampton, Piedmont, and Stonewall-Hawthorne districts have the highest proportion of adults with bachelor’s degree and/or above. While almost an eight of Piedmont and Wakefield’s population have education less than a high school degree, Hampton, Stonewall-Hawthorne, and Jackson have relatively lower (less than 10 percent) of their population who have less than high-school education.  ")
                                           
                                           
                                    )  
@@ -577,8 +582,9 @@ ui <- navbarPage(title = "Rappahannock!",
                                    ),
                                    column(4,
                                           h4("Income Description", align = "center"),
-                                          p("........")
-                                          
+                                          h5(strong("Income")),
+                                          p("The 10-panel graph presents the annual household income distribution of Rappahannock districts over the period 2010 to 2019. We classified median annual household incomes into four bins: under $25,000, $25,000 to $50,000, $50,000 to $100,000, and above $100,000. The length of each bar captures the relative proportion of the district’s population in Rappahannock. All the five bars add up to a 100 percent for every year.  "),
+                                          p("In 2019, Jackson and Wakefield have the highest proportion of households with annual incomes over $100,000. The proportion of households with less than an annual income of $25,000 has decreased over time in Stonewall-Hawthorne district while that in Wakefield has increased in the last decade.  ")
                                    )
                                    
                                    
@@ -597,13 +603,10 @@ ui <- navbarPage(title = "Rappahannock!",
                                    column(4,
                                           h4("Broadband", align = "center"),
                                           h5(strong("Internet Subscription by Income")),
-                                          p("Rappahannock shows that resident with a higher income or more likely to have an internet
-                                            subscription."),
+                                          p("The graph presents the distribution of internet subscription based on income distribution. We use the three ACS income categories for classification of internet subscription. Residents with a higher income are more likely to have an internet subscription. About two-thirds households with less than annual income of $20,000, one-fourth households with annual income between $20,000 and $75,000, respectively, do not have internet subscription. For households with annual income greater than $75,000, only 8 percent do not have internet subscription."),
                                           h5(strong("Internet Subscription and Computer Ownership by District")),
-                                          p("The bar graphs show internet subscriptions and computer ownership broken down into Rappahanock's districts.
-                                            For both internet subscriptions and computer ownership, Hampton and Jackson have the highest percent of residents
-                                            with internet and computers, while we see Stonewall Hawthorne on the other side with the lowest percent of internet subscriptions
-                                            and computer ownership")
+                                          p("The bar graph shows internet subscriptions and computer ownership by Rappahannock's districts. For both internet subscriptions and computer ownership, Hampton and Jackson districts have the
+                                            higher percentages of residents with internet and computers, while Stonewall-Hawthorne has the lowest percentage of internet subscriptions and computer ownership. Over 80 percent of households in Jackson and Hampton have internet and more than 90 percent own at least one computer, respectively.")
                                           
                                    )
                                    
@@ -621,8 +624,11 @@ ui <- navbarPage(title = "Rappahannock!",
                                    ),
                                    column(4,
                                           h4("Housing Market Description", align = "center"),
-                                          p(".........")
-                                          
+                                          h5(strong("Housing Prices")),
+                                          p("The graph presents the distribution of homes by housing prices in the last decade. The bins are classified in five housing-price categories: less than $100,000, between $100,000 and $300,000, between $300,000 and half million, between half- and one- million, and over one- million. Less than 5 percent homes are below $100,000 in Rappahannock. Houses in the price range of $100,000 to $300,000 comprise of more than 30 percent of all available houses. The proportion of households in the price range from half- to a million dollars has decreased from more than 30 percent in 2010 to little below 25 percent in 2019. On the other hand, proportion of houses with prices in the range of $300,000 to $500,000 has increased in the last decade. "),
+                                          h5(strong("Housing Prices (in US dollars) from 2010 to 2019")),
+                                          p("In this graph, we present a similar distribution of housing prices as in the previous tab, but by districts. This graph also presents the relative composition of houses in terms of their prices in each of the Rappahannock districts, and how that has changed in the last 10 years.  "),
+                                          p("During the last decade, all Rappahannock districts had less than 10 percent houses whose prices were less than $100,000. The number of houses between $100,000 and $300,000 has increased to almost 60 percent of the total houses in Wakefield. Wakefield has the highest proportion of houses in this price range (100-300k) followed by Piedmont. Jackson is the district with highest proportion (about 50 percent) of houses between the price range of $300,000 to $500,000.  ")
                                    )
                                    
                           )
@@ -699,22 +705,23 @@ ui <- navbarPage(title = "Rappahannock!",
                                         
                                   ),
                                   
-                                         column(4,h4(strong("Services")),
-                                                p("In many respects, Rappahannock County is uniquely endowed with built amenities and services.
+                                   column(4,
+                                          h4(strong("Services")),
+                                          p("In many respects, Rappahannock County is uniquely endowed with built amenities and services.
                                           However, most of them are clustered or available outside the county. There is a general limited
                                           number of services in the county. The primary services we consider include Food and Clothing, Hospitals, Education,
                                           Recreation, Entertainment, Professional, Transit, Banks, and Adult care Facilities.
                                           The map highlights the key resources that are available and accessed in the county."),
                                           p("As the map shows, most of the services in Rappahannock county are clustered in and around Washington (Hampton district) 
                                           where inhabitants have access to among other supporting infrastructure. Additionally, most services can be
-                                            accessed in the neighboring counties. Similar to the clusters of Services in Washington, the neighboring counties
-                                            have clusters of many services as well."), 
+                                          accessed in the neighboring counties. Similar to the clusters of Services in Washington, the neighboring counties
+                                          have clusters of many services as well."), 
                                           p("Population-wise, the majority of the population in Rappahannock county 
-                                            is situated in Hampton District which is home to a lot more services in the entire county. Hovering over each district displays 
-                                            their corresponding population (according to the 2010 census data from the American Community Survey)."),
-                                                       
-                                                column(12,h4(strong("Travel Distance")),
-                                                       p("We include driving distances (15 and 30 minutes) from specific points called the population centroids. First,
+                                          is situated in Hampton District which is home to a lot more services in the entire county. Hovering over each district displays 
+                                          their corresponding population (according to the 2010 census data from the American Community Survey)."),
+                                          br(" "),
+                                          h4(strong("Travel Distance")),
+                                          p("We include driving distances (15 and 30 minutes) from specific points called the population centroids. First,
                                           we have travel time distance boundaries which show the services that are in  a certain proximity from the population 
                                           centroid of Rappahannock county (white dot around the center) in a 15-and-30 minute
                                           drive. Similarly, we have travel time distance boundaries for each of the five (5) 
@@ -723,10 +730,10 @@ ui <- navbarPage(title = "Rappahannock!",
                                           surrounding the centroid represents all parts of the region that are within a 15-minute 
                                           drive from the center of the county (the green cloud). The outer driving boundary on the 
                                           map surrounding the centroid represents all parts of the region that are within a 
-                                          30-minute drive from the center of the county (the red cloud). "),
+                                          30-minute drive from the center of the county (the red cloud). ")
                                           
                                           
-                                          ),  ),),), ),     
+                                          ) ) ), ),     
                  # data tab -----------------------------------------------------------
                  tabPanel("Data", value = "data",
                           fluidRow(style = "margin: 6px;",
@@ -778,15 +785,15 @@ ui <- navbarPage(title = "Rappahannock!",
                           fluidRow(style = "margin-left: 300px; margin-right: 300px;",
                             h1(strong("Contact"), align = "center"),
                             br(),
-                            h4(strong("UVA Data Science for the Public Good")),
-                            p("The", a(href = 'https://biocomplexity.virginia.edu/social-decision-analytics/dspg-program', 'Data Science for the Public Good (DSPG) Young Scholars program', target = "_blank"),
-                              "is a summer immersive program held at the", a(href = 'https://biocomplexity.virginia.edu/social-decision-analytics', 'University of Virginia Biocomplexity Institute’s Social and Decision Analytics division (SDAD).'),
-                              "In its seventh year, the program engages students from across the country to work together on projects that address state, federal, and local government challenges around
+                            h4(strong("Virginia Tech Data Science for the Public Good")),
+                            p("The", a(href = 'https://aaec.vt.edu/academics/undergraduate/beyond-classroom/dspg.html', 'Data Science for the Public Good (DSPG) Young Scholars program', target = "_blank"),
+                              "is a summer immersive program held at the", a(href = 'https://aaec.vt.edu/s', 'Virginia Tech Department of Agricultural and Applied Economics.'),
+                              "In its second year, the program engages students from across the country to work together on projects that address state, federal, and local government challenges around
                               critical social issues relevant in the world today. DSPG young scholars conduct research at the intersection of statistics, computation, and the social sciences
                               to determine how information generated within every community can be leveraged to improve quality of life and inform public policy. For more information on program
-                              highlights, how to apply, and our annual symposium, please visit", a(href = 'https://biocomplexity.virginia.edu/social-decision-analytics/dspg-program', 'the official Biocomplexity DSPG website.', target = "_blank")),
+                              highlights, how to apply, and our annual symposium, please visit", a(href = 'https://aaec.vt.edu/academics/undergraduate/beyond-classroom/dspg.html', 'the official VT DSPG website.', target = "_blank")),
                             p("", style = "padding-top:10px;")
-                            ),
+                          ),
                           fluidRow(style = "margin-left: 300px; margin-right: 300px;",
                             column(6, align = "center",
                             h4(strong("DSPG Team Members")),
@@ -799,7 +806,7 @@ ui <- navbarPage(title = "Rappahannock!",
                             p("", style = "padding-top:10px;")
                             ),
                             column(6, align = "center",
-                            h4(strong("UVA SDAD Team Members")),
+                            h4(strong("Faculty and Associate Team Members")),
                             img(src = "faculty-gupta.jpg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
                             img(src = "faculty-mulu.jpeg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
                             img(src = "team-leo.jpeg", style = "display: inline; border: 1px solid #C0C0C0;", width = "150px"),
@@ -1233,7 +1240,7 @@ server <- function(input, output, session) {
   #education graphs------------------------------------------------------
   output$eduplot <- renderPlot({
   
-    edu2019 <- mutate(edu2019, NAME = str_remove(NAME, "district"))
+
     
     eduplot <- ggplot(edu2019, aes(x = NAME, y = Percent, group = EduLevel, fill = EduLevel)) + 
       geom_col() + scale_fill_viridis_d() +
@@ -1251,15 +1258,16 @@ server <- function(input, output, session) {
     eduplot
   })
   
+  
   #income plot ----------------------------------------------------------
   output$incomePlot <- renderPlot({
-    incomePlot <- ggplot(income2010_2019, aes(x = incomebracket, y = percent, fill = NAME.x, group = NAME.x)) +
-      geom_col(position = "dodge") +
-      ylab("Median Inocme") +
+    incomePlot <- ggplot(income2010_2019, aes(x = NAME.x, y = percent, fill =incomebracket, group = incomebracket)) +
+      geom_col() +
+      ylab("Household Income") +
       facet_wrap(~year) +
       coord_flip() +
       scale_fill_viridis_d(name="District") +
-      ggtitle("Median Income from 2010 to 2019") +
+      ggtitle("Household Income from 2010 to 2019") +
       theme_minimal()+
       labs(caption  = "Data Source: ACS Five Year Estimate Table B19001")+
       theme(plot.title = element_text(hjust=0.5, size=20),
@@ -1371,6 +1379,7 @@ server <- function(input, output, session) {
         theme_minimal() + scale_fill_viridis_d()+
         ylab("Percentage of Homes") +
         labs(caption = "Data Source: ACS Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
+        ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
         theme(plot.title = element_text(hjust=0.5, size =20),
               legend.text = element_text(size=15),
               legend.title =element_text(size=15),
