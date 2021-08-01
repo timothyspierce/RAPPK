@@ -967,7 +967,7 @@ server <- function(input, output, session) {
       ageplot <- ggplot(rappage_timeseries, aes(x = year, y = percent, group = ages, color = ages)) +
         geom_line(aes(size = estimate)) +
         labs(title = "Rappahannock Age of Population from 2010 to 2019", color = "Age Categories") +
-        ylab("Percent of the population") + xlab("Years") +
+        ylab("Percent of the population") + xlab("Year") +
         theme_minimal()+
         labs(caption = "Data Source: ACS Five Year Estimate Table B02001", size = "Number of Residents") +
         scale_color_viridis_d(
@@ -988,7 +988,7 @@ server <- function(input, output, session) {
       ageplot <- ggplot(agetimeseries, aes(x = year, y = percent, color = ages, group = ages)) +
         geom_line(aes(size = estimate)) +
         labs(title = "Age of Population from 2010 to 2019", color = "Age Categories") +
-        xlab("Years") +
+        xlab("Year") +
         labs(caption = "Data Source: ACS Five Year Estimate Table B02001", size = "Number of Residents") +
         ylab("Percent of the population") +
         scale_color_viridis_d(
@@ -1024,7 +1024,7 @@ server <- function(input, output, session) {
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
         labs(title = "Non-White Population by 2010-2019", fill = "") +
-        xlab("Years") +
+        xlab("Year") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
         theme_minimal()+
@@ -1044,7 +1044,7 @@ server <- function(input, output, session) {
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
         labs(title = "Black Population by District 2010-2019", fill = "") +
-        xlab("Years") +
+        xlab("Year") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
         theme_minimal()+
@@ -1066,12 +1066,12 @@ server <- function(input, output, session) {
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
         labs(title = "Asian Population by District 2010-2019", fill = "") +
-        xlab("Years") +
+        xlab("Year") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
         theme_minimal()+
         theme(plot.title = element_text(hjust=0.5, size =20),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               legend.text = element_text(size=15),
               legend.title = element_text(size=15),
               axis.text = element_text(size=15),
@@ -1088,12 +1088,12 @@ server <- function(input, output, session) {
         ggplot(aes(x = Year, y = Percent, fill = NAME, group = NAME)) + 
         geom_col() +   
         labs(title = "Other Population by District 2010-2019", fill = "") +
-        xlab("Years") +
+        xlab("Year") +
         ylab("Percent of Population") +
         scale_fill_viridis_d() +
         theme_minimal()+
         theme(plot.title = element_text(hjust=0.5, size =20),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               legend.text = element_text(size=15),
               legend.title = element_text(size=15),
               axis.text = element_text(size=15),
