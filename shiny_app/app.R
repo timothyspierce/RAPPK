@@ -582,7 +582,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                          
                                    ),
                                    column(4,
-                                          h4("Income Description", align = "center"),
+                                          h4(strong("Income Description"), align = "center"),
                                           h5(strong("Income")),
                                           p("The 10-panel graph presents the annual household income distribution of Rappahannock districts over the period 2010 to 2019. We classified median annual household incomes into four bins: under $25,000, $25,000 to $50,000, $50,000 to $100,000, and above $100,000. The length of each bar captures the relative proportion of the district’s population in Rappahannock. All the five bars add up to a 100 percent for every year.  "),
                                           p("In 2019, Jackson and Wakefield have the highest proportion of households with annual incomes over $100,000. The proportion of households with less than an annual income of $25,000 has decreased over time in Stonewall-Hawthorne district while that in Wakefield has increased in the last decade.  ")
