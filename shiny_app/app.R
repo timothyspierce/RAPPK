@@ -1262,17 +1262,17 @@ server <- function(input, output, session) {
   output$incomePlot <- renderPlot({
     incomePlot <- ggplot(income2010_2019, aes(x = NAME.x, y = percent, fill =incomebracket, group = incomebracket)) +
       geom_col() +
-      ylab("Household Income") +
+      ylab("Percent") +xlab("District") +
       facet_wrap(~year) +
       coord_flip() +
-      scale_fill_viridis_d(name="District") +
+      scale_fill_viridis_d(name="Income Group") +
       ggtitle("Household Income from 2010 to 2019") +
       theme_minimal()+
       labs(caption  = "Data Source: ACS Five Year Estimate Table B19001")+
       theme(plot.title = element_text(hjust=0.5, size=20),
             legend.text = element_text(size=15),
             axis.text = element_text(size=15),
-            axis.title.x = element_blank(),
+            axis.title.x = element_text(size=15),
             axis.title.y = element_text(size=15),
             legend.title=element_text(size=15), 
             plot.caption = element_text(size=13))
