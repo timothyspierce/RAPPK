@@ -751,8 +751,8 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             p(strong("Google Maps."), "Google Maps is a comprehensive web mapping service created by Google. Its goal is to provide an interactive map
                                               of all the geographical contents of the world. This resource has a variety of uses, ranging from examining all service locations within
                                               a city to finding the quickest route between locations. It provides data at latitude and longitude level. We used Google Maps to locate
-                                              all supermarkets, convenience stores, and farmers’ markets in Rappahannock County, and subsequently employed the information in calculating
-                                              grocery access and coverage isochrones."),
+                                              all services in Rappahannock County, and subsequently employed the information in calculating
+                                              service access and coverage isochrones."),
                                             br(""),
                                      ),
                                      column(4,
@@ -770,9 +770,8 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             img(src = "data-traveltime.png", style = "display: inline; float: left;", width = "140px"),
                                             p(strong("TravelTime."), "TravelTime Application Programming Interface (API) aggregates data from OpenStreetMap, transport timetables and
                                            speed profiles to generate isochrones. An isochrone is a shape covering all locations that can be reached within the same timeframe
-                                           given a start location, departure time, and a mode of transportation. We used the TravelTime API to produce isochrones of 10- and
-                                           15-minute drive time interval from supermarkets, farmers' markets, and free wi-fi hotspots, and of 8-, 10-, and 12-minute drive
-                                           time intervals from all emergency medical service stations in Rappahannock County."),
+                                           given a start location, departure time, and a mode of transportation. We used the TravelTime API to produce isochrones of 15- and
+                                           30-minute drive times interval from the county population centroids and district population centroids and in Rappahannock County."),
                                             br(""),
                                           
                                      )
