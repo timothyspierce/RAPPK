@@ -750,7 +750,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             p(strong("Google Maps."), "Google Maps is a comprehensive web mapping service created by Google. Its goal is to provide an interactive map
                                               of all the geographical contents of the world. This resource has a variety of uses, ranging from examining all service locations within
                                               a city to finding the quickest route between locations. It provides data at latitude and longitude level. We used Google Maps to locate
-                                              all supermarkets, convenience stores, and farmers’ markets in Patrick County, and subsequently employed the information in calculating
+                                              all supermarkets, convenience stores, and farmers’ markets in Rappahannock County, and subsequently employed the information in calculating
                                               grocery access and coverage isochrones."),
                                             br(""),
                                      ),
@@ -759,7 +759,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             p(strong("American Community Survey."), "The American Community Survey (ACS) is an ongoing yearly survey conducted by the U.S Census
                                             Bureau. ACS samples households to compile 1-year and 5-year datasets providing information on population sociodemographic and
                                             socioeconomic characteristics including employment, disability, and health insurance coverage. We used AC 2014/18 5-year
-                                            estimates to obtain census tract and census block group-level to explore Patrick County resident characteristics."),
+                                            estimates to obtain census tract and census block group-level to explore Rappahannock County resident characteristics."),
                                             br(""),
                                             
                                             br(""),
@@ -771,7 +771,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                            speed profiles to generate isochrones. An isochrone is a shape covering all locations that can be reached within the same timeframe
                                            given a start location, departure time, and a mode of transportation. We used the TravelTime API to produce isochrones of 10- and
                                            15-minute drive time interval from supermarkets, farmers' markets, and free wi-fi hotspots, and of 8-, 10-, and 12-minute drive
-                                           time intervals from all emergency medical service stations in Patrick County."),
+                                           time intervals from all emergency medical service stations in Rappahannock County."),
                                             br(""),
                                           
                                      )
