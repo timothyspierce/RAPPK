@@ -427,11 +427,14 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                           p("Our conclusions based on state-of-the-art techniques of data analysis and visualization allow the stakeholders to better understand the interplay of the county’s current profile with the present and recently evolved characterization of housing market, availability of services, and changing traffic patterns. The combined analysis helps correlate the several challenges in Rappahannock both spatially and how they evolved over the last decade and helps provide directions for policies that could help the county residents in the future. "),
                                           
                                           p(),
-                                          p("This dashboard compiles our findings and allows users to explore the information interactively. We hope that the analysis presented here will be useful for VPI-SU Extension Professionals, Board of Supervisions, local government organizations, local field offices, and County Planning Commission in Rappahannock county.")
+                                          p("This dashboard compiles our findings and allows users to explore the information interactively. Based on our analysis, we observe that Rappahannock population is aging with significantly higher proportion of seniors when compared to other counties in Virginia. Data on housing prices suggest that houses have turned out to be more expensive in the last decade. There is substantial heterogeneity across districts on composition of race, education, housing prices, availability of services, and the evolving traffic around major route segments within the county."),
+                                          p("A decadal trend of traffic patterns in conjunction with locations of services suggest that average daily traffic increased in areas within the county where there are service clusters and in routes connecting nearby towns of neighboring counties that have essential amenities. Migration out of Rappahannock could potentially be correlated with lack of amenities in certain districts and in population hubs within the county. There are seemingly plausible policy implications based on this research that could focus on ensuring availability of essential services catering to the different needs of the economically poorer and aging population of Rappahannock. This could potentially distribute traffic from some of the high-volume traffic segments to other locations where centers providing essential amenities could be established.")
                                    ),
+                                   
                                    column(4,
                                           h2(strong("Project Outcomes")),
-                                          p(" The three priority areas of analysis are: "),
+                                          p(" We hope that the analysis presented here will be useful for VPI-SU Extension Professionals, Board of Supervisions, local government organizations, local field offices, and County Planning Commission in Rappahannock county.
+                                              The three priority areas of analysis are: "),
                                           tags$li(strong("County Profile:"), "A characterization by the five Rappahannock districts and over time of age composition and prevalence of dependency, income distribution, 
                                                   household description and ownership of housing and vehicles, and access to computer and internet. Included in the County Profile, an overview of the distribution of housing prices in the five districts and how that has changed over time. This district-by-district analysis of the housing market displays where more expensive houses (over $500,000) were built over the last decade. It also shows the total number of houses in each housing price bracket, by district. "),
                                           tags$li(strong("Traffic:"), "Using last 10 years AADT data from Virginia Department of Transportation, we analyze and provide a visualization of volume and percentage change of traffic in major route segments within Rappahannock. The interactive map shows the routes where traffic volume has expanded as well as segments where traffic volume shrunk. Additionally, we also display the annual change in traffic volume for each year in the last decade for all the chosen segments.  ."),
@@ -447,11 +450,11 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                  # county profile tab -----------------------------------------------------------
                  tabPanel("County Profile", value = "socio",
                           fluidRow(style = "margin: 6px;",
-                                   h1(strong("Rappahannock County Sociodemographic Profile"), align = "center"),
+                                   h1(strong("Sociodemographic Profile of Rappahannock County "), align = "center"),
                                    p("", style = "padding-top:10px;"),
                                    column(12,
                                           h4(strong("Who lives in Rappahannock County?")),
-                                          p("With a little over 7,000 residents, around 80 percent of every district's population is White, followed by around Black, Asian, and the remaining from other races, respectively. As compared to other counties in the Commonwealth of Virginia with 15 percent seniors (65 and above), Rappahannock's population is relatively elderly with about 26 percent over 65 years old. Age dependency, defined as the proportion of the sum of children (under 18 years) and seniors (65 years and over) to the working-age adult (18-64 years) is significantly higher in Rappahannock when compared to other counties in Virginia."),
+                                          p("With a little over 7,000 residents, around 80 percent of every district's population is White, followed by Black, Asian, and the remaining from other races, respectively. As compared to other counties in the Commonwealth of Virginia with 15 percent seniors (65 and above), Rappahannock's population is relatively elderly with about 26 percent over 65 years old. Age dependency, defined as the proportion of the sum of children (under 18 years) and seniors (65 years and over) to the working-age adult (18-64 years) is significantly higher in Rappahannock when compared to other counties in Virginia."),
                                           p("The median age of Rappahannock is 50 as compared to Virginia's median age of 38. The average age of Rappahannock has continuously risen in the last decade. Hampton district has the highest (around 32 percent) and Wakefield district has the lowest (around 18 percent) of proportion of senior population, respectively. In terms of age dependency, Hampton has around 95 percent age dependent population, the highest in the county, whereas Piedmont has about 50 percent, the lowest. "))
                           ),
                           tabsetPanel(
@@ -660,7 +663,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                                             in the map."),
                                           p("The size scale shows the absolute percent change of AADT from 2010 to 2020. The scale does not take positive and negative percent change into account,
                                             but by checking and unchecking the Positive and Negative boxes in the top right corner, segments with positive and negative percent change can be
-                                            displayed separately.The color scale shows the AADT count change from 2010 to 2020. The scale does include negative count change in the lighter color,
+                                            displayed separately. The color scale shows the AADT count change from 2010 to 2020. The scale does include negative count change in the lighter color,
                                             but the Positive and Negative boxes could also be used to analyze positive and negative count change separately."),
                                          p("Hovering over a circle displays the ID of the road segment, that corresponds to an ID in the table, count change and percent change of AADT from 2010 to 2020.
                                          Clicking on a circle pops up a time graph displaying the AADT counts for each year from 2010 to 2020 for that specific route segment.
@@ -682,7 +685,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                 # Services data tab-----------------------------------------------------------
                 tabPanel("Services", value = "",
                          fluidRow(style = "margin: 6px;",
-                                  h1(strong("Services Available Rappahannock County"), align = "center"),
+                                  h1(strong("Services Available in Rappahannock County"), align = "center"),
                                   p("", style = "padding-top:10px;"),
                                   column(12,h4(strong("Overview")),
                                          p("To understand a general suite of services available in Rappahannock County, 
@@ -810,9 +813,9 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                             img(src = "faculty-gupta.jpg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
                             img(src = "faculty-mulu.jpeg", style = "display: inline; margin-right: 5px; border: 1px solid #C0C0C0;", width = "150px"),
                             img(src = "team-leo.jpeg", style = "display: inline; border: 1px solid #C0C0C0;", width = "150px"),
-                            p(a(href = "https://aaec.vt.edu/people/faculty/gupta-anubhab.html", 'Dr. Anubhab Gupta', target = '_blank'), "(Faculty Lead);",
-                              a(href = "https://www.vsu.edu/cet/departments/technology/faculty-staff/kahsai-mulugeta.php", 'Dr. Mulugeta Kahsai', target = '_blank'), "(Faculty Affiliate);",
-                              a(href = 'https://aaec.vt.edu/people/graduatestudents/index/quaye-leonard-allen.html', 'Leonard-Allen Quaye', target = '_blank'), "(Research Associate)."),
+                            p(a(href = "https://aaec.vt.edu/people/faculty/gupta-anubhab.html", 'Dr. Anubhab Gupta', target = '_blank'), "(Faculty Lead, Virginia Tech);",
+                              a(href = "https://www.vsu.edu/cet/departments/technology/faculty-staff/kahsai-mulugeta.php", 'Dr. Mulugeta Kahsai', target = '_blank'), "(Faculty Affiliate, Virginia State University);",
+                              a(href = 'https://aaec.vt.edu/people/graduatestudents/index/quaye-leonard-allen.html', 'Leonard-Allen Quaye', target = '_blank'), "(Research Associate, Virginia Tech)."),
                             p("", style = "padding-top:10px;")
                             )
                             ),
@@ -821,7 +824,7 @@ ui <- navbarPage(title = "DSPG-Rappahannock 2021",
                             p("VPI-SU Extension Professionals, Board of Supervisions, local government organizations, local field offices, and County Planning Commission in Rappahannock county"),
                             p("", style = "padding-top:10px;"),
                             h4(strong("Acknowledgments")),
-                            p("We would like to thank Healthy Patrick County, an association of concerned Patrick County residents, and Brandon Kramer for their input to this project.")
+                            p("We would like to thank Kenner Love, Unit Coordinator Extension Agent, Agricultural and Natural Resources Crop & Soil Sciences from the Virginia Cooperative Extension for his support on this project.")
                           )
                  ),
                  inverse = T)
