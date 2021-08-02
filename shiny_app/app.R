@@ -1325,7 +1325,7 @@ server <- function(input, output, session) {
               axis.title.x=element_text(size=15),
               axis.title.y=element_text(size =15),
               plot.caption = element_text(size=12)) +
-        xlab("Income Range") ++ylab("Percent")+
+        xlab("Income Range") +ylab("Percent")+
         scale_fill_viridis_d()
       #plot
       bbplot
