@@ -1231,14 +1231,14 @@ server <- function(input, output, session) {
         geom_text(aes(y = lab_ypos, label = paste0(estimate, "%"), group =county), color = "white",size=5, hjust =1.35)+
         coord_flip() +
         theme_minimal() +
-        ylab("County")+
+        ylab("Percent")+xlab("County")+
         ggtitle("Number of Vehicles per Household in Surrounding Counties")+
         theme(plot.title = element_text(hjust = 0.5, size=20),
               legend.title = element_blank(),
               axis.text=element_text(size=12),
               legend.text = element_text(size=15),
-              axis.title.x=element_blank(),
-              axis.title.y=element_blank()) +
+              axis.title.x=element_text(size=15),
+              axis.title.y=element_text(size=15)) +
         scale_fill_viridis_d()
       
       hcplot <- grid.arrange(rappk_veh_plot, vehicle_graph, ncol=1,
@@ -1322,10 +1322,10 @@ server <- function(input, output, session) {
               legend.title = element_blank(),
               axis.text=element_text(size=15),
               legend.text = element_text(size=15),
-              axis.title.x=element_blank(),
+              axis.title.x=element_text(size=15),
               axis.title.y=element_text(size =15),
               plot.caption = element_text(size=12)) +
-        xlab("Income Range") +
+        xlab("Income Range") ++ylab("Percent")+
         scale_fill_viridis_d()
       #plot
       bbplot
@@ -1346,8 +1346,8 @@ server <- function(input, output, session) {
               legend.title = element_blank(),
               axis.text=element_text(size=15),
               legend.text = element_text(size=15),
-              axis.title.x=element_blank(),
-              axis.title.y=element_text(size =15)) +
+              axis.title.x=element_text(size=15),
+              axis.title.y=element_text(size =15)) +ylab("Percent")+
         scale_fill_viridis_d()
       
       sub_int3 <- intDist %>%
@@ -1365,8 +1365,8 @@ server <- function(input, output, session) {
               legend.title = element_blank(),
               axis.text=element_text(size=15),
               legend.text = element_text(size=15),
-              axis.title.x=element_blank(),
-              axis.title.y=element_text(size =15)) +
+              axis.title.x=element_text(size=15),
+              axis.title.y=element_text(size =15)) +ylab("Percent")+
        scale_fill_viridis_d()
       
       bbplot <- grid.arrange(sub_plot, comp_plot, ncol=1,
@@ -1390,13 +1390,13 @@ server <- function(input, output, session) {
       hmplot <- ggplot(housing2010_2019, aes(x = year, y = percent_of_houses, group = homevalues, color = homevalues)) +
         geom_line(aes(size = estimated_total)) +
         theme_minimal() + scale_fill_viridis_d()+
-        ylab("Percentage of Homes") +
+        ylab("Percentage of Homes") + xlab("Year")+
         labs(caption = "Data Source: ACS Five Year Estimate Table B25075", size = "Number of Homes", color = "Home Values") +
         ggtitle("Housing Prices (In US Dollars) From 2010 to 2019") +
         theme(plot.title = element_text(hjust=0.5, size =20),
               legend.text = element_text(size=15),
               legend.title =element_text(size=15),
-              axis.title.x = element_blank(),
+              axis.title.x = element_text(size=15),
               axis.title.y = element_text(size=15),
               axis.text = element_text(size=15),
               plot.caption = element_text(size=13))
